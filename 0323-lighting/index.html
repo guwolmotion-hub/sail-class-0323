@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D 라이팅 수업 | 저녁반 0323</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">3D 저녁반 · 2025.03.23</span>
+      <h1>3D 라이팅 <span class="accent">Lighting</span></h1>
+      <p class="subtitle">피사체를 더 아름답게, 공간을 더 생동감 있게 — 빛과 그림자의 기술</p>
+    </div>
+  </header>
+
+  <!-- 목차 -->
+  <nav class="toc-nav" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <a href="#what-is-lighting" class="toc-item">라이팅이란?</a>
+      <a href="#3d-pipeline" class="toc-item">3D 작업 파이프라인</a>
+      <a href="#three-point" class="toc-item">3점 조명</a>
+      <a href="#shadow" class="toc-item">그림자의 중요성</a>
+      <a href="#resources" class="toc-item">실습 리소스</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- 섹션 1: 라이팅이란? -->
+    <section class="section" id="what-is-lighting">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <h2>라이팅이란?</h2>
+      </div>
+      <div class="section-body">
+        <div class="highlight-box primary">
+          <div class="highlight-icon">💡</div>
+          <div>
+            <strong>라이팅(Lighting)</strong>이란 피사체를 더 아름답게, 더 입체감 있게 보이도록 조명을 배치하고 조절하는 작업입니다. 단순히 밝게 만드는 것이 아니라, 빛의 방향·세기·색감을 통해 감정과 분위기까지 연출하는 핵심 기술입니다.
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">👁️</div>
+            <h3>이목구비 구분</h3>
+            <p>얼굴이나 물체의 형태를 입체적으로 드러내어 디테일을 강조합니다. 평면처럼 보이는 오브젝트에 깊이와 볼륨감을 부여합니다.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🖼️</div>
+            <h3>배경과 피사체 분리</h3>
+            <p>피사체가 배경에 묻히지 않도록 빛으로 경계를 만들어줍니다. 주로 역광(Back Light)을 활용해 실루엣을 살립니다.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎨</div>
+            <h3>분위기 연출</h3>
+            <p>따뜻한 빛은 안락함, 차가운 빛은 긴장감을 줍니다. 색온도와 강도 조절만으로도 장면의 감정이 완전히 달라집니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 2: 3D 작업 파이프라인 -->
+    <section class="section" id="3d-pipeline">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2>3D 작업 파이프라인</h2>
+      </div>
+      <div class="section-body">
+        <p class="section-intro">3D 작업은 크게 5단계의 파이프라인으로 이루어집니다. 각 단계가 유기적으로 연결되어 최종 결과물을 만들어냅니다.</p>
+
+        <div class="pipeline-list">
+          <div class="pipeline-item done">
+            <div class="pipeline-badge">완료</div>
+            <div class="pipeline-num">01</div>
+            <div class="pipeline-info">
+              <h3>모델링 <span class="en">Modeling</span></h3>
+              <p>3D 오브젝트의 형태를 만드는 단계. 현재 간단한 형태는 자유롭게 제작 가능한 수준에 도달했습니다.</p>
+            </div>
+          </div>
+          <div class="pipeline-item done">
+            <div class="pipeline-badge">완료</div>
+            <div class="pipeline-num">02</div>
+            <div class="pipeline-info">
+              <h3>텍스처링 <span class="en">Texturing</span></h3>
+              <p>모델에 재질, 색상, 표면 질감을 입히는 단계. 옥테인 렌더러를 활용한 텍스처링 작업을 집중 학습 중입니다.</p>
+            </div>
+          </div>
+          <div class="pipeline-item current">
+            <div class="pipeline-badge current">현재</div>
+            <div class="pipeline-num">03</div>
+            <div class="pipeline-info">
+              <h3>라이팅 <span class="en">Lighting</span></h3>
+              <p>장면에 조명을 배치하고 빛과 그림자를 설계하는 단계. 오늘부터 본격적으로 학습을 시작합니다!</p>
+            </div>
+          </div>
+          <div class="pipeline-item upcoming">
+            <div class="pipeline-badge upcoming">예정</div>
+            <div class="pipeline-num">04</div>
+            <div class="pipeline-info">
+              <h3>애니메이팅 <span class="en">Animating</span></h3>
+              <p>오브젝트에 움직임을 부여하는 단계. 키프레임, 모션 패스 등 다양한 기법을 통해 생동감을 더합니다.</p>
+            </div>
+          </div>
+          <div class="pipeline-item upcoming">
+            <div class="pipeline-badge upcoming">예정</div>
+            <div class="pipeline-num">05</div>
+            <div class="pipeline-info">
+              <h3>렌더링 <span class="en">Rendering</span></h3>
+              <p>완성된 3D 장면을 최종 이미지나 영상으로 출력하는 단계. 렌더러 설정에 따라 품질이 크게 달라집니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: 3점 조명 -->
+    <section class="section" id="three-point">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2>3점 조명 <span class="en-title">3-Point Lighting</span></h2>
+      </div>
+      <div class="section-body">
+        <div class="highlight-box secondary">
+          <div class="highlight-icon">⭐</div>
+          <div>
+            <strong>3점 조명</strong>은 사진, 영상, 3D 모두에서 사용되는 가장 기본적이고 강력한 조명 세팅입니다. Key · Fill · Back, 세 가지 라이트만으로도 프로페셔널한 결과물을 만들 수 있습니다.
+          </div>
+        </div>
+
+        <div class="light-cards">
+
+          <div class="light-card key">
+            <div class="light-icon-wrap">
+              <div class="light-dot key-dot"></div>
+            </div>
+            <div class="light-tag">Key Light</div>
+            <h3>주광</h3>
+            <p class="light-desc">피사체를 가장 밝게 비추는 <strong>메인 조명</strong>입니다. 장면에서 빛의 방향성과 분위기를 결정하는 가장 중요한 라이트로, 세기가 세고 피사체의 주된 그림자를 만들어냅니다.</p>
+            <ul class="light-tips">
+              <li>일반적으로 피사체의 45° 앞쪽에 배치</li>
+              <li>빛의 강도가 가장 높음</li>
+              <li>장면의 주된 그림자 방향 결정</li>
+            </ul>
+          </div>
+
+          <div class="light-card fill">
+            <div class="light-icon-wrap">
+              <div class="light-dot fill-dot"></div>
+            </div>
+            <div class="light-tag">Fill Light</div>
+            <h3>보조광</h3>
+            <p class="light-desc">Key Light가 만들어낸 어두운 부분을 <strong>은은하게 채워주는</strong> 보조 조명입니다. 너무 강하면 입체감이 사라지므로, Key Light의 50% 이하 세기로 자연스럽게 깔아줍니다.</p>
+            <ul class="light-tips">
+              <li>Key Light 반대편에 배치</li>
+              <li>세기는 Key Light의 25~50% 수준</li>
+              <li>피사체가 완전히 타지 않게 보호</li>
+            </ul>
+          </div>
+
+          <div class="light-card back">
+            <div class="light-icon-wrap">
+              <div class="light-dot back-dot"></div>
+            </div>
+            <div class="light-tag">Back Light</div>
+            <h3>역광 (림 라이트)</h3>
+            <p class="light-desc">피사체 뒤쪽에서 비추는 조명으로, 배경과 피사체 사이에 <strong>빛의 테두리(림)</strong>를 만들어 분리감을 줍니다. 피사체가 배경에 묻히지 않고 입체감 있게 떠보이게 하는 효과가 있습니다.</p>
+            <ul class="light-tips">
+              <li>피사체 뒤 위쪽에서 비추도록 배치</li>
+              <li>실루엣 라인이 살아나 입체감 극대화</li>
+              <li>배경과 피사체를 자연스럽게 분리</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="diagram-box">
+          <div class="diagram-title">3점 조명 배치도</div>
+          <div class="diagram">
+            <div class="diagram-scene">
+              <div class="d-back-light">
+                <div class="d-light-dot"></div>
+                <span>Back Light</span>
+              </div>
+              <div class="d-subject">
+                <div class="d-subject-box">피사체</div>
+              </div>
+              <div class="d-side-lights">
+                <div class="d-key">
+                  <div class="d-light-dot key"></div>
+                  <span>Key Light</span>
+                </div>
+                <div class="d-fill">
+                  <div class="d-light-dot fill"></div>
+                  <span>Fill Light</span>
+                </div>
+              </div>
+              <div class="d-camera">
+                <div class="d-cam-icon">📷</div>
+                <span>카메라</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 섹션 4: 그림자의 중요성 -->
+    <section class="section" id="shadow">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2>그림자의 중요성</h2>
+      </div>
+      <div class="section-body">
+        <div class="highlight-box dark">
+          <div class="highlight-icon">🌑</div>
+          <div>
+            <strong>빛과 그림자는 그래픽 디자인에서 가장 중요한 두 요소입니다.</strong><br/>
+            그림자를 어떻게 사용하느냐에 따라 같은 모델도 완전히 다른 느낌을 낼 수 있습니다.
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="card shadow-card">
+            <div class="card-icon">📐</div>
+            <h3>공간감과 거리감</h3>
+            <p>오브젝트 아래에 그림자를 적절히 배치하면 바닥과의 거리감이 생겨 물체가 실제로 공간 위에 놓인 것처럼 보입니다. 그림자 없이는 오브젝트가 공중에 떠 있는 것처럼 어색하게 보입니다.</p>
+          </div>
+          <div class="card shadow-card">
+            <div class="card-icon">🎭</div>
+            <h3>감정과 분위기</h3>
+            <p>강한 대비의 그림자는 극적이고 긴장감 있는 분위기를 연출합니다. 반대로 부드럽고 산란된 그림자는 편안하고 자연스러운 느낌을 줍니다.</p>
+          </div>
+          <div class="card shadow-card">
+            <div class="card-icon">✨</div>
+            <h3>입체감 강조</h3>
+            <p>그림자의 방향과 크기는 빛의 세기와 광원의 위치를 암시합니다. 정교한 그림자 표현은 모델의 형태를 훨씬 더 사실적으로 보이게 합니다.</p>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-title">💬 수업 포인트</div>
+          <p>라이팅 작업을 할 때는 '어디를 밝게 할 것인가'만큼, <strong>'어디를 어둡게 남길 것인가'</strong>도 중요하게 생각해야 합니다. 그림자가 있어야 빛이 더 아름답게 보입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 5: 실습 리소스 -->
+    <section class="section" id="resources">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2>실습 리소스 & 작업 팁</h2>
+      </div>
+      <div class="section-body">
+
+        <div class="resource-card">
+          <div class="resource-icon">🗂️</div>
+          <div class="resource-info">
+            <h3>3D 모델 다운로드 사이트</h3>
+            <p>아래 사이트에서 실습용 3D 모델을 다운로드한 뒤, 원하는 이미지(텍스처)로 교체하여 사용합니다.</p>
+            <a href="https://models.spriters-resource.com/" class="resource-link" target="_blank" rel="noopener noreferrer">
+              🔗 models.spriters-resource.com
+            </a>
+          </div>
+        </div>
+
+        <div class="step-box">
+          <div class="step-title">옥테인 재질 재설정 작업 순서</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-text">사이트에서 원하는 3D 모델 다운로드</div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-text">Cinema 4D(또는 사용 중인 3D 툴)에 모델 임포트</div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-text">기존 재질 제거 후 옥테인 재질로 전면 교체</div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-text">원하는 이미지 텍스처를 각 재질에 연결</div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-text">3점 조명 세팅 후 옥테인 렌더러로 최종 출력</div>
+            </div>
+          </div>
+          <div class="tip-box mt">
+            <div class="tip-title">⚠️ 주의사항</div>
+            <p>다운받은 모델의 이미지 재질은 <strong>무조건 옥테인으로 재설정</strong>해야 합니다. 기존 재질을 그대로 사용하면 옥테인 렌더러에서 정상적으로 출력되지 않습니다. 번거롭더라도 반드시 하나씩 교체하는 것이 필수입니다!</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 요약 -->
+    <section class="summary-section">
+      <h2>오늘의 핵심 정리</h2>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-icon">💡</div>
+          <div class="summary-text">라이팅은 피사체를 아름답게 보이게 하고 배경과 분리하는 조명 작업</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-icon">🔢</div>
+          <div class="summary-text">3D 파이프라인: 모델링 → 텍스처링 → <strong>라이팅</strong> → 애니메이팅 → 렌더링</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-icon">🔆</div>
+          <div class="summary-text">Key Light(주광) + Fill Light(보조광) + Back Light(역광) = 3점 조명</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-icon">🌑</div>
+          <div class="summary-text">빛과 그림자는 그래픽에서 가장 중요 — 그림자 활용이 퀄리티를 결정</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-icon">🔁</div>
+          <div class="summary-text">다운받은 모델의 재질은 반드시 옥테인으로 재설정 (노가다지만 필수!)</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>3D 저녁반 수업자료 · 2025.03.23 · 라이팅(Lighting) 기초</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
