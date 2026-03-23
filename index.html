@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D 텍스처링 & 옥테인 렌더러 | 오전반 0323</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.03.23 오전반</span>
+      <h1>3D 텍스처링 &amp; 옥테인 렌더러</h1>
+      <p class="subtitle">Octane Renderer · PBR · Material · HDRI · Unbiased Rendering</p>
+      <div class="header-tags">
+        <span>Cinema 4D</span>
+        <span>Octane</span>
+        <span>PBR</span>
+        <span>Texturing</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#philosophy">핵심 철학</a></li>
+        <li><a href="#workflow">3D 5단계</a></li>
+        <li><a href="#layout">옥테인 세팅</a></li>
+        <li><a href="#materials">메터리얼</a></li>
+        <li><a href="#nodes">노드</a></li>
+        <li><a href="#resources">무료 사이트</a></li>
+        <li><a href="#hdri">HDRI</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① 핵심 철학 -->
+    <section id="philosophy" class="section">
+      <div class="section-tag">핵심 철학</div>
+      <h2 class="section-title">앉은 시간과 결과물의 퀄리티는 동일하다</h2>
+      <p class="section-desc">
+        영상, 3D, 디자인 등 모든 크리에이티브 분야를 통틀어 적용되는 원칙입니다.
+        결국 얼마나 많은 시간을 집중해서 투자했느냐가 결과물의 완성도를 결정합니다.
+        단순히 오래 앉아있는 것이 아니라, <strong>의식적으로 연습하고 이해하며 쌓은 시간</strong>이 중요합니다.
+      </p>
+
+      <div class="callout callout-warning">
+        <div class="callout-icon">⚠</div>
+        <div class="callout-body">
+          <strong>처음 공부할 때 쉬운 방법만 공부해서는 안 됩니다 — 모든 툴 동일!</strong>
+          <p>쉬운 방법이란, 이미 힘든 길을 다 학습한 사람들이 "이렇게 하면 쉽더라"라고 알려주는 것입니다.
+          기초 없이 결과만 따라가면 응용이 불가능하고, 문제가 생겼을 때 스스로 해결할 수 없습니다.</p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card card-red">
+          <div class="card-label">쉬운 방법만 배웠을 때</div>
+          <ul class="bullet-list">
+            <li>대부분의 실전 작업에서 통하지 않음</li>
+            <li>쉬운 방법대로 안 되는 경우가 훨씬 많음</li>
+            <li>오류가 생겨도 원인을 파악하거나 수정하기 어려움</li>
+            <li>응용·변형이 불가능해 항상 같은 결과물만 나옴</li>
+          </ul>
+        </div>
+        <div class="card card-blue">
+          <div class="card-label">근본(어려운 방법)을 먼저 익혔을 때</div>
+          <ul class="bullet-list">
+            <li>어떤 상황·어떤 툴에도 응용 가능</li>
+            <li>문제 발생 시 원인을 이해하고 스스로 해결 가능</li>
+            <li>쉬운 방법도 왜 작동하는지 이해하게 됨</li>
+            <li>결국 더 빠르고, 더 다양한 결과물을 낼 수 있게 됨</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-info" style="margin-top:20px;margin-bottom:0">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>결론: 근본을 먼저, 편법은 나중에</strong>
+          <p>기초를 탄탄히 다진 사람만이 쉬운 방법을 제대로 활용할 수 있습니다.
+          처음에는 느리게 느껴지더라도 원리부터 이해하는 것이 장기적으로 훨씬 빠른 길입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 3D 5단계 -->
+    <section id="workflow" class="section">
+      <div class="section-tag">워크플로우</div>
+      <h2 class="section-title">3D 작업 시 중요한 5단계</h2>
+      <p class="section-desc">
+        좋은 3D 결과물은 아래 5가지 단계가 유기적으로 맞물려야 완성됩니다.
+        각 단계가 기초가 되어 다음 단계의 퀄리티를 결정하므로, 어느 하나도 소홀히 할 수 없습니다.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <div class="step-title">모델링</div>
+            <div class="step-sub">Modeling · 모양</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <div class="step-title">텍스처링</div>
+            <div class="step-sub">Texturing · 질감</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <div class="step-title">라이팅</div>
+            <div class="step-sub">Lighting · 조명</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <div class="step-title">애니메이팅</div>
+            <div class="step-sub">Animating · 모션</div>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step step-last">
+          <div class="step-num">05</div>
+          <div class="step-body">
+            <div class="step-title">렌더링</div>
+            <div class="step-sub">Rendering · 최종 결과물</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-desc-grid">
+        <div class="step-desc">
+          <strong>모델링</strong>
+          오브젝트의 형태와 구조를 3D 공간에서 만드는 작업. 폴리곤, 넙스 등 다양한 방식이 존재하며 이후 모든 단계의 기반이 됩니다.
+        </div>
+        <div class="step-desc">
+          <strong>텍스처링</strong>
+          모델에 재질감(색상, 반사, 거칠기, 투명도 등)을 입히는 작업. PBR 방식을 이용해 실사에 가까운 표현이 가능합니다.
+        </div>
+        <div class="step-desc">
+          <strong>라이팅</strong>
+          씬에 조명을 배치하여 분위기와 입체감을 결정합니다. 텍스처의 표현력도 라이팅에 따라 크게 달라집니다.
+        </div>
+        <div class="step-desc">
+          <strong>애니메이팅</strong>
+          오브젝트, 카메라, 조명 등에 움직임과 타이밍을 부여합니다. 키프레임, 다이나믹스 등의 방식을 활용합니다.
+        </div>
+        <div class="step-desc">
+          <strong>렌더링</strong>
+          모든 설정을 계산하여 최종 이미지/영상으로 출력하는 단계. 렌더러의 종류와 설정에 따라 퀄리티와 속도가 결정됩니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 옥테인 레이아웃 세팅 -->
+    <section id="layout" class="section">
+      <div class="section-tag">옥테인 렌더러</div>
+      <h2 class="section-title">옥테인 레이아웃 세팅</h2>
+      <p class="section-desc">
+        옥테인(Octane Renderer)은 GPU 기반의 <strong>언바이어스드(Unbiased) 렌더러</strong>로,
+        물리 기반 렌더링(PBR)을 통해 실사에 가까운 결과물을 빠르게 만들 수 있습니다.
+        먼저 Cinema 4D의 커스터마이즈 창을 열고 <code>Octane</code>을 검색하여 자주 쓰는 항목들을 레이아웃에 추가합니다.
+      </p>
+
+      <div class="callout callout-info" style="margin-bottom:20px">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>이 설정이 정답은 아닙니다!</strong>
+          <p>아래 항목들은 참고용 구성입니다. 작업자의 성향, 자주 사용하는 기능, 플러그인 환경에 따라 레이아웃은 유연하게 변경하세요.</p>
+        </div>
+      </div>
+
+      <div class="tabs" id="layoutTabs">
+        <button class="tab-btn active" data-tab="lights">조명 &amp; 환경</button>
+        <button class="tab-btn" data-tab="mats">메터리얼</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-lights">
+        <p class="tab-intro">씬의 조명과 환경을 설정하는 옥테인 핵심 항목들입니다.</p>
+        <div class="tag-grid">
+          <div class="tag-item">
+            <span class="tag">Area Light</span>
+            <span class="tag-tip">면적 광원. 부드러운 그림자 표현에 최적</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Camera</span>
+            <span class="tag-tip">옥테인 전용 카메라 설정 (DOF, 노출 등)</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Scatter</span>
+            <span class="tag-tip">오브젝트를 대량으로 분산 배치할 때 사용</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">VDB Volume</span>
+            <span class="tag-tip">연기, 불, 구름 등 볼류메트릭 효과</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">HDRI Environment</span>
+            <span class="tag-tip">360도 HDRI 이미지를 환경 조명으로 사용</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Texture Environment</span>
+            <span class="tag-tip">일반 텍스처 이미지를 환경 배경으로 사용</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">DayLight</span>
+            <span class="tag-tip">물리 기반 태양광·하늘 시뮬레이션</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Volumetric Spot Light</span>
+            <span class="tag-tip">볼류메트릭 스팟 조명. 빛 줄기 표현</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-mats">
+        <p class="tab-intro">재질 표현을 위한 옥테인 메터리얼 항목들입니다. 각 메터리얼의 특성에 맞게 선택해 사용합니다.</p>
+        <div class="tag-grid">
+          <div class="tag-item">
+            <span class="tag">Diffuse Material</span>
+            <span class="tag-tip">반사 없음 — 피부, 나뭇잎, 양초 등</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Glossy Material</span>
+            <span class="tag-tip">반사 있음 — 일반 오브젝트 대부분</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Specular Material</span>
+            <span class="tag-tip">투명 — 유리, SSS 표현</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Metallic Material</span>
+            <span class="tag-tip">반사만 존재 — 금속 표현</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Universal Material</span>
+            <span class="tag-tip">모든 속성 통합 — 범용 PBR 메터리얼</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Composite Material</span>
+            <span class="tag-tip">가상 메터리얼 혼합</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Mix Material</span>
+            <span class="tag-tip">실제 메터리얼 혼합</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag">Toon Material</span>
+            <span class="tag-tip">2D/만화 스타일 렌더링</span>
+          </div>
+          <div class="tag-item">
+            <span class="tag tag-util">Remove Unused Material</span>
+            <span class="tag-tip">씬에서 미사용 메터리얼 정리</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 메터리얼 -->
+    <section id="materials" class="section">
+      <div class="section-tag">메터리얼</div>
+      <h2 class="section-title">메터리얼 종류 &amp; 특성 완전 정리</h2>
+      <p class="section-desc">
+        메터리얼(Material)은 3D 오브젝트의 표면이 빛을 어떻게 받아들이고 반응하는지를 정의합니다.
+        어떤 재질을 선택하느냐에 따라 같은 모델링도 완전히 다른 느낌으로 표현됩니다.
+        카드를 클릭하면 상세 설명을 확인할 수 있습니다.
+      </p>
+
+      <div class="mat-grid">
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">01</span>
+            <div>
+              <div class="mat-name">디퓨즈 메터리얼</div>
+              <div class="mat-en">Diffuse Material</div>
+            </div>
+            <span class="mat-badge badge-green">반사 없음</span>
+          </div>
+          <div class="mat-body">
+            <p>빛을 흡수하고 <strong>반사가 거의 없는</strong> 기본 메터리얼입니다. 표면이 거칠고 무광에 가까운 질감을 표현할 때 사용합니다.</p>
+            <div class="mat-examples">
+              <span>나뭇잎</span><span>사람 피부</span><span>양초</span><span>전구</span><span>점토</span>
+            </div>
+            <p class="mat-tip">피부처럼 빛이 내부로 투과되는 SSS(Sub-Surface Scattering) 표현과 함께 쓰이기도 합니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">02</span>
+            <div>
+              <div class="mat-name">글로시 메터리얼</div>
+              <div class="mat-en">Glossy Material</div>
+            </div>
+            <span class="mat-badge badge-blue">반사 있음</span>
+          </div>
+          <div class="mat-body">
+            <p>빛의 <strong>반사가 존재</strong>하는 가장 범용적인 메터리얼입니다. Roughness(거칠기) 값으로 광택 정도를 조절할 수 있습니다.</p>
+            <div class="mat-examples">
+              <span>플라스틱</span><span>페인트</span><span>도자기</span><span>나무</span><span>고무</span>
+            </div>
+            <p class="mat-tip"><strong>Diffuse 채널</strong>에 단순 RGB 색상뿐 아니라, 실사 텍스처 이미지를 연결하면 훨씬 사실적인 표현이 가능합니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">03</span>
+            <div>
+              <div class="mat-name">메탈릭 메터리얼</div>
+              <div class="mat-en">Metallic Material</div>
+            </div>
+            <span class="mat-badge badge-red">반사만 존재</span>
+          </div>
+          <div class="mat-body">
+            <p>빛의 <strong>난반사와 정반사</strong>를 모두 표현할 수 있는 금속 전용 메터리얼입니다. Diffuse 성분 없이 반사로만 구성됩니다.</p>
+            <div class="mat-examples">
+              <span>금</span><span>은</span><span>철</span><span>구리</span><span>알루미늄</span>
+            </div>
+            <p class="mat-tip">Specular Index(반사 강도)와 Roughness 값으로 무광 금속, 광택 금속을 자유롭게 표현할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">04</span>
+            <div>
+              <div class="mat-name">스펙큘러 메터리얼</div>
+              <div class="mat-en">Specular Material</div>
+            </div>
+            <span class="mat-badge badge-purple">투명</span>
+          </div>
+          <div class="mat-body">
+            <p>빛이 <strong>통과하는 투명한</strong> 재질 표현에 특화된 메터리얼입니다. 굴절(IOR)과 흡수를 조절해 다양한 투명 재질을 만들 수 있습니다.</p>
+            <div class="mat-examples">
+              <span>유리</span><span>물</span><span>보석</span><span>SSS 피부</span><span>얼음</span>
+            </div>
+            <p class="mat-tip">IOR(Index of Refraction, 굴절률) 값을 조절하면 물(1.33), 유리(1.5), 다이아몬드(2.4) 등 다양한 투명 재질을 표현할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">05</span>
+            <div>
+              <div class="mat-name">컴포지트 메터리얼</div>
+              <div class="mat-en">Composite Material</div>
+            </div>
+            <span class="mat-badge badge-orange">혼합</span>
+          </div>
+          <div class="mat-body">
+            <p>여러 메터리얼을 <strong>레이어 방식으로 합성</strong>하는 메터리얼입니다. Photoshop 레이어처럼 순서와 블렌딩 방식을 조절할 수 있습니다.</p>
+            <div class="mat-examples">
+              <span>먼지 낀 금속</span><span>긁힌 페인트</span><span>이끼 낀 돌</span>
+            </div>
+            <p class="mat-tip"><strong>가상의(실제 씬에 없는) 메터리얼</strong>을 만들어 합칠 때 사용합니다. 마스크(Alpha)로 혼합 영역을 제어합니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">06</span>
+            <div>
+              <div class="mat-name">믹스 메터리얼</div>
+              <div class="mat-en">Mix Material</div>
+            </div>
+            <span class="mat-badge badge-orange">혼합</span>
+          </div>
+          <div class="mat-body">
+            <p>씬에 <strong>실제로 존재하는 두 메터리얼</strong>을 혼합하는 방식입니다. Amount(비율) 값이나 텍스처 마스크로 두 재질의 혼합 비율을 조절합니다.</p>
+            <div class="mat-examples">
+              <span>젖은 아스팔트</span><span>반짝이는 직물</span><span>혼합 피부</span>
+            </div>
+            <p class="mat-tip">컴포지트와 달리 이미 씬에 배치된 두 개의 실제 메터리얼을 그대로 섞을 때 사용합니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">07</span>
+            <div>
+              <div class="mat-name">툰 메터리얼</div>
+              <div class="mat-en">Toon Material</div>
+            </div>
+            <span class="mat-badge badge-indigo">2D 스타일</span>
+          </div>
+          <div class="mat-body">
+            <p>실사 렌더링이 아닌 <strong>만화·일러스트 스타일</strong>의 2D 느낌을 내는 메터리얼입니다. 셀 쉐이딩(Cel Shading) 방식으로 작동합니다.</p>
+            <div class="mat-examples">
+              <span>애니메이션 캐릭터</span><span>카툰 렌더링</span><span>일러스트 스타일</span>
+            </div>
+            <p class="mat-tip">아웃라인(외곽선) 효과와 함께 사용하면 완성도 높은 2D 스타일 3D 렌더링이 가능합니다.</p>
+          </div>
+        </div>
+
+        <div class="mat-card">
+          <div class="mat-header">
+            <span class="mat-num">08</span>
+            <div>
+              <div class="mat-name">헤어 메터리얼</div>
+              <div class="mat-en">Hair Material</div>
+            </div>
+            <span class="mat-badge badge-brown">헤어/섬유</span>
+          </div>
+          <div class="mat-body">
+            <p>가느다란 <strong>섬유 형태의 오브젝트</strong>에 특화된 메터리얼입니다. 빛이 머리카락의 단면을 통과하고 반사되는 방식을 물리적으로 계산합니다.</p>
+            <div class="mat-examples">
+              <span>머리카락</span><span>털</span><span>풀</span><span>섬유</span><span>실</span>
+            </div>
+            <p class="mat-tip">Longitudinal/Azimuthal 산란 파라미터로 머리카락의 광택과 색상 변화를 세밀하게 조절할 수 있습니다.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑤ 노드 -->
+    <section id="nodes" class="section">
+      <div class="section-tag">노드 시스템</div>
+      <h2 class="section-title">노드 기초 — 색상 연결하기</h2>
+      <p class="section-desc">
+        옥테인은 노드(Node) 기반으로 메터리얼을 구성합니다.
+        노드는 마치 레고 블록처럼 각 기능 단위를 연결해서 복잡한 재질을 만드는 방식입니다.
+        색상을 다루는 가장 기본적인 노드부터 익혀봅시다.
+      </p>
+
+      <div class="node-grid">
+        <div class="node">
+          <div class="node-icon">🎨</div>
+          <div class="node-content">
+            <div class="node-name">RGB Spectrum</div>
+            <div class="node-desc">그라디언트 형태로 여러 색상을 섞어 효과에 연결할 때 사용합니다. 색상 전환이 필요한 복잡한 효과에 적합합니다.</div>
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-icon">🖌</div>
+          <div class="node-content">
+            <div class="node-name">RGB Color</div>
+            <div class="node-desc">단일 색상을 지정해 효과에 연결할 때 사용합니다. 가장 기본적이고 간단한 색상 노드입니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info" style="margin-top:20px;margin-bottom:0">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>오브젝트 색상 변경 방법</strong>
+          <p>재질의 <strong>Diffuse 채널</strong>에 RGB Color 또는 RGB Spectrum 노드를 연결하면 오브젝트의 색상이 변경됩니다.<br>
+          단순 컬러 외에 실사 이미지(텍스처 맵)를 Diffuse에 연결하면 사실적인 질감 표현이 가능합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 무료 텍스처 사이트 -->
+    <section id="resources" class="section">
+      <div class="section-tag">무료 리소스</div>
+      <h2 class="section-title">3D 텍스처 무료 다운로드 사이트</h2>
+      <p class="section-desc">
+        PBR 텍스처를 처음부터 직접 만드는 것은 많은 시간이 필요합니다.
+        아래 사이트들을 활용하면 고품질 텍스처를 무료 또는 저렴하게 구할 수 있습니다.
+        텍스처에는 보통 Diffuse, Roughness, Normal, Displacement 맵 등이 세트로 제공됩니다.
+      </p>
+
+      <div class="resource-grid">
+        <div class="resource-card free">
+          <div class="resource-badge">완전 무료</div>
+          <div class="resource-name">Poly Haven</div>
+          <div class="resource-desc">CC0 라이선스. 상업적 사용 가능. HDRI, 텍스처, 3D 모델까지 제공.</div>
+        </div>
+        <div class="resource-card free">
+          <div class="resource-badge">완전 무료</div>
+          <div class="resource-name">Sharetextures</div>
+          <div class="resource-desc">고해상도 PBR 텍스처를 무료로 제공. 다양한 재질 카테고리.</div>
+        </div>
+        <div class="resource-card free">
+          <div class="resource-badge">완전 무료</div>
+          <div class="resource-name">Ambient CG</div>
+          <div class="resource-desc">CC0 라이선스. 깔끔한 UI, 다양한 포맷 지원. 자주 업데이트됨.</div>
+        </div>
+        <div class="resource-card partial">
+          <div class="resource-badge">부분 무료</div>
+          <div class="resource-name">Textures.com</div>
+          <div class="resource-desc">방대한 텍스처 라이브러리. 무료 크레딧 제공, 고해상도는 유료.</div>
+        </div>
+        <div class="resource-card partial">
+          <div class="resource-badge">부분 무료</div>
+          <div class="resource-name">HDRmaps</div>
+          <div class="resource-desc">HDRI 전문 사이트. 저해상도 무료, 고해상도 유료.</div>
+        </div>
+        <div class="resource-card make">
+          <div class="resource-badge">직접 제작</div>
+          <div class="resource-name">Substance Painter</div>
+          <div class="resource-desc">3D 오브젝트에 직접 페인팅하듯 텍스처를 제작하는 전문 툴. 가장 자유로운 표현 가능.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ HDRI -->
+    <section id="hdri" class="section">
+      <div class="section-tag">HDRI</div>
+      <h2 class="section-title">HDRI란 무엇인가?</h2>
+      <p class="section-desc">
+        HDRI는 옥테인 렌더링에서 환경 조명으로 가장 많이 사용되는 이미지 포맷입니다.
+        단순한 배경 이미지가 아닌, <strong>실제 빛 정보를 담고 있어 조명 역할까지</strong> 수행합니다.
+      </p>
+
+      <div class="hdri-box">
+        <div class="hdri-row">
+          <div class="hdri-label">정의</div>
+          <div class="hdri-value">
+            <strong>High Dynamic Range Image</strong> — 어두운 곳부터 밝은 곳까지의 밝기 범위를
+            실제 눈으로 보는 것처럼 넓게 담아낸 고품질 이미지.
+            일반 JPEG/PNG는 표현할 수 없는 극단적인 밝기 차이까지 저장합니다.
+          </div>
+        </div>
+        <div class="hdri-row">
+          <div class="hdri-label">포맷</div>
+          <div class="hdri-value">
+            <strong>EXR (32bit)</strong> — 32비트 부동소수점 데이터로 빛의 세기를 정밀하게 저장.
+            HDR 포맷도 사용되지만 EXR이 더 높은 품질과 유연성을 제공합니다.
+          </div>
+        </div>
+        <div class="hdri-row">
+          <div class="hdri-label">촬영 방식</div>
+          <div class="hdri-value">
+            <strong>360도 카메라</strong>로 실제 공간의 전방위 빛 정보를 캡처합니다.
+            다양한 노출로 여러 장을 촬영 후 합성하여 HDR 범위를 확보합니다.
+          </div>
+        </div>
+        <div class="hdri-row">
+          <div class="hdri-label">활용</div>
+          <div class="hdri-value">
+            옥테인의 <strong>HDRI Environment</strong> 노드에 연결하면 씬 전체에 자연스러운 환경 조명이 적용됩니다.
+            실외 촬영 느낌, 스튜디오 조명, 야경 등 다양한 분위기를 손쉽게 구현할 수 있습니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>3D 텍스처링 &amp; 옥테인 렌더러 수업 필기 · 2026.03.23 오전반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
