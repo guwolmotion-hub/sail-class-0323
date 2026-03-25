@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>옥테인 렌더링 & 킷캣 모델링 | 0325 오전반</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="header-badge">2026.03.25 &nbsp;|&nbsp; 오전반 수업자료</div>
+  <h1>옥테인 렌더링 이론 & 킷캣 모델링</h1>
+  <p class="subtitle">렌더 모드의 원리와 차이를 이해하고, 킷캣 모델링 실습으로 시메트리 기법을 익힌다</p>
+</header>
+
+<!-- ===== TOC ===== -->
+<nav class="toc-bar" aria-label="목차">
+  <div class="toc-inner">
+    <a href="#sec-render"  class="toc-btn active">01 렌더 모드</a>
+    <a href="#sec-gi"      class="toc-btn">02 GI Mode</a>
+    <a href="#sec-sample"  class="toc-btn">03 Sample</a>
+    <a href="#sec-depth"   class="toc-btn">04 Depth</a>
+    <a href="#sec-kitkat"  class="toc-btn">05 킷캣 모델링</a>
+    <a href="#sec-summary" class="toc-btn">핵심 정리</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ===== SECTION 1: RENDER MODE ===== -->
+  <section class="section" id="sec-render">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">렌더 모드 <span>빛의 계산 방식 설정</span></h2>
+    </div>
+
+    <div class="info-box">
+      <span class="tip-icon">i</span>
+      <span><strong>렌더 모드</strong>는 빛을 어떤 방식으로 계산할지 결정하는 핵심 설정입니다. 계산 방식에 따라 속도와 품질, 그리고 표현 가능한 재질의 범위가 달라집니다. 카드를 클릭하면 상세 설명을 확인할 수 있습니다.</span>
+    </div>
+
+    <div class="render-grid">
+
+      <!-- DirectLighting -->
+      <div class="render-card render-card--direct" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-tag tag-fast">빠른 속도</div>
+        <div class="card-title">Direct Lighting</div>
+        <div class="card-subtitle">직접광만 계산 &mdash; 가렌더 최적</div>
+        <div class="card-body">
+          광원에서 직접 물체에 닿는 빛만 계산합니다. 계산 구조가 단순하기 때문에 <strong>렌더 속도가 빠릅니다.</strong> 단, 직접광만 처리하므로 그림자가 지는 부분이나 빛이 닿지 않는 면이 실제보다 훨씬 어둡게 표현됩니다.
+        </div>
+        <div class="card-detail">
+          <strong>언제 쓰나요?</strong><br>
+          프리뷰 확인, 애니메이션 동작 테스트처럼 <em>속도가 최우선</em>인 상황에서 사용합니다. 이를 <strong>가렌더</strong>라고 부릅니다.<br><br>
+          <strong>재질 표현 한계</strong><br>
+          일반 글로시, 플라스틱, 코팅된 질감처럼 반사가 심하지 않은 재질은 문제없이 표현됩니다. 하지만 <strong>유리나 금속처럼 반사/굴절이 강한 재질</strong>은 정확하게 표현하지 못합니다.
+        </div>
+      </div>
+
+      <!-- Pathtracing -->
+      <div class="render-card render-card--path" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-tag tag-best">가장 범용적</div>
+        <div class="card-title">Path Tracing</div>
+        <div class="card-subtitle">간접광까지 계산 &mdash; 최종 렌더 표준</div>
+        <div class="card-body">
+          광원에서 출발한 빛이 여러 표면에 반사&middot;산란되는 <strong>간접광까지 추적</strong>하여 계산합니다. 실제 물리 환경에 가장 가까운 결과를 만들어냅니다.
+        </div>
+        <div class="card-detail">
+          <strong>장점</strong><br>
+          물리 기반의 자연스러운 GI, 컬러 블리딩(빛이 주변 색을 묻혀오는 현상), 간접광, 반사&middot;굴절 표현이 모두 우수합니다.<br><br>
+          <strong>단점</strong><br>
+          작은 광원이나 강한 커스틱스(Caustics) 표현은 상대적으로 약합니다. 또한 광원 주변에 <strong>노이즈가 심하게 발생</strong>하는 편이어서 충분한 샘플 수가 필요합니다.<br><br>
+          <strong>가장 범용적인 최종 렌더 모드</strong>로, 특수한 상황이 아니면 이 모드를 기준으로 사용합니다.
+        </div>
+      </div>
+
+      <!-- Photontracing -->
+      <div class="render-card render-card--photon" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-tag tag-caustic">커스틱 특화</div>
+        <div class="card-title">Photon Tracing</div>
+        <div class="card-subtitle">포톤 맵핑 기반 &mdash; 투명&middot;굴절 재질 특화</div>
+        <div class="card-body">
+          패스 트레이싱에 <strong>포톤 맵핑</strong>을 결합한 방식입니다. 굴절과 반사가 복잡하게 얽힌 광 경로를 훨씬 효율적으로 계산합니다.
+        </div>
+        <div class="card-detail">
+          <strong>특히 강한 재질</strong><br>
+          유리, 물, 보석, 액체, 투명 재질처럼 빛이 꺾이고 집중되는 상황에서 패스 트레이싱보다 훨씬 뛰어난 결과를 냅니다.<br><br>
+          <strong>커스틱스(Caustics)란?</strong><br>
+          유리잔 아래에 생기는 복잡한 빛의 패턴처럼, 투명 물체를 통과하거나 반사된 빛이 만드는 집중 패턴입니다.<br><br>
+          작은 광원, 집중광, 굴절광 표현에 유리하며, PMC보다 훨씬 현실적인 속도로 결과를 얻을 수 있습니다.
+        </div>
+      </div>
+
+      <!-- PMC -->
+      <div class="render-card render-card--pmc" tabindex="0" role="button" aria-expanded="false">
+        <div class="card-tag tag-max">최고 품질</div>
+        <div class="card-title">PMC</div>
+        <div class="card-subtitle">가장 정교한 고급 품질 모드</div>
+        <div class="card-body">
+          물리적으로 가장 정확한 계산을 수행하며, <strong>최고 수준의 품질과 정확한 커스틱스</strong> 표현을 목표로 합니다. 대신 렌더 시간이 매우 길어질 수 있습니다.
+        </div>
+        <div class="card-detail">
+          <strong>장점</strong><br>
+          물리적으로 가장 정확한 결과물, 세밀한 커스틱스 재현이 가능합니다.<br><br>
+          <strong>단점 및 현실적 조언</strong><br>
+          효율 면에서는 포톤 트레이싱이 훨씬 유리합니다. 시간이 충분할 때는 좋은 선택지이지만, 대부분의 장면에서는 포톤 트레이싱으로도 충분히 좋은 결과를 얻을 수 있습니다.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 렌더 모드 비교 표 -->
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>모드</th>
+          <th>속도</th>
+          <th>품질</th>
+          <th>주요 용도</th>
+          <th>취약점</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mode-name">Direct Lighting</td>
+          <td><span class="badge badge-blue">빠름</span></td>
+          <td><span class="badge badge-orange">낮음</span></td>
+          <td>가렌더, 프리뷰</td>
+          <td>강한 반사/굴절 재질</td>
+        </tr>
+        <tr>
+          <td class="mode-name">Path Tracing</td>
+          <td><span class="badge badge-orange">중간</span></td>
+          <td><span class="badge badge-green">높음</span></td>
+          <td>최종 렌더 (범용)</td>
+          <td>광원 노이즈, 강한 커스틱스</td>
+        </tr>
+        <tr>
+          <td class="mode-name">Photon Tracing</td>
+          <td><span class="badge badge-green">중간-빠름</span></td>
+          <td><span class="badge badge-green">높음</span></td>
+          <td>투명/굴절 재질 최종 렌더</td>
+          <td>일반 장면에선 과한 설정</td>
+        </tr>
+        <tr>
+          <td class="mode-name">PMC</td>
+          <td><span class="badge badge-red">느림</span></td>
+          <td><span class="badge badge-purple">최고</span></td>
+          <td>최고 퀄리티 최종 렌더</td>
+          <td>렌더 시간 과다</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===== SECTION 2: GI MODE ===== -->
+  <section class="section" id="sec-gi">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">GI Mode <span>글로벌 일루미네이션 세부 설정</span></h2>
+    </div>
+
+    <div class="info-box">
+      <span class="tip-icon">i</span>
+      <span><strong>GI(Global Illumination) Mode</strong>는 Direct Lighting 모드에서 간접광을 얼마나 시뮬레이션할지 결정하는 하위 옵션입니다. None &rarr; AO &rarr; Diffuse 순으로 퀄리티가 높아집니다.</span>
+    </div>
+
+    <div class="gi-section">
+      <div class="gi-title">GI Mode 옵션 비교</div>
+      <div class="gi-rows">
+        <div class="gi-row">
+          <span class="gi-label gi-none">None</span>
+          <div class="gi-desc">
+            간접광 계산을 완전히 생략합니다. 음영이 극단적으로 어두워지며 장면이 매우 거칠게 보입니다. 빠른 레이아웃 확인 외에는 거의 사용하지 않습니다.
+          </div>
+        </div>
+        <div class="gi-row">
+          <span class="gi-label gi-ao">Ambient Occlusion</span>
+          <div class="gi-desc">
+            기본값 설정입니다. 모서리나 틈새의 음영을 자연스럽게 표현해 장면에 입체감을 부여합니다. Direct Lighting의 기본 GI로 가장 많이 활용됩니다.
+          </div>
+        </div>
+        <div class="gi-row">
+          <span class="gi-label gi-diffuse">Diffuse</span>
+          <div class="gi-desc">
+            세 가지 옵션 중 Path Tracing에 가장 가까운 결과를 냅니다. 확산 반사(Diffuse Bounce)를 시뮬레이션하여 간접광의 영향을 반영합니다. Direct Lighting에서 그나마 현실감 있는 조명을 원할 때 선택합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: SAMPLE ===== -->
+  <section class="section" id="sec-sample">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Sample <span>노이즈 제거 계산 횟수</span></h2>
+    </div>
+
+    <div class="info-box">
+      <span class="tip-icon">i</span>
+      <span><strong>Sample(샘플)</strong>은 렌더러가 한 픽셀당 얼마나 많은 빛 경로를 계산하는지를 나타내는 수치입니다. 샘플 수가 많을수록 노이즈가 줄어들고 이미지가 깨끗해지지만, 그만큼 렌더 시간이 늘어납니다.</span>
+    </div>
+
+    <div class="sample-range">
+      <h3 style="font-size:0.95rem; font-weight:700; margin-bottom:6px;">샘플 범위와 용도</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:4px;">슬라이더를 움직여 샘플 수별 용도를 확인해보세요.</p>
+
+      <div style="margin-top:20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <input type="range" id="sampleSlider" min="0" max="5" value="0" step="1"
+          style="flex:1; min-width:200px; accent-color:var(--primary);" />
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.4rem; font-weight:800; color:var(--primary);" id="sliderVal">128</span>
+          <span id="sliderTag" class="badge badge-blue">가렌더 (빠른 프리뷰)</span>
+        </div>
+      </div>
+
+      <div class="range-labels" style="margin-top:12px;">
+        <div class="range-label"><span class="dot-pre"></span> 128~512: 가렌더</div>
+        <div class="range-label"><span class="dot-final"></span> 512~2048: 최종 렌더</div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; flex-wrap:wrap; gap:8px;">
+        <span class="badge badge-blue">128</span>
+        <span class="badge badge-blue">256</span>
+        <span class="badge badge-blue">512</span>
+        <span class="badge badge-green">1024</span>
+        <span class="badge badge-green">2048</span>
+        <span class="badge badge-purple">4096</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">!</span>
+      <div>
+        <strong>디노이저(Denoiser)란?</strong><br>
+        샘플 수를 낮게 유지하면서도 노이즈를 제거해주는 기능입니다. 노이즈를 블러(Blur) 처리하여 깨끗하게 보이게 만듭니다. 렌더 시간을 크게 줄일 수 있어 실무에서 자주 활용됩니다.
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <span class="tip-icon">!</span>
+      <div>
+        <strong>핵심 원칙: 최소값을 사용하라</strong><br>
+        샘플은 무조건 높이는 게 정답이 아닙니다. 장면 노이즈의 <strong>70% 이상이 제거되는 시점에서 타협</strong>하는 것이 효율적입니다. 눈으로 직접 보면서 적절한 수준을 찾는 것이 중요합니다.
+      </div>
+    </div>
+
+    <div class="point-grid">
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">128 ~ 512</div>
+          <div class="desc">가렌더 / 빠른 프리뷰 / 애니메이션 테스트용</div>
+        </div>
+      </div>
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">512 ~ 2048</div>
+          <div class="desc">최종 렌더 기본 범위 / 실무 납품 기준</div>
+        </div>
+      </div>
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">디노이저 활용</div>
+          <div class="desc">노이즈를 블러 처리하여 적은 샘플로도 깔끔한 결과 확보</div>
+        </div>
+      </div>
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">최소값 타협</div>
+          <div class="desc">노이즈 70% 제거 시점에서 멈추는 것이 효율적</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: DEPTH ===== -->
+  <section class="section" id="sec-depth">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Depth <span>세부 계산 깊이 설정</span></h2>
+    </div>
+
+    <div class="info-box">
+      <span class="tip-icon">i</span>
+      <span><strong>Depth(뎁스)</strong>는 Sample과 달리, 빛의 계산을 <strong>반사, 색감, 산란</strong> 등 항목별로 세분화하여 각각 몇 번씩 계산할지 설정하는 기능입니다. 렌더 품질의 세밀한 조정이 가능합니다.</span>
+    </div>
+
+    <div class="gi-section">
+      <div class="gi-title">Sample vs Depth 차이점</div>
+      <div class="gi-rows">
+        <div class="gi-row">
+          <span class="gi-label gi-ao" style="background:#dbeafe;color:#1d4ed8;">Sample</span>
+          <div class="gi-desc">전체 픽셀에 대해 몇 번 계산을 반복할지 정하는 "총 계산 횟수"입니다. 노이즈 전반을 제거하는 역할을 합니다.</div>
+        </div>
+        <div class="gi-row">
+          <span class="gi-label gi-ao" style="background:#ede9fe;color:#5b21b6;">Depth</span>
+          <div class="gi-desc">반사 횟수, 굴절 횟수, 색 산란 깊이 등 <strong>세부 항목별 계산 깊이</strong>를 각각 설정합니다. 특정 재질의 표현 품질을 정밀하게 조절할 수 있습니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">!</span>
+      <div>
+        <strong>Sample과 공통 원칙</strong><br>
+        Depth 역시 <strong>눈으로 직접 보면서 조절</strong>하는 것이 가장 중요합니다. 과도하게 높이면 렌더 시간만 늘어날 뿐, 눈에 띄는 품질 차이가 없는 경우가 많습니다. 항상 <strong>최소값에서 시작</strong>하여 필요한 만큼만 올리는 방식을 권장합니다.
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <span class="tip-icon">!</span>
+      <div>
+        <strong>공통 핵심 원칙</strong><br>
+        Sample과 Depth 모두 <strong>"최소값이 최선"</strong>입니다. 렌더 시간과 품질의 균형점을 눈으로 확인하면서 찾아가는 것이 올바른 워크플로우입니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: KITKAT ===== -->
+  <section class="section" id="sec-kitkat">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-title">킷캣 모델링 실습 <span>Plane + Symmetry 기법</span></h2>
+    </div>
+
+    <div class="info-box">
+      <span class="tip-icon">i</span>
+      <span>킷캣의 좌우 대칭 구조를 활용하여 <strong>Plane 오브젝트 + 시메트리(Symmetry) 기법</strong>으로 효율적으로 모델링합니다. 한쪽만 만들고 대칭 복사하는 방식으로 작업량을 절반으로 줄일 수 있습니다.</span>
+    </div>
+
+    <!-- 단축키 패널 -->
+    <div class="gi-section" style="margin-bottom:24px;">
+      <div class="gi-title">필수 단축키</div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:4px;">
+        <div style="display:flex; align-items:center; gap:8px; background:var(--bg); padding:10px 14px; border-radius:8px; border:1px solid var(--border);">
+          <span class="shortcut-badge">F1</span>
+          <span style="font-size:0.87rem;">퍼스펙티브 뷰</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:var(--bg); padding:10px 14px; border-radius:8px; border:1px solid var(--border);">
+          <span class="shortcut-badge">F2</span>
+          <span style="font-size:0.87rem;">정면 뷰</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:var(--bg); padding:10px 14px; border-radius:8px; border:1px solid var(--border);">
+          <span class="shortcut-badge">F3</span>
+          <span style="font-size:0.87rem;">측면 뷰</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; background:var(--bg); padding:10px 14px; border-radius:8px; border:1px solid var(--border);">
+          <span class="shortcut-badge">F4</span>
+          <span style="font-size:0.87rem;">상단 뷰</span>
+        </div>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-top:10px;">F1~F4 키로 4개의 뷰창을 자유롭게 전환하며 작업합니다.</p>
+    </div>
+
+    <!-- 모델링 스텝 -->
+    <div class="steps">
+
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">1</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Plane 오브젝트 생성</div>
+          <div class="step-desc">
+            작업의 시작점은 <strong>Plane 오브젝트</strong>입니다. 기본 프리미티브 중 하나로, 킷캣의 납작하고 직사각형인 형태를 만들기에 가장 적합한 출발점입니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">2</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">세그먼트 설정</div>
+          <div class="step-desc">
+            Plane의 속성에서 <strong>Width Segments: 2, Height Segments: 17</strong>로 설정합니다.<br><br>
+            Width를 2로 설정하는 이유는 좌우 대칭 기준선이 생기도록 하기 위함입니다. Height를 17로 나누면 킷캣 특유의 가로 홈(그루브)을 만들 충분한 폴리곤 분할이 생깁니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">3</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">에디터블(Editable) 변환</div>
+          <div class="step-desc">
+            Plane을 <strong>에디터블(Editable Polygon/Mesh)</strong>로 변환합니다. 이 작업을 해야만 버텍스, 엣지, 폴리곤을 직접 편집할 수 있게 됩니다.<br><br>
+            에디터블 변환 전에는 세그먼트 수 등 파라미터만 수정 가능하고, 개별 점/면의 선택 및 편집이 불가능합니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">4</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">절반 선택 후 삭제</div>
+          <div class="step-desc">
+            에디터블 상태에서 <strong>오른쪽 또는 왼쪽 절반의 폴리곤을 선택</strong>하고 삭제합니다.<br><br>
+            Width Segments를 2로 만든 덕분에 정확히 중앙선을 기준으로 절반을 깔끔하게 선택할 수 있습니다. 시메트리를 사용할 것이므로 한쪽만 남기면 됩니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">5</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">시메트리(Symmetry) 적용</div>
+          <div class="step-desc">
+            <strong>시메트리 기능</strong>을 적용하여 남은 절반을 반대편에 자동으로 대칭 복사합니다.<br><br>
+            시메트리의 가장 큰 장점은 <strong>한쪽을 수정하면 반대쪽도 자동으로 갱신</strong>된다는 점입니다. 킷캣처럼 완전한 좌우 대칭 형태를 모델링할 때 작업량을 절반으로 줄여주는 핵심 기법입니다.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip-box" style="margin-top:24px;">
+      <span class="tip-icon">!</span>
+      <div>
+        <strong>시메트리 기법의 핵심 이유</strong><br>
+        킷캣은 좌우가 완벽하게 대칭인 구조입니다. 절반만 만들어 시메트리로 복사하면, 나중에 홈이나 세부 형태를 수정할 때 한쪽만 편집해도 양쪽이 동시에 반영됩니다. 시간을 절약하면서도 정확한 대칭을 유지할 수 있습니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: SUMMARY ===== -->
+  <section class="section" id="sec-summary">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent); color:#1e293b;">&#9733;</div>
+      <h2 class="section-title">핵심 정리 <span>오늘 수업 요약</span></h2>
+    </div>
+
+    <div class="summary-bar">
+      <h3>오늘 배운 핵심 내용</h3>
+      <div class="summary-items">
+        <div class="summary-chip"><span class="bullet"></span> Direct Lighting = 빠름, 가렌더용</div>
+        <div class="summary-chip"><span class="bullet"></span> Path Tracing = 최종 렌더 표준</div>
+        <div class="summary-chip"><span class="bullet"></span> Photon Tracing = 투명/굴절 재질 특화</div>
+        <div class="summary-chip"><span class="bullet"></span> PMC = 최고 품질, 시간 오래 걸림</div>
+        <div class="summary-chip"><span class="bullet"></span> Sample = 최소값, 70% 노이즈 제거시 타협</div>
+        <div class="summary-chip"><span class="bullet"></span> Depth = 눈으로 보며 세부 조절</div>
+        <div class="summary-chip"><span class="bullet"></span> 킷캣 = Plane + 절반 삭제 + 시메트리</div>
+        <div class="summary-chip"><span class="bullet"></span> F1~F4 = 뷰창 전환 단축키</div>
+      </div>
+    </div>
+
+    <div class="point-grid">
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">렌더 모드 선택 기준</div>
+          <div class="desc">속도 우선 &rarr; DirectLighting<br>최종 범용 &rarr; PathTracing<br>투명 재질 &rarr; PhotonTracing</div>
+        </div>
+      </div>
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">샘플/뎁스 공통 원칙</div>
+          <div class="desc">항상 최소값에서 시작하여 눈으로 보면서 필요한 만큼만 올린다</div>
+        </div>
+      </div>
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">디노이저 활용</div>
+          <div class="desc">샘플을 낮게 유지하면서도 깨끗한 결과를 얻는 실무 필수 기능</div>
+        </div>
+      </div>
+      <div class="point-card">
+        <span class="point-icon">&#9654;</span>
+        <div>
+          <div class="label">시메트리 모델링</div>
+          <div class="desc">대칭 오브젝트는 절반만 만들어 시메트리 적용, 작업량 50% 절약</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        &#8593; 맨 위로
+      </button>
+      <a href="#sec-render" class="nav-btn filled">처음부터 다시 보기</a>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
