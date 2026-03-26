@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extrude & UV 언랩 | 오전반 0326</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.03.26 오전반</span>
+      <h1>Extrude &amp; UV 언랩</h1>
+      <p class="subtitle">Extrude · Symmetry 주의사항 · UV Mapping · Seam · Unwrap · 킷캣 예시</p>
+      <div class="header-tags">
+        <span>Extrude</span>
+        <span>UV Mapping</span>
+        <span>Seam 심라인</span>
+        <span>UV Unwrap</span>
+        <span>Selection Tag</span>
+        <span>BP-UV Edit</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#extrude">Extrude</a></li>
+        <li><a href="#career">커리어 인사이트</a></li>
+        <li><a href="#uv-basic">UV 매핑 기초</a></li>
+        <li><a href="#seam">Seam 심라인</a></li>
+        <li><a href="#unwrap">UV 언랩 순서</a></li>
+        <li><a href="#kitkat">킷캣 예시</a></li>
+        <li><a href="#homework">숙제</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① Extrude -->
+    <section id="extrude" class="section">
+      <div class="section-tag">기본 기능</div>
+      <h2 class="section-title">Extrude — 면과 선을 입체감 있게 돌출시키는 기능</h2>
+      <p class="section-desc">
+        <strong>Extrude(익스트루드)</strong>는 3D 모델링에서 가장 자주 쓰이는 핵심 기능 중 하나입니다.
+        선택한 면(Polygon)이나 선(Edge)을 <strong>밖으로 뽑아내거나(돌출), 안으로 밀어넣어</strong>
+        새로운 형태를 만들 수 있습니다.
+      </p>
+
+      <div class="extrude-grid">
+        <div class="eg-card">
+          <div class="eg-visual eg-out">
+            <div class="eg-base"></div>
+            <div class="eg-protrude eg-protrude-out"></div>
+            <div class="eg-arrow eg-arrow-out">↑</div>
+          </div>
+          <div class="eg-title">면 뽑기 (Outward)</div>
+          <div class="eg-desc">선택한 면을 바깥 방향으로 돌출시켜 튀어나온 형태를 만듭니다. 버튼, 손잡이, 돌기 등을 만들 때 활용합니다.</div>
+        </div>
+        <div class="eg-card">
+          <div class="eg-visual eg-in">
+            <div class="eg-base"></div>
+            <div class="eg-protrude eg-protrude-in"></div>
+            <div class="eg-arrow eg-arrow-in">↓</div>
+          </div>
+          <div class="eg-title">면 집어넣기 (Inward)</div>
+          <div class="eg-desc">선택한 면을 안쪽으로 밀어넣어 홈, 구멍, 오목한 부분을 만듭니다. 나사 구멍, 홈, 요철 등에 활용합니다.</div>
+        </div>
+        <div class="eg-card">
+          <div class="eg-visual eg-spline">
+            <div class="eg-spline-line"></div>
+            <div class="eg-spline-result"></div>
+            <div class="eg-arrow eg-arrow-spline">→</div>
+          </div>
+          <div class="eg-title">스플라인 면 변환</div>
+          <div class="eg-desc">2D 선(스플라인)에 두께를 주어 3D 면으로 변환합니다. 이전 수업의 스튜디오 모델링이 바로 이 방식입니다.</div>
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <div class="wb-header">
+          <div class="wb-icon">⚠</div>
+          <div class="wb-title">시메트리(Symmetry)와 함께 사용할 때 반드시 주의!</div>
+        </div>
+        <div class="wb-body">
+          <p>
+            시메트리는 한쪽을 복사해 반대편을 자동 생성합니다.
+            이 과정에서 <strong>안 보이는 내부나 이음새 부분에 불필요한 뚜껑(Cap)이나 면(Polygon)이 생기는 경우</strong>가 있습니다.
+            이 잉여 면들은 지금 당장은 눈에 보이지 않아 모르고 지나치기 쉽지만,
+            나중에 <strong>텍스처 매핑이나 이펙트(효과)를 적용할 때 오류의 원인</strong>이 됩니다.
+          </p>
+          <div class="wb-checklist">
+            <div class="wbc-item">
+              <span class="wbc-icon wbc-bad">✗</span>
+              <span>시메트리 적용 후 안 보이는 면을 그냥 방치 → 매핑/이펙트 오류 발생 위험</span>
+            </div>
+            <div class="wbc-item">
+              <span class="wbc-icon wbc-good">✓</span>
+              <span>시메트리 사용 후 복사된 부분의 면 상태를 반드시 직접 눈으로 확인하고 정리</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 커리어 인사이트 -->
+    <section id="career" class="section">
+      <div class="section-tag">선생님 이야기</div>
+      <h2 class="section-title">영상·디자인 업계 현실 — 툴러 vs 디자이너</h2>
+      <p class="section-desc">
+        기술을 배우는 것과 함께, 자신이 어떤 방향으로 성장할지도 생각해봐야 합니다.
+        업계에서 살아남는 사람과 대체되는 사람의 차이는 <strong>기술의 숙련도</strong>가 아니라
+        <strong>생각하고 기획하는 능력</strong>에 있습니다.
+      </p>
+
+      <div class="career-compare">
+        <div class="cc-card cc-tooler">
+          <div class="cc-icon">🤖</div>
+          <div class="cc-title">툴러 (Tool User)</div>
+          <div class="cc-sub">"시키는 대로만 하는 사람"</div>
+          <ul class="cc-list">
+            <li>주어진 작업을 정해진 방식대로 반복 실행</li>
+            <li>기획·방향 결정 없이 기술만 사용</li>
+            <li>AI가 동일한 작업을 더 빠르게 수행 가능</li>
+            <li>AI 기술 발전에 따라 대체될 가능성 높음</li>
+          </ul>
+          <div class="cc-verdict cc-v-bad">AI 대체 위협 높음</div>
+        </div>
+
+        <div class="cc-vs">VS</div>
+
+        <div class="cc-card cc-designer">
+          <div class="cc-icon">🎨</div>
+          <div class="cc-title">디자이너 (Creator)</div>
+          <div class="cc-sub">"기획 · 디자인 · 모션까지 스스로 하는 사람"</div>
+          <ul class="cc-list">
+            <li>콘셉트 기획부터 최종 결과물까지 주도</li>
+            <li>도구를 수단으로 활용해 자신만의 작품 창작</li>
+            <li>AI를 도구로 활용해 오히려 효율 극대화</li>
+            <li>개성과 창의성으로 대체 불가능한 가치 창출</li>
+          </ul>
+          <div class="cc-verdict cc-v-good">AI 시대에도 성장 가능</div>
+        </div>
+      </div>
+
+      <div class="callout callout-key">
+        <div class="callout-icon">★</div>
+        <div class="callout-body">
+          <strong>스페셜리스트급으로 파지 않아도 퀄리티를 높게 만들 수 있다</strong>
+          <p>모든 분야를 깊이 파는 것보다, 전반적인 흐름을 이해하고 기획·디자인·모션을 스스로 연결할 수 있는 능력이 중요합니다.
+          도구의 노예가 되지 말고, 도구를 활용하는 사람이 되세요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ UV 매핑 기초 -->
+    <section id="uv-basic" class="section">
+      <div class="section-tag">UV Mapping 기초</div>
+      <h2 class="section-title">UV 매핑 — 컴퓨터는 바보, 시킨 것밖에 못 한다</h2>
+      <p class="section-desc">
+        3D 오브젝트에 이미지 텍스처를 올바르게 입히려면 <strong>UV 매핑</strong>을 이해해야 합니다.
+        컴퓨터는 스스로 판단하지 못합니다. "이 오브젝트에 어떻게 이미지를 펼칠지"를
+        우리가 직접 정확하게 알려줘야 합니다.
+      </p>
+
+      <div class="callout callout-computer">
+        <div class="callout-icon">🖥</div>
+        <div class="callout-body">
+          <strong>컴퓨터의 기본 동작 원리</strong>
+          <p><strong>모든 오브젝트는 박스(Box) 형태라고 생각하고 전개도를 펼칩니다.</strong>
+          구(Sphere)도, 실린더도, 복잡한 캐릭터도 결국 UV 좌표는 납작한 2D 평면에 펼쳐진 전개도 형태가 됩니다.
+          우리가 그 전개도를 얼마나 깔끔하게 펼치느냐가 UV 매핑의 핵심입니다.</p>
+        </div>
+      </div>
+
+      <div class="uv-principle">
+        <div class="up-card">
+          <div class="up-num">01</div>
+          <div class="up-title">3D 오브젝트를 2D로 "펼친다"</div>
+          <div class="up-desc">
+            종이로 만든 상자를 가위로 잘라 납작하게 펼치면 전개도가 되듯,
+            3D 메쉬도 적절한 위치에 "절취선(Seam)"을 넣어 펼치면 평면 전개도(UV)가 됩니다.
+          </div>
+        </div>
+        <div class="up-card">
+          <div class="up-num">02</div>
+          <div class="up-title">전개도 위에 이미지를 올린다</div>
+          <div class="up-desc">
+            잘 펼쳐진 UV 전개도 위에 텍스처 이미지를 올려놓으면,
+            3D 오브젝트에는 그 이미지가 왜곡 없이 자연스럽게 입혀집니다.
+          </div>
+        </div>
+        <div class="up-card">
+          <div class="up-num">03</div>
+          <div class="up-title">절취선(Seam)이 핵심이다</div>
+          <div class="up-desc">
+            어디를 잘라서 펼칠지 결정하는 것이 UV 매핑의 핵심 작업입니다.
+            잘못 자르면 전개도가 뒤틀리거나 겹쳐서 텍스처가 이상하게 표시됩니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ Seam -->
+    <section id="seam" class="section">
+      <div class="section-tag">핵심 개념</div>
+      <h2 class="section-title">Seam (심라인) — 무조건 생길 수밖에 없는 재봉선</h2>
+      <p class="section-desc">
+        <strong>Seam(심, 심라인)</strong>은 3D 오브젝트를 2D로 펼치기 위해 표면을 자르는 절취선입니다.
+        옷의 재봉선(솔기)과 같은 개념입니다. 핵심은 — <strong>심라인은 반드시 생깁니다.</strong>
+        없앨 수 없으니, 최대한 보이지 않는 곳에 숨기는 전략이 필요합니다.
+      </p>
+
+      <div class="seam-visual">
+        <div class="sv-title">Seam이란 무엇인가?</div>
+        <div class="sv-analogy">
+          <div class="sv-item">
+            <div class="sv-icon">👕</div>
+            <div class="sv-label">옷의 재봉선</div>
+            <div class="sv-desc">옷감을 이어 붙인 솔기. 보통 겨드랑이, 허리 등 잘 안 보이는 곳에 위치.</div>
+          </div>
+          <div class="sv-eq">=</div>
+          <div class="sv-item">
+            <div class="sv-icon">🗺</div>
+            <div class="sv-label">UV의 심라인</div>
+            <div class="sv-desc">3D 메쉬를 2D로 펼치기 위한 절취선. 렌더링에서 잘 보이지 않는 곳에 위치시켜야 함.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="seam-rules">
+        <div class="sr-card sr-must">
+          <div class="sr-icon">!</div>
+          <div class="sr-body">
+            <div class="sr-title">심라인은 무조건 생긴다</div>
+            <div class="sr-desc">
+              어떤 3D 오브젝트든 완벽하게 심(이음매) 없이 2D로 펼치는 것은 불가능합니다.
+              지구본을 평면 지도로 만들 때 반드시 어딘가가 잘리거나 왜곡되는 것과 같은 원리입니다.
+            </div>
+          </div>
+        </div>
+        <div class="sr-card sr-strategy">
+          <div class="sr-icon">★</div>
+          <div class="sr-body">
+            <div class="sr-title">전략: 최대한 안 보이는 부분에 위치시키기</div>
+            <div class="sr-desc">
+              심라인이 생길 수밖에 없다면, <strong>카메라에 잡히지 않는 곳, 뒷면, 아랫면, 안쪽</strong> 등
+              눈에 띄지 않는 위치를 절취선으로 선택하는 것이 UV 매핑의 핵심 전략입니다.
+            </div>
+          </div>
+        </div>
+        <div class="sr-card sr-method">
+          <div class="sr-icon">✓</div>
+          <div class="sr-body">
+            <div class="sr-title">기본 공식: 뚜껑 따고 → 뒷부분 절취선 잡기</div>
+            <div class="sr-desc">
+              일반적인 오브젝트의 기본 UV 매핑 방법입니다.
+              먼저 앞뒤 <strong>뚜껑(Cap)을 분리하고</strong>, 몸통의 <strong>안 보이는 뒷부분 라인을 절취선</strong>으로 잡아
+              몸통을 펼치면 깔끔한 전개도를 만들 수 있습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ UV 언랩 순서 -->
+    <section id="unwrap" class="section">
+      <div class="section-tag">실습 순서</div>
+      <h2 class="section-title">UV 언랩 전체 작업 순서</h2>
+      <p class="section-desc">
+        심라인을 잡고 UV를 펼치는 전체 과정입니다.
+        특히 <strong>선 선택을 셀렉션 태그로 저장</strong>하는 습관을 들이는 것이 실수를 줄이는 핵심입니다.
+      </p>
+
+      <div class="unwrap-steps">
+
+        <div class="us-item">
+          <div class="us-num">01</div>
+          <div class="us-body">
+            <div class="us-title">심라인으로 쓸 선(Edge) 선택</div>
+            <div class="us-desc">
+              Edge 모드에서 절취선으로 사용할 선을 선택합니다.
+              뚜껑 분리선, 몸통 뒷면 라인 등 전략적으로 위치를 고려해 선택하세요.
+            </div>
+          </div>
+        </div>
+
+        <div class="us-item us-important">
+          <div class="us-num">02</div>
+          <div class="us-body">
+            <div class="us-title">선택한 선을 셀렉션 태그로 저장</div>
+            <div class="us-desc">
+              선 선택 상태에서 <strong>실수로 클릭해 선택이 해제될 수 있기 때문에</strong>
+              반드시 셀렉션 태그로 저장해 둬야 합니다.
+            </div>
+            <div class="us-shortcut">
+              <span class="us-key">V</span>
+              <span class="us-arrow">→</span>
+              <span class="us-step">Select</span>
+              <span class="us-arrow">→</span>
+              <span class="us-step">Set Selection</span>
+              <span class="us-result">= 셀렉션 태그로 저장됨</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="us-item">
+          <div class="us-num">03</div>
+          <div class="us-body">
+            <div class="us-title">BP-UV Edit 패널 열기</div>
+            <div class="us-desc">
+              우측 상단 <strong>레이아웃 패널에서 BP-UV Edit</strong>를 선택합니다.
+              UV 편집 전용 작업 환경으로 전환됩니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="us-item">
+          <div class="us-num">04</div>
+          <div class="us-body">
+            <div class="us-title">기존 UV 태그 초기화</div>
+            <div class="us-desc">
+              UV 에디트 창에서 기존에 있던 UV 태그를 먼저 초기화합니다.
+            </div>
+            <div class="us-command">Set UV from Projection</div>
+          </div>
+        </div>
+
+        <div class="us-item">
+          <div class="us-num">05</div>
+          <div class="us-body">
+            <div class="us-title">선 선택 상태에서 UV Unwrap 실행</div>
+            <div class="us-desc">
+              저장해 둔 셀렉션 태그(심라인)가 선택된 상태에서 <strong>UV Unwrap</strong>을 실행하면
+              자동으로 오브젝트가 펼쳐집니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="us-item">
+          <div class="us-num">06</div>
+          <div class="us-body">
+            <div class="us-title">결과 확인 및 겹침 수동 수정</div>
+            <div class="us-desc">
+              덩어리들이 올바르게 분리됐는지 확인합니다. 꼬다리(끝 부분)가 겹쳐 있는 경우
+              수동으로 분리 작업을 해야 합니다.
+            </div>
+            <div class="us-tip">이건 내가 잘못한 게 아니라 "컴퓨터가 바보"이기 때문입니다. 당황하지 말고 수동으로 분리해주세요.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑥ 킷캣 예시 -->
+    <section id="kitkat" class="section">
+      <div class="section-tag">실습 예시</div>
+      <h2 class="section-title">킷캣 오브젝트 UV 언랩 — 눕힌 실린더 형태</h2>
+      <p class="section-desc">
+        킷캣(KitKat) 형태는 <strong>옆으로 눕힌 실린더</strong>와 비슷한 구조입니다.
+        좌우 양끝(뚜껑)과 긴 몸통(옆면)을 분리해서 펼치는 방식으로 언랩합니다.
+      </p>
+
+      <div class="kitkat-diagram">
+        <div class="kd-title">킷캣 오브젝트 구조</div>
+        <div class="kd-visual">
+          <div class="kd-shape">
+            <div class="kd-cap kd-left">
+              <span>왼쪽<br>뚜껑</span>
+            </div>
+            <div class="kd-body">
+              <div class="kd-body-label">몸통 (옆면)</div>
+              <div class="kd-seam-line">▲ 아래쪽 라인 → 심라인</div>
+            </div>
+            <div class="kd-cap kd-right">
+              <span>오른쪽<br>뚜껑</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kitkat-steps">
+        <div class="ks-step">
+          <div class="ks-num">1단계</div>
+          <div class="ks-content">
+            <div class="ks-title">뚜껑 먼저 분리</div>
+            <div class="ks-desc">
+              <strong>좌우 양쪽 뚜껑(Cap)</strong>의 가장자리 선을 심라인으로 잡아 몸통과 분리합니다.
+              뚜껑은 별도의 UV 덩어리로 분리됩니다.
+            </div>
+            <div class="ks-note">
+              뚜껑의 기준점(Seam 위치)은 <strong>나중에 이미지를 어느 부분에 넣을지에 따라 달라집니다.</strong>
+              로고나 텍스트를 넣을 위치를 미리 생각하고 심라인을 결정하세요.
+            </div>
+          </div>
+        </div>
+
+        <div class="ks-step">
+          <div class="ks-num">2단계</div>
+          <div class="ks-content">
+            <div class="ks-title">몸통 아래쪽 라인에 심라인 잡기</div>
+            <div class="ks-desc">
+              몸통(옆면)은 <strong>아래쪽 라인</strong>을 심라인으로 잡아 펼칩니다.
+              아랫면은 킷캣이 놓였을 때 바닥에 가려져 보이지 않으므로,
+              심라인이 있어도 렌더링에서 눈에 띄지 않습니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="ks-step">
+          <div class="ks-num">결과</div>
+          <div class="ks-content">
+            <div class="ks-title">5개 덩어리 확인</div>
+            <div class="ks-desc">
+              언랩이 완료되면 UV 에디터에 <strong>5개의 UV 덩어리</strong>가 나타나야 합니다.
+              (왼쪽 뚜껑 / 오른쪽 뚜껑 / 몸통 앞면 / 몸통 뒷면 / 기타)
+            </div>
+            <div class="ks-note">
+              덩어리 수가 맞지 않거나 겹쳐 있다면 심라인 설정을 다시 확인하거나, 겹친 덩어리를 수동으로 분리합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>꼬다리가 겹쳐도 당황하지 마세요</strong>
+          <p>언랩 후 끝 부분(꼬다리)이 겹쳐 있는 경우가 종종 생깁니다. 이건 내가 잘못한 게 아닙니다.
+          UV 언랩 알고리즘이 완벽하지 않기 때문입니다. 겹친 부분을 UV 에디터에서 수동으로 이동·분리해주면 됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 숙제 -->
+    <section id="homework" class="section section-homework">
+      <div class="section-tag">이번주 숙제</div>
+      <h2 class="section-title">숙제 안내</h2>
+      <div class="hw-box">
+        <div class="hw-icon">📝</div>
+        <div class="hw-content">
+          <div class="hw-title">간단한 3D 오브젝트 만들어서 카페에 업로드하기</div>
+          <div class="hw-steps">
+            <div class="hw-step">
+              <span class="hw-check">①</span>
+              <span>정말 간단한 3D 오브젝트 하나 직접 모델링하기</span>
+            </div>
+            <div class="hw-step">
+              <span class="hw-check">②</span>
+              <span>색상 넣기 (재질 기본 컬러 설정)</span>
+            </div>
+            <div class="hw-step">
+              <span class="hw-check">③</span>
+              <span>렌더링까지 완성해서 이미지로 저장하기</span>
+            </div>
+            <div class="hw-step hw-step-upload">
+              <span class="hw-check">④</span>
+              <span>카페에 아래 형식으로 업로드</span>
+            </div>
+          </div>
+          <div class="hw-tag-box">
+            <span class="hw-tag-label">제목 형식</span>
+            <code class="hw-tag">[C4D1] 모델링기초</code>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-key" style="margin-top:20px;margin-bottom:0">
+        <div class="callout-icon">★</div>
+        <div class="callout-body">
+          <strong>"정말 간단한" 것도 괜찮습니다</strong>
+          <p>처음부터 완벽하게 만들려고 하지 마세요. 박스 하나에 색상 넣고 렌더링해도 됩니다.
+          중요한 것은 처음부터 끝까지 혼자 완성해보는 경험 그 자체입니다.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>Extrude &amp; UV 언랩 수업 필기 · 2026.03.26 오전반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
