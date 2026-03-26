@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>렌더링 이론 & 옥테인 렌더모드 | 저녁반 0326</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.03.26 저녁반</span>
+      <h1>렌더링 이론 &amp; 옥테인 렌더모드</h1>
+      <p class="subtitle">Pipeline · Renderer · Biased / Unbiased · Direct Lighting · Path Tracing · Photon Tracing</p>
+      <div class="header-tags">
+        <span>3D 파이프라인</span>
+        <span>렌더러 비교</span>
+        <span>바이어스드</span>
+        <span>언바이어스드</span>
+        <span>다이렉트 라이팅</span>
+        <span>패스트레이싱</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#pipeline">3D 파이프라인</a></li>
+        <li><a href="#renderers">렌더러 종류</a></li>
+        <li><a href="#biased">바이어스드 / 언바이어스드</a></li>
+        <li><a href="#octane-modes">옥테인 렌더모드</a></li>
+        <li><a href="#guide">언제 무엇을?</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① 3D 파이프라인 -->
+    <section id="pipeline" class="section">
+      <div class="section-tag">전체 흐름</div>
+      <h2 class="section-title">3D 제작 파이프라인 — 기획부터 후반작업까지</h2>
+      <p class="section-desc">
+        3D 결과물 하나가 완성되기까지는 여러 단계의 작업이 순서대로 진행됩니다.
+        각 단계가 어떤 역할을 하는지 이해하면 전체 작업의 흐름을 파악하고
+        각 단계에서 무엇을 집중해야 할지 명확해집니다.
+      </p>
+
+      <div class="pipeline-flow">
+        <div class="pf-step">
+          <div class="pf-num">01</div>
+          <div class="pf-icon">📋</div>
+          <div class="pf-title">기획</div>
+          <div class="pf-items">
+            <span>스토리보드</span>
+            <span>레퍼런스</span>
+            <span>스타일프레임</span>
+          </div>
+        </div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-step">
+          <div class="pf-num">02</div>
+          <div class="pf-icon">🎬</div>
+          <div class="pf-title">애니메이션</div>
+          <div class="pf-items">
+            <span>더미 작업</span>
+          </div>
+        </div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-step pf-step-main">
+          <div class="pf-num">03</div>
+          <div class="pf-icon">🖥</div>
+          <div class="pf-title">디자인</div>
+          <div class="pf-items">
+            <span>모델링</span>
+            <span>텍스처링</span>
+            <span>라이팅</span>
+            <span>레이아웃</span>
+          </div>
+        </div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-step pf-step-render">
+          <div class="pf-num">04</div>
+          <div class="pf-icon">⚙</div>
+          <div class="pf-title">렌더링</div>
+          <div class="pf-items">
+            <span>최종 출력</span>
+          </div>
+        </div>
+        <div class="pf-arrow">→</div>
+        <div class="pf-step">
+          <div class="pf-num">05</div>
+          <div class="pf-icon">✨</div>
+          <div class="pf-title">후반작업</div>
+          <div class="pf-items">
+            <span>합성</span>
+            <span>색보정</span>
+            <span>편집</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>렌더링은 모든 작업의 결과가 나오는 단계</strong>
+          <p>렌더링은 그동안 모델링·텍스처링·라이팅으로 쌓아온 모든 작업을
+          최종 이미지 또는 영상으로 출력하는 과정입니다.
+          렌더링 방식과 설정에 따라 같은 씬도 품질과 속도가 크게 달라집니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 렌더러 종류 -->
+    <section id="renderers" class="section">
+      <div class="section-tag">렌더러 비교</div>
+      <h2 class="section-title">주요 렌더링 프로그램 — 각자의 포지션이 다르다</h2>
+      <p class="section-desc">
+        렌더러마다 주로 사용하는 분야, 속도, 품질, 연동 프로그램이 다릅니다.
+        어떤 프로그램을 쓰느냐에 따라 렌더러 선택이 달라지므로,
+        각 렌더러의 특징과 포지션을 파악해두는 것이 중요합니다.
+      </p>
+
+      <div class="renderer-grid">
+
+        <div class="rg-card rg-octane">
+          <div class="rg-header">
+            <div class="rg-name">Octane Render</div>
+            <div class="rg-badge">핵심 수업</div>
+          </div>
+          <div class="rg-analogy">📱 폰카</div>
+          <div class="rg-desc">
+            직관적이고 사용하기 쉬운 GPU 렌더러. 빠른 프리뷰와 높은 퀄리티를 동시에 제공합니다.
+            모션그래픽, 광고, 개인 프로젝트에 많이 사용됩니다.
+          </div>
+          <div class="rg-tags"><span>C4D</span><span>GPU 렌더</span><span>언바이어스드</span></div>
+        </div>
+
+        <div class="rg-card rg-redshift">
+          <div class="rg-header">
+            <div class="rg-name">Redshift</div>
+            <div class="rg-badge rg-badge-gray">C4D 인수</div>
+          </div>
+          <div class="rg-analogy">📷 DSLR</div>
+          <div class="rg-desc">
+            Maxon(C4D 제작사)이 인수한 GPU 렌더러. 옥테인보다 복잡하지만 대형 프로젝트에 강하며
+            바이어스드/언바이어스드 혼합 방식으로 속도와 품질을 모두 잡습니다.
+          </div>
+          <div class="rg-tags"><span>C4D 번들</span><span>GPU 렌더</span><span>대형 프로젝트</span></div>
+        </div>
+
+        <div class="rg-card rg-vray">
+          <div class="rg-header">
+            <div class="rg-name">V-Ray</div>
+          </div>
+          <div class="rg-analogy">🏢 스튜디오 카메라</div>
+          <div class="rg-desc">
+            3ds Max와 함께 건축 시각화, 인테리어 렌더링에서 오랫동안 산업 표준으로 사용되어 온 렌더러입니다.
+            정밀한 조명 계산과 안정성으로 건축·인테리어 업계에서 신뢰받습니다.
+          </div>
+          <div class="rg-tags"><span>3ds Max</span><span>건축·인테리어</span></div>
+        </div>
+
+        <div class="rg-card rg-arnold">
+          <div class="rg-header">
+            <div class="rg-name">Arnold</div>
+          </div>
+          <div class="rg-analogy">🎬 영화용 카메라</div>
+          <div class="rg-desc">
+            헐리우드 VFX·영화 제작에 특화된 CPU/GPU 렌더러. Maya와 함께 영화·VFX 업계의 표준으로
+            물리적 정확도가 최고 수준입니다.
+          </div>
+          <div class="rg-tags"><span>Maya</span><span>영화·VFX</span><span>CPU+GPU</span></div>
+        </div>
+
+        <div class="rg-card rg-unreal">
+          <div class="rg-header">
+            <div class="rg-name">Unreal Engine</div>
+            <div class="rg-badge rg-badge-green">실시간</div>
+          </div>
+          <div class="rg-analogy">⚡ 실시간 스트리밍</div>
+          <div class="rg-desc">
+            게임 엔진에서 출발했지만 이제는 영화·광고·모션그래픽까지 영역을 넓히고 있습니다.
+            실시간 렌더링으로 <strong>1초마다 렌더링이 끝납니다.</strong>
+            미래 가장 빠르게 성장하는 분야입니다.
+          </div>
+          <div class="rg-tags"><span>영화</span><span>게임</span><span>모션</span><span>광고</span><span>실시간</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ③ 바이어스드 / 언바이어스드 -->
+    <section id="biased" class="section">
+      <div class="section-tag">렌더링 방식</div>
+      <h2 class="section-title">바이어스드 vs 언바이어스드 — 빛을 어떻게 계산하는가</h2>
+      <p class="section-desc">
+        렌더러가 빛을 계산하는 방식은 크게 두 가지로 나뉩니다.
+        이 두 방식의 원리를 이해하면 렌더러마다 왜 속도와 품질이 다른지,
+        그리고 옥테인이 왜 특정 방식으로 동작하는지를 이해할 수 있습니다.
+      </p>
+
+      <div class="biased-compare">
+
+        <div class="bc-card bc-biased">
+          <div class="bc-header">
+            <div class="bc-icon">📦</div>
+            <div class="bc-name">바이어스드 (Biased)</div>
+          </div>
+          <div class="bc-method">박스(격자) 형태로 계산</div>
+          <div class="bc-desc">
+            공간을 일정한 격자(Box) 형태로 나누어 각 영역의 빛을 근사(어림) 계산하는 방식입니다.
+            수학적으로 단순화된 계산이기 때문에 빠릅니다.
+          </div>
+          <div class="bc-pros-cons">
+            <div class="bc-pros">
+              <div class="bcp-label">장점</div>
+              <ul>
+                <li>렌더링 속도가 빠르다</li>
+                <li>계산 구조가 단순하고 효율적</li>
+                <li>물리적으로 어느 정도 정확한 결과</li>
+              </ul>
+            </div>
+            <div class="bc-cons">
+              <div class="bcp-label">단점</div>
+              <ul>
+                <li>수학적 근사값이므로 완벽히 정확하지 않음</li>
+                <li>복잡한 간접광 표현에 한계 있음</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bc-example">대표 렌더러: Redshift, V-Ray(바이어스드 모드)</div>
+        </div>
+
+        <div class="bc-card bc-unbiased">
+          <div class="bc-header">
+            <div class="bc-icon">🌫</div>
+            <div class="bc-name">언바이어스드 (Unbiased)</div>
+          </div>
+          <div class="bc-method">노이즈(샘플) 형태로 계산</div>
+          <div class="bc-desc">
+            실제 빛의 물리적 경로를 수백~수천 번 추적·샘플링하여 계산하는 방식입니다.
+            샘플 수가 많을수록(계산을 많이 할수록) 노이즈가 줄어들고 정확해집니다.
+          </div>
+          <div class="bc-pros-cons">
+            <div class="bc-pros">
+              <div class="bcp-label">장점</div>
+              <ul>
+                <li>물리적으로 가장 정확한 결과</li>
+                <li>간접광, 반사, 굴절 등 복잡한 빛 표현에 탁월</li>
+                <li>샘플 수를 높이면 거의 완벽한 품질 구현</li>
+              </ul>
+            </div>
+            <div class="bc-cons">
+              <div class="bcp-label">단점</div>
+              <ul>
+                <li>샘플이 낮을 때 노이즈 발생</li>
+                <li>전통적으로 렌더링 시간이 오래 걸림</li>
+              </ul>
+            </div>
+          </div>
+          <div class="bc-example">대표 렌더러: Octane Render, Arnold</div>
+        </div>
+
+      </div>
+
+      <div class="gpu-note">
+        <div class="gn-icon">🚀</div>
+        <div class="gn-body">
+          <div class="gn-title">GPU 발전으로 속도 차이가 거의 사라졌다</div>
+          <div class="gn-desc">
+            과거에는 언바이어스드 방식이 훨씬 느렸지만,
+            <strong>GPU(그래픽카드)의 성능이 폭발적으로 발전</strong>하면서
+            현재는 바이어스드와 언바이어스드의 렌더링 속도 차이가 "거기서 거기" 수준으로 줄었습니다.
+            언리얼 엔진은 한발 더 나아가 <strong>실시간 렌더링(1초마다 완성)</strong>을 구현합니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 옥테인 렌더모드 -->
+    <section id="octane-modes" class="section">
+      <div class="section-tag">옥테인 핵심</div>
+      <h2 class="section-title">옥테인 렌더모드 4가지</h2>
+      <p class="section-desc">
+        옥테인 렌더러는 상황에 따라 선택할 수 있는 네 가지 렌더모드를 제공합니다.
+        각 모드는 빛을 계산하는 방식이 다르며, 목적과 재질 종류에 따라 적합한 모드가 달라집니다.
+      </p>
+
+      <div class="modes-list">
+
+        <div class="mode-card mode-direct">
+          <div class="mode-header">
+            <div class="mode-num">01</div>
+            <div class="mode-info">
+              <div class="mode-name">Direct Lighting</div>
+              <div class="mode-sub">다이렉트 라이팅</div>
+            </div>
+            <div class="mode-badge mb-fast">빠름</div>
+          </div>
+          <div class="mode-desc">
+            <strong>직접광(Direct Light)만 계산</strong>하는 가장 단순한 렌더모드입니다.
+            광원에서 오브젝트에 직접 닿는 빛만 처리하고, 빛이 반사되어 전달되는
+            간접광(GI)은 계산하지 않습니다.
+          </div>
+          <div class="mode-compare">
+            <div class="mc-item mc-pro">
+              <span class="mc-label">장점</span>
+              <span>계산 구조가 단순해 렌더링 속도가 가장 빠름</span>
+            </div>
+            <div class="mc-item mc-con">
+              <span class="mc-label">단점</span>
+              <span>그림자 지는 부분과 빛이 닿지 않는 곳이 <strong>너무 시커멓게</strong> 표현됨</span>
+            </div>
+          </div>
+          <div class="mode-use">
+            <span class="mu-label">주요 사용 상황</span>
+            <span class="mu-item">가렌더(빠른 확인)</span>
+            <span class="mu-item">애니메이션 프리뷰</span>
+            <span class="mu-item">반사 재질이 거의 없는 씬</span>
+          </div>
+        </div>
+
+        <div class="mode-card mode-path">
+          <div class="mode-header">
+            <div class="mode-num">02</div>
+            <div class="mode-info">
+              <div class="mode-name">Path Tracing</div>
+              <div class="mode-sub">패스트레이싱</div>
+            </div>
+            <div class="mode-badge mb-best">가장 범용</div>
+          </div>
+          <div class="mode-desc">
+            <strong>간접광(GI)까지 디테일하게 계산</strong>하는 핵심 렌더모드입니다.
+            광원에서 출발한 빛이 여러 표면에 반사·산란되는 과정을 모두 추적하여
+            실제 세계와 가장 가까운 물리적 결과를 만들어냅니다.
+          </div>
+          <div class="mode-compare">
+            <div class="mc-item mc-pro">
+              <span class="mc-label">장점</span>
+              <span>실제 환경과 가장 유사한 물리적 결과 / 반사·굴절 재질(유리, 금속) 완벽 처리</span>
+            </div>
+            <div class="mc-item mc-con">
+              <span class="mc-label">단점</span>
+              <span>다이렉트 라이팅보다 렌더링 시간이 더 걸림</span>
+            </div>
+          </div>
+          <div class="mode-use">
+            <span class="mu-label">주요 사용 상황</span>
+            <span class="mu-item">최종 렌더링 (메인 사용)</span>
+            <span class="mu-item">높은 퀄리티가 필요한 작업</span>
+            <span class="mu-item">유리, 금속 등 반사 재질 많은 씬</span>
+          </div>
+        </div>
+
+        <div class="mode-card mode-photon">
+          <div class="mode-header">
+            <div class="mode-num">03</div>
+            <div class="mode-info">
+              <div class="mode-name">Photon Tracing</div>
+              <div class="mode-sub">포톤트레이싱</div>
+            </div>
+            <div class="mode-badge mb-glass">유리 특화</div>
+          </div>
+          <div class="mode-desc">
+            패스트레이싱과 동일한 원리로 작동하지만,
+            <strong>유리(Glass)와 같은 투명·굴절 재질을 훨씬 더 정확하게 표현</strong>하는 데 특화된 모드입니다.
+            물, 유리잔, 수정 등 투명 오브젝트가 씬의 핵심일 때 사용합니다.
+          </div>
+          <div class="mode-compare">
+            <div class="mc-item mc-pro">
+              <span class="mc-label">장점</span>
+              <span>유리, 물, 투명 재질의 빛 굴절·투과를 매우 정밀하게 재현</span>
+            </div>
+            <div class="mc-item mc-con">
+              <span class="mc-label">단점</span>
+              <span>유리 재질이 없는 씬에서는 패스트레이싱과 차이 없음</span>
+            </div>
+          </div>
+          <div class="mode-use">
+            <span class="mu-label">주요 사용 상황</span>
+            <span class="mu-item">유리, 물, 수정, 보석 등 굴절 재질 많은 씬</span>
+          </div>
+        </div>
+
+        <div class="mode-card mode-pmc">
+          <div class="mode-header">
+            <div class="mode-num">04</div>
+            <div class="mode-info">
+              <div class="mode-name">PMC</div>
+              <div class="mode-sub">퍼뮤테이션 몬테카를로</div>
+            </div>
+            <div class="mode-badge mb-special">특수 목적</div>
+          </div>
+          <div class="mode-desc">
+            PMC(Persistent Memory Caching) 방식을 사용하는 고급 렌더모드입니다.
+            복잡한 광원 환경, 코스틱(빛이 투명 오브젝트를 통과할 때 생기는 빛 패턴) 등
+            극히 복잡한 물리 계산이 필요한 특수 상황에서 사용합니다.
+            일반적인 작업에서는 거의 사용하지 않습니다.
+          </div>
+          <div class="mode-use">
+            <span class="mu-label">주요 사용 상황</span>
+            <span class="mu-item">코스틱 효과</span>
+            <span class="mu-item">극히 복잡한 광학 시뮬레이션</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑤ 사용 가이드 -->
+    <section id="guide" class="section">
+      <div class="section-tag">실전 가이드</div>
+      <h2 class="section-title">언제 어떤 렌더모드를 써야 하나?</h2>
+      <p class="section-desc">
+        상황에 맞는 렌더모드 선택이 작업 효율과 결과물 품질을 동시에 높입니다.
+        아래 기준을 참고해 작업 상황에 맞게 선택하세요.
+      </p>
+
+      <div class="guide-table">
+        <div class="gt-head">
+          <div>상황</div>
+          <div>권장 모드</div>
+          <div>이유</div>
+        </div>
+
+        <div class="gt-row">
+          <div class="gt-situation">작업 중 빠른 확인 (가렌더)</div>
+          <div class="gt-mode"><span class="gm-tag gm-direct">Direct Lighting</span></div>
+          <div class="gt-reason">속도가 가장 빠르므로 반복 확인 작업에 적합</div>
+        </div>
+
+        <div class="gt-row">
+          <div class="gt-situation">애니메이션 프리뷰</div>
+          <div class="gt-mode"><span class="gm-tag gm-direct">Direct Lighting</span></div>
+          <div class="gt-reason">수백~수천 프레임을 빠르게 확인해야 하므로</div>
+        </div>
+
+        <div class="gt-row">
+          <div class="gt-situation">최종 렌더링 (일반 재질)</div>
+          <div class="gt-mode"><span class="gm-tag gm-path">Path Tracing</span></div>
+          <div class="gt-reason">가장 범용적이고 품질이 높음</div>
+        </div>
+
+        <div class="gt-row">
+          <div class="gt-situation">최종 렌더링 (유리·금속 많음)</div>
+          <div class="gt-mode"><span class="gm-tag gm-path">Path Tracing</span></div>
+          <div class="gt-reason">반사·굴절 재질을 정확하게 처리</div>
+        </div>
+
+        <div class="gt-row">
+          <div class="gt-situation">유리·물·투명 재질이 핵심</div>
+          <div class="gt-mode"><span class="gm-tag gm-photon">Photon Tracing</span></div>
+          <div class="gt-reason">투명 굴절 표현이 패스트레이싱보다 우수</div>
+        </div>
+
+        <div class="gt-row">
+          <div class="gt-situation">코스틱, 극한의 광학 시뮬레이션</div>
+          <div class="gt-mode"><span class="gm-tag gm-pmc">PMC</span></div>
+          <div class="gt-reason">복잡한 광학 계산에 특화된 방식</div>
+        </div>
+      </div>
+
+      <div class="callout callout-key" style="margin-top:24px;margin-bottom:0">
+        <div class="callout-icon">★</div>
+        <div class="callout-body">
+          <strong>결론: 실무에서는 Path Tracing이 기본, Direct Lighting은 작업 중 확인용</strong>
+          <p>최종 렌더는 거의 대부분 <strong>패스트레이싱</strong>으로 완성합니다.
+          작업 중 빠르게 결과를 확인할 때만 다이렉트 라이팅으로 전환해 속도를 높이고,
+          최종 출력 전에 다시 패스트레이싱으로 돌아오는 것이 기본 워크플로우입니다.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>렌더링 이론 &amp; 옥테인 렌더모드 수업 필기 · 2026.03.26 저녁반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
