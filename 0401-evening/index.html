@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>옥테인 렌더링 심화 — 샘플 & Depth | 저녁반 0401</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.01 저녁반</span>
+      <h1>옥테인 렌더링 심화</h1>
+      <p class="subtitle">Photon Tracing · PMC · Sample · Depth · Adaptive Sampling · Noise · Denoiser</p>
+      <div class="header-tags">
+        <span>Photon Tracing</span>
+        <span>PMC</span>
+        <span>Sample 구간</span>
+        <span>Adaptive Sampling</span>
+        <span>Depth</span>
+        <span>Denoiser</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#notice">보강 일정</a></li>
+        <li><a href="#modes">렌더모드 심화</a></li>
+        <li><a href="#octane-why">옥테인 쓰는 이유</a></li>
+        <li><a href="#sample">샘플링 원리</a></li>
+        <li><a href="#sample-range">샘플 구간</a></li>
+        <li><a href="#noise">노이즈 타협</a></li>
+        <li><a href="#denoiser">노이즈 제거 툴</a></li>
+        <li><a href="#depth">Depth 설정</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① 보강 일정 -->
+    <section id="notice" class="section section-notice">
+      <div class="section-tag">공지</div>
+      <h2 class="section-title">보강 일정</h2>
+      <div class="notice-box">
+        <div class="nb-icon">📅</div>
+        <div class="nb-content">
+          <div class="nb-title">보강 수업 2회 진행</div>
+          <div class="nb-dates">
+            <div class="nb-date"><span class="nd-label">1차</span><span class="nd-val">4월 3일 (금)</span></div>
+            <div class="nb-date"><span class="nd-label">2차</span><span class="nd-val">4월 10일 (금)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 렌더모드 심화 -->
+    <section id="modes" class="section">
+      <div class="section-tag">렌더모드 심화</div>
+      <h2 class="section-title">Photon Tracing & PMC — 특수 목적 렌더모드</h2>
+      <p class="section-desc">
+        지난 시간에 배운 4가지 렌더모드 중 Photon Tracing과 PMC를 더 깊이 살펴봅니다.
+        두 모드 모두 특수한 상황에서 쓰이며, 범용 작업에는 Path Tracing이 기본입니다.
+      </p>
+
+      <div class="mode-detail-grid">
+
+        <div class="md-card md-photon">
+          <div class="md-header">
+            <div class="md-num">03</div>
+            <div class="md-info">
+              <div class="md-name">Photon Tracing</div>
+              <div class="md-sub">포톤트레이싱</div>
+            </div>
+            <div class="md-badge mdb-glass">유리 특화</div>
+          </div>
+          <div class="md-relation">
+            <span class="mr-from">Path Tracing</span>
+            <span class="mr-arrow">→</span>
+            <span class="mr-to">업그레이드 버전</span>
+          </div>
+          <div class="md-desc">
+            Path Tracing을 기반으로 <strong>유리의 커스틱스(Caustics)</strong> 같은
+            복잡한 빛 굴절·투과 현상을 더욱 정교하게 표현하도록 발전된 렌더 기능입니다.
+          </div>
+          <div class="md-note">
+            <span class="mn-icon">⚠</span>
+            완벽하지는 않습니다. 유리·투명 재질이 핵심인 씬에서 Path Tracing보다
+            나은 결과를 기대하는 정도로 활용합니다.
+          </div>
+          <div class="md-tip-box">
+            <div class="mtb-title">커스틱스(Caustics)란?</div>
+            <div class="mtb-desc">빛이 유리나 물을 통과할 때 바닥이나 벽에 생기는
+            특유의 밝은 빛 패턴입니다. 유리잔 밑에 생기는 반짝이는 빛 무늬를 떠올려보세요.</div>
+          </div>
+        </div>
+
+        <div class="md-card md-pmc">
+          <div class="md-header">
+            <div class="md-num">04</div>
+            <div class="md-info">
+              <div class="md-name">PMC</div>
+              <div class="md-sub">퍼뮤테이션 몬테카를로</div>
+            </div>
+            <div class="md-badge mdb-real">극사실주의</div>
+          </div>
+          <div class="md-desc">
+            사실상 <strong>가장 물리적으로 현실과 비슷하게</strong> 렌더링되는 모드입니다.
+            빛의 경로를 몬테카를로 방식으로 반복 계산해 극도로 정밀한 결과를 냅니다.
+          </div>
+          <div class="md-pros-cons">
+            <div class="mpc-item mpc-con">
+              <span class="mpc-label">단점</span>
+              <span>렌더링 시간이 굉장히 오래 걸림</span>
+            </div>
+            <div class="mpc-item mpc-pro">
+              <span class="mpc-label">장점</span>
+              <span>현실보다 더 현실 같은 극사실주의 표현 가능</span>
+            </div>
+          </div>
+          <div class="md-use">
+            <div class="mu-label">주요 사용 상황</div>
+            <div class="mu-desc">
+              자동차 광고영상처럼 <strong>"실제보다 더 실제 같아 보여야 한다"</strong>는
+              수준의 극한 퀄리티가 요구되는 작업. 일반 프로젝트에서는 거의 사용하지 않습니다.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ③ 옥테인 쓰는 이유 -->
+    <section id="octane-why" class="section">
+      <div class="section-tag">옥테인 vs 레드시프트</div>
+      <h2 class="section-title">옥테인이 업계 표준이 된 이유</h2>
+      <p class="section-desc">
+        수많은 렌더러 중에서 옥테인이 모션그래픽·광고 업계의 표준으로 자리잡은 데는 명확한 이유가 있습니다.
+      </p>
+
+      <div class="renderer-compare">
+        <div class="rc-card rc-octane">
+          <div class="rc-header">
+            <div class="rc-icon">⭐</div>
+            <div class="rc-name">Octane Render</div>
+            <div class="rc-crown">업계 1위</div>
+          </div>
+          <ul class="rc-list">
+            <li><strong>퀄리티가 좋다</strong> — 언바이어스드 방식으로 물리적으로 정확한 결과</li>
+            <li><strong>실시간 프리뷰</strong> — 작업물을 실시간으로 확인하며 작업 가능</li>
+            <li>직관적인 노드 시스템으로 빠른 학습 곡선</li>
+            <li>모션그래픽·광고·개인 프로젝트에 최적화</li>
+          </ul>
+        </div>
+
+        <div class="rc-card rc-redshift">
+          <div class="rc-header">
+            <div class="rc-icon">📷</div>
+            <div class="rc-name">Redshift</div>
+            <div class="rc-sub">C4D 인수 번들</div>
+          </div>
+          <ul class="rc-list rc-list-mixed">
+            <li class="rl-con">복잡한 UI와 설정 구조</li>
+            <li class="rl-con">옥테인에 비해 가벼운 느낌이 강했음</li>
+            <li class="rl-pro">유리 재질 표현은 기가막히게 잘함</li>
+            <li class="rl-pro">C4D 구독 시 번들 포함 (비용 없음)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>지금은 레드시프트도 크게 발전했습니다</strong>
+          <p>Maxon(C4D 제작사)이 Redshift를 인수한 후 지속적으로 개선 중입니다.
+          C4D 구독 시 무료로 포함되므로 추후 충분히 활용 가치가 있습니다.
+          옥테인을 먼저 익혀두면 레드시프트도 쉽게 전환할 수 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 샘플링 원리 -->
+    <section id="sample" class="section">
+      <div class="section-tag">핵심 원리</div>
+      <h2 class="section-title">옥테인 = 언바이어스드 렌더 — 계산 횟수가 전부다</h2>
+      <p class="section-desc">
+        옥테인은 언바이어스드(Unbiased) 렌더러입니다. 즉, <strong>노이즈 방식</strong>으로 계산하며
+        계산 횟수(샘플)가 많아질수록 노이즈가 서서히 줄어들고 이미지가 깨끗해집니다.
+        절대적으로 완벽한 수치는 없습니다 — 상황에 따라 타협하며 결정합니다.
+      </p>
+
+      <div class="noise-principle">
+        <div class="np-stage">
+          <div class="np-visual np-noisy">
+            <div class="noise-dots">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="np-label">낮은 샘플 (128)</div>
+          <div class="np-sub">노이즈 많음</div>
+        </div>
+        <div class="np-arrow">→<br><small>샘플 증가</small></div>
+        <div class="np-stage">
+          <div class="np-visual np-mid">
+            <div class="noise-dots nd-mid">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="np-label">중간 샘플 (512)</div>
+          <div class="np-sub">노이즈 감소 중</div>
+        </div>
+        <div class="np-arrow">→<br><small>샘플 증가</small></div>
+        <div class="np-stage">
+          <div class="np-visual np-clean">
+            <div class="noise-dots nd-clean">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="np-label">높은 샘플 (2048+)</div>
+          <div class="np-sub">노이즈 거의 없음</div>
+        </div>
+      </div>
+
+      <div class="callout callout-key">
+        <div class="callout-icon">★</div>
+        <div class="callout-body">
+          <strong>절대값은 없다 — 눈으로 보고 판단한다</strong>
+          <p>샘플 수에 정해진 정답은 없습니다. 씬의 복잡도, 재질 종류, 조명 환경에 따라
+          같은 샘플 수라도 결과가 다릅니다. 항상 눈으로 직접 확인하며 결정하세요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ 샘플 구간 -->
+    <section id="sample-range" class="section">
+      <div class="section-tag">샘플 수치 기준</div>
+      <h2 class="section-title">샘플 구간 — 가렌더 vs 최종 렌더</h2>
+      <p class="section-desc">
+        샘플 수는 2의 배수로 증가합니다. 작업 단계에 따라 적절한 샘플 구간을 선택해
+        불필요하게 긴 렌더링 시간을 낭비하지 않는 것이 중요합니다.
+      </p>
+
+      <div class="sample-scale">
+        <div class="ss-track">
+          <div class="ss-marker ss-m-preview">
+            <div class="ss-dot sd-preview"></div>
+            <div class="ss-val">128</div>
+          </div>
+          <div class="ss-marker ss-m-preview">
+            <div class="ss-dot sd-preview"></div>
+            <div class="ss-val">256</div>
+          </div>
+          <div class="ss-marker ss-m-preview">
+            <div class="ss-dot sd-preview"></div>
+            <div class="ss-val">512</div>
+          </div>
+          <div class="ss-divider">
+            <div class="ss-div-line"></div>
+            <div class="ss-div-label">경계</div>
+          </div>
+          <div class="ss-marker ss-m-final">
+            <div class="ss-dot sd-final"></div>
+            <div class="ss-val">1024</div>
+          </div>
+          <div class="ss-marker ss-m-final">
+            <div class="ss-dot sd-final"></div>
+            <div class="ss-val">2048</div>
+          </div>
+          <div class="ss-marker ss-m-final">
+            <div class="ss-dot sd-final"></div>
+            <div class="ss-val">4096</div>
+          </div>
+          <div class="ss-marker ss-m-final">
+            <div class="ss-dot sd-final"></div>
+            <div class="ss-val">8192</div>
+          </div>
+        </div>
+        <div class="ss-legend">
+          <div class="ssl-item ssl-preview">
+            <span class="ssl-dot"></span>
+            <span class="ssl-label">128 ~ 512 — 가렌더 구간</span>
+          </div>
+          <div class="ssl-item ssl-final">
+            <span class="ssl-dot"></span>
+            <span class="ssl-label">512~ — 최종 렌더 구간</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="range-cards">
+        <div class="rc2-card rc2-preview">
+          <div class="rc2-header">
+            <div class="rc2-range">128 ~ 512</div>
+            <div class="rc2-badge">가렌더 구간</div>
+          </div>
+          <div class="rc2-title">가렌더 (임시 렌더)</div>
+          <div class="rc2-desc">
+            임시로 빠르게 렌더링하여 애니메이션 흐름이나 구도를 확인할 때 사용합니다.
+            수백~수천 프레임을 빠르게 뽑아야 하는 애니메이션 프리뷰에 적합합니다.
+          </div>
+          <div class="rc2-feat">
+            <span>✓ 빠른 속도</span>
+            <span>✓ 반복 확인에 적합</span>
+            <span>✗ 노이즈 많음</span>
+          </div>
+        </div>
+
+        <div class="rc2-card rc2-final">
+          <div class="rc2-header">
+            <div class="rc2-range">512 ~</div>
+            <div class="rc2-badge rc2-badge-final">최종 렌더 구간</div>
+          </div>
+          <div class="rc2-title">최종 렌더 (납품용)</div>
+          <div class="rc2-desc">
+            클라이언트 납품이나 최종 영상 출력 시 사용하는 구간입니다.
+            높은 샘플일수록 깨끗하지만 렌더링 시간도 비례해서 늘어납니다.
+            씬의 복잡도에 따라 적절한 수치를 선택합니다.
+          </div>
+          <div class="rc2-feat">
+            <span>✓ 깨끗한 품질</span>
+            <span>✓ 납품 가능 수준</span>
+            <span>✗ 시간 소요</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 노이즈 타협 -->
+    <section id="noise" class="section">
+      <div class="section-tag">노이즈 타협</div>
+      <h2 class="section-title">노이즈와 타협하는 법 — Adaptive Sampling 활용</h2>
+      <p class="section-desc">
+        렌더링 특성상 <strong>노이즈를 완전히 없애는 것은 불가능</strong>합니다.
+        무한히 샘플을 올릴 수도 없으므로, 적절한 지점에서 타협하고
+        나머지 노이즈는 후반작업에서 제거하는 방식을 사용합니다.
+      </p>
+
+      <div class="adaptive-visual">
+        <div class="av-title">어댑티브 샘플링 기준 — 초록 : 검정 비율로 판단</div>
+        <div class="av-grid">
+          <div class="av-card av-green">
+            <div class="av-color" style="background:#22c55e"></div>
+            <div class="av-label">초록색 픽셀</div>
+            <div class="av-desc">충분히 계산이 완료된 영역. 더 이상 샘플을 추가하지 않아도 되는 안정된 픽셀입니다.</div>
+          </div>
+          <div class="av-colon">:</div>
+          <div class="av-card av-black">
+            <div class="av-color" style="background:#1e293b;border:1px solid #334155"></div>
+            <div class="av-label">검정색 픽셀</div>
+            <div class="av-desc">아직 계산이 부족한 영역. 노이즈가 남아있을 가능성이 높은 픽셀입니다.</div>
+          </div>
+        </div>
+
+        <div class="av-rule">
+          <div class="avr-ratio">
+            <div class="avr-green" style="width:70%">초록 70%</div>
+            <div class="avr-black" style="width:30%">검정 30%</div>
+          </div>
+          <div class="avr-verdict">
+            <span class="avr-check">✓</span>
+            <span><strong>7 : 3 비율</strong>이면 타협해도 좋습니다</span>
+          </div>
+          <div class="avr-desc">
+            남은 노이즈는 후반작업(디노이저)으로 제거할 수 있으므로, 렌더링 시간 대비 효율을 고려해 이 시점에서 멈추는 것을 권장합니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 노이즈 제거 툴 -->
+    <section id="denoiser" class="section">
+      <div class="section-tag">후반작업</div>
+      <h2 class="section-title">노이즈 제거 툴 — 렌더 후 후반작업으로 마무리</h2>
+      <p class="section-desc">
+        렌더링에서 완벽히 제거하지 못한 노이즈는 전문 디노이저 프로그램으로 후처리합니다.
+        각 툴마다 특화된 환경과 방식이 다릅니다.
+      </p>
+
+      <div class="denoiser-grid">
+
+        <div class="dn-card dn-neat">
+          <div class="dn-icon">🎬</div>
+          <div class="dn-name">Neat Video</div>
+          <div class="dn-platform">After Effects 플러그인</div>
+          <div class="dn-desc">
+            After Effects에서 사용하는 노이즈 제거 플러그인입니다.
+            영상 노이즈 제거에 특화되어 있으며, CG 렌더링뿐 아니라
+            실제 카메라 영상의 노이즈 제거에도 탁월합니다.
+          </div>
+          <div class="dn-tag">영상 노이즈 제거의 표준</div>
+        </div>
+
+        <div class="dn-card dn-topaz">
+          <div class="dn-icon">✨</div>
+          <div class="dn-name">Topaz AI</div>
+          <div class="dn-platform">Gigapixel AI / Video AI</div>
+          <div class="dn-desc">
+            AI 기반의 이미지·영상 업스케일링 및 노이즈 제거 툴입니다.
+            <strong>Gigapixel</strong>은 정지 이미지 고화질 변환,
+            <strong>Video AI</strong>는 영상의 노이즈 제거와 해상도 향상에 사용합니다.
+          </div>
+          <div class="dn-tag">AI 업스케일 + 노이즈 제거</div>
+        </div>
+
+        <div class="dn-card dn-octane">
+          <div class="dn-icon">⚙</div>
+          <div class="dn-name">Octane Denoiser</div>
+          <div class="dn-platform">옥테인 내장 디노이저</div>
+          <div class="dn-desc">
+            옥테인 렌더러에 내장된 AI 디노이저입니다.
+            렌더링 과정 중 또는 렌더링 완료 후 적용하며,
+            별도 프로그램 없이 옥테인 안에서 바로 노이즈를 줄일 수 있어 편리합니다.
+          </div>
+          <div class="dn-tag">렌더 단계에서 바로 적용</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑧ Depth 설정 -->
+    <section id="depth" class="section">
+      <div class="section-tag">세밀 설정</div>
+      <h2 class="section-title">Depth — 채널별 세분화 계산 횟수</h2>
+      <p class="section-desc">
+        <strong>Depth</strong>는 샘플보다 더 세분화된 계산 횟수입니다.
+        색상, 반사, 빛 투과(스페큘러) 등 <strong>각 채널별로 얼마나 깊이 계산할지</strong>를
+        개별 설정합니다. 역시 절대값은 없고 눈으로 확인하며 결정합니다.
+      </p>
+
+      <div class="depth-channels">
+        <div class="dc-card">
+          <div class="dc-icon">🎨</div>
+          <div class="dc-title">색상 (Diffuse Depth)</div>
+          <div class="dc-desc">오브젝트의 기본 색상이 여러 표면을 통해 간접적으로 반사되는 횟수를 제어합니다.</div>
+        </div>
+        <div class="dc-card">
+          <div class="dc-icon">🪞</div>
+          <div class="dc-title">반사 (Specular Depth)</div>
+          <div class="dc-desc">거울·금속 등 반사 재질에서 빛이 반사되는 횟수를 계산합니다. 복잡한 반사 환경일수록 높은 값이 필요합니다.</div>
+        </div>
+        <div class="dc-card">
+          <div class="dc-icon">💡</div>
+          <div class="dc-title">빛 투과 (Transmission Depth)</div>
+          <div class="dc-desc">유리·물 등 투명 재질을 빛이 통과하는 횟수를 계산합니다. 여러 겹의 유리가 있을 때 높은 값이 필요합니다.</div>
+        </div>
+      </div>
+
+      <div class="depth-method">
+        <div class="dm-title">Depth 설정 방법 — 1부터 올리며 눈으로 직접 확인</div>
+        <div class="dm-steps">
+          <div class="dm-step">
+            <div class="dm-num">1</div>
+            <div class="dm-text">Depth 값을 <strong>1</strong>로 시작</div>
+          </div>
+          <div class="dm-arrow">→</div>
+          <div class="dm-step">
+            <div class="dm-num">2</div>
+            <div class="dm-text"><strong>1→2</strong> 변경 시 결과 비교</div>
+          </div>
+          <div class="dm-arrow">→</div>
+          <div class="dm-step">
+            <div class="dm-num">3</div>
+            <div class="dm-text"><strong>2→3</strong> 변경 시 결과 비교</div>
+          </div>
+          <div class="dm-arrow">→</div>
+          <div class="dm-step dm-step-stop">
+            <div class="dm-num dm-num-stop">✓</div>
+            <div class="dm-text">변화가 거의 없으면 <strong>해당 값으로 확정</strong></div>
+          </div>
+        </div>
+        <div class="dm-rule">
+          변화가 <strong>크다</strong> → 계속 올리기 &nbsp;|&nbsp; 변화가 <strong>작다</strong> → 멈추고 그 값 사용
+        </div>
+      </div>
+
+      <div class="special-depth">
+        <div class="sd-title">특수 Depth 값 — 권장 설정</div>
+        <div class="sd-grid">
+          <div class="sd-item">
+            <div class="sdi-name">Scatter Depth</div>
+            <div class="sdi-vals">
+              <span class="sdi-val">1</span>
+              <span class="sdi-or">or</span>
+              <span class="sdi-val">8</span>
+            </div>
+            <div class="sdi-desc">산란광 계산 깊이. 볼류메트릭 효과나 SSS 재질에 영향.</div>
+          </div>
+          <div class="sd-item">
+            <div class="sdi-name">GI Clamp</div>
+            <div class="sdi-vals">
+              <span class="sdi-val">1</span>
+              <span class="sdi-or">or</span>
+              <span class="sdi-val">10</span>
+            </div>
+            <div class="sdi-desc">간접광(GI)의 최대 밝기를 제한. 너무 밝은 반사로 인한 노이즈 방지.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>옥테인 렌더링 심화 — 샘플 &amp; Depth 수업 필기 · 2026.04.01 저녁반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
