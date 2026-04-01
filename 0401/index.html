@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UV 매핑 워크플로우 & AI 이미지 툴 | 오전반 0401</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.01 오전반</span>
+      <h1>UV 매핑 워크플로우 &amp; AI 이미지 툴</h1>
+      <p class="subtitle">Substance Painter · Photoshop · 3D 파일 포맷 · AI 이미지 생성 · 로컬 vs 서버</p>
+      <div class="header-tags">
+        <span>UV Mapping</span>
+        <span>Substance Painter</span>
+        <span>3D 파일 포맷</span>
+        <span>AI 생성 툴</span>
+        <span>Midjourney</span>
+        <span>Comfy UI</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#notice">보강 일정</a></li>
+        <li><a href="#uv-workflow">UV 매핑 작업법</a></li>
+        <li><a href="#substance">Substance Painter</a></li>
+        <li><a href="#photoshop">포토샵 연동</a></li>
+        <li><a href="#formats">3D 파일 포맷</a></li>
+        <li><a href="#ai-tools">AI 이미지 툴</a></li>
+        <li><a href="#ai-rank">성능 랭킹</a></li>
+        <li><a href="#ai-principle">AI 작동 원리</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① 보강 일정 -->
+    <section id="notice" class="section section-notice">
+      <div class="section-tag">공지</div>
+      <h2 class="section-title">C4D1 보강 일정</h2>
+      <div class="notice-box">
+        <div class="nb-icon">📅</div>
+        <div class="nb-content">
+          <div class="nb-title">보강 수업 2회 진행</div>
+          <div class="nb-dates">
+            <div class="nb-date">
+              <span class="nd-label">1차</span>
+              <span class="nd-val">4월 10일 (금)</span>
+            </div>
+            <div class="nb-date">
+              <span class="nd-label">2차</span>
+              <span class="nd-val">4월 17일 (금)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② UV 매핑 작업법 -->
+    <section id="uv-workflow" class="section">
+      <div class="section-tag">UV Mapping</div>
+      <h2 class="section-title">UV 언랩 후 — 텍스처 작업을 어디서 하나?</h2>
+      <p class="section-desc">
+        C4D에서 UV를 펼친 뒤, 실제 텍스처를 그리고 입히는 작업은 외부 프로그램에서 진행합니다.
+        크게 두 가지 방법이 있으며, 작업 목적과 결과물의 복잡도에 따라 선택합니다.
+      </p>
+
+      <div class="uv-two-path">
+        <div class="utp-card utp-substance">
+          <div class="utp-header">
+            <div class="utp-icon">🎨</div>
+            <div class="utp-info">
+              <div class="utp-name">방법 1 — Substance Painter</div>
+              <div class="utp-sub">3D 포토샵</div>
+            </div>
+            <div class="utp-badge">고급 텍스처링</div>
+          </div>
+          <div class="utp-desc">
+            3D 오브젝트 위에 직접 페인팅하듯 텍스처를 입힐 수 있는 전문 툴입니다.
+            PBR 워크플로우(Roughness, Normal, Metallic 등)를 한 번에 작업할 수 있어
+            실사 퀄리티 텍스처 제작에 최적입니다.
+          </div>
+          <div class="utp-flow">
+            <span class="utf-step">C4D 모델링 완성</span>
+            <span class="utf-arrow">→</span>
+            <span class="utf-step utf-step-key">FBX 또는 OBJ로 저장</span>
+            <span class="utf-arrow">→</span>
+            <span class="utf-step">Substance Painter에서 작업</span>
+          </div>
+        </div>
+
+        <div class="utp-card utp-photoshop">
+          <div class="utp-header">
+            <div class="utp-icon">🖼</div>
+            <div class="utp-info">
+              <div class="utp-name">방법 2 — 포토샵 / 일러스트</div>
+              <div class="utp-sub">2D 이미지 편집</div>
+            </div>
+            <div class="utp-badge utp-badge-ps">평면 작업</div>
+          </div>
+          <div class="utp-desc">
+            C4D 안에서 UV 가이드를 PSD 파일로 추출한 뒤, 포토샵이나 일러스트레이터로
+            텍스처를 직접 그려 넣는 방법입니다. 로고, 라벨, 그래픽 텍스처 작업에 적합합니다.
+          </div>
+          <div class="utp-flow">
+            <span class="utf-step">UV 언랩 완료</span>
+            <span class="utf-arrow">→</span>
+            <span class="utf-step utf-step-key">PSD 파일로 UV 가이드 추출</span>
+            <span class="utf-arrow">→</span>
+            <span class="utf-step">포토샵 / 일러스트로 작업</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ Substance Painter -->
+    <section id="substance" class="section">
+      <div class="section-tag">방법 1</div>
+      <h2 class="section-title">Substance Painter — 3D 오브젝트에 직접 페인팅</h2>
+      <p class="section-desc">
+        Substance Painter(섭스턴스 페인터, 줄여서 "섭페")는 어도비가 인수한 3D 텍스처링 전문 툴입니다.
+        3D 뷰포트에서 오브젝트를 직접 보면서 브러쉬로 색상, 금속감, 거칠기 등을 동시에 칠할 수 있어
+        <strong>"3D 포토샵"</strong>이라고 부릅니다.
+      </p>
+
+      <div class="substance-steps">
+        <div class="ss-step">
+          <div class="ss-num">01</div>
+          <div class="ss-body">
+            <div class="ss-title">C4D에서 FBX 또는 OBJ로 내보내기</div>
+            <div class="ss-desc">
+              모델링이 완성되면 <strong>File → Export → FBX(.fbx) 또는 OBJ(.obj)</strong> 형식으로 저장합니다.
+              두 포맷 모두 Substance Painter가 지원하는 범용 3D 파일 형식입니다.
+            </div>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-num">02</div>
+          <div class="ss-body">
+            <div class="ss-title">Substance Painter에 파일 불러오기</div>
+            <div class="ss-desc">
+              섭페를 실행하고 저장된 FBX/OBJ 파일을 열면 3D 오브젝트가 뷰포트에 로드됩니다.
+              UV가 잘 펼쳐져 있어야 텍스처가 올바르게 배치됩니다.
+            </div>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-num">03</div>
+          <div class="ss-body">
+            <div class="ss-title">PBR 채널별 텍스처 작업</div>
+            <div class="ss-desc">
+              Base Color, Roughness, Metallic, Normal 등 PBR 채널을
+              동시에 브러쉬로 작업합니다. 스마트 머티리얼, 필터, 제너레이터 등 강력한 기능을 제공합니다.
+            </div>
+          </div>
+        </div>
+        <div class="ss-step">
+          <div class="ss-num">04</div>
+          <div class="ss-body">
+            <div class="ss-title">텍스처 Export → C4D/옥테인에 연결</div>
+            <div class="ss-desc">
+              작업이 완료되면 채널별 텍스처 이미지를 내보내고,
+              C4D 또는 옥테인의 노드에 각각 연결하면 완성입니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 포토샵 연동 -->
+    <section id="photoshop" class="section">
+      <div class="section-tag">방법 2</div>
+      <h2 class="section-title">C4D → 포토샵 연동 — UV 가이드 추출 순서</h2>
+      <p class="section-desc">
+        C4D 내부의 BP-UV Edit 환경에서 UV 가이드(아웃라인)를 PSD 파일로 만든 뒤,
+        포토샵이나 일러스트에서 그 가이드 위에 직접 텍스처를 그리는 방법입니다.
+        로고·라벨·그래픽 텍스처 작업에 효율적입니다.
+      </p>
+
+      <div class="ps-steps">
+
+        <div class="ps-step">
+          <div class="ps-num">01</div>
+          <div class="ps-body">
+            <div class="ps-title">뉴 텍스처 파일 생성</div>
+            <div class="ps-desc">UV 메뉴 → 파일 → <strong>뉴 텍스처(New Texture)</strong></div>
+            <div class="ps-settings">
+              <div class="pss-item"><span class="pss-key">파일명</span><span class="pss-val">원하는 이름으로 설정</span></div>
+              <div class="pss-item"><span class="pss-key">사이즈</span><span class="pss-val">1024 / 2048 / 4096 px (해상도에 따라)</span></div>
+              <div class="pss-item"><span class="pss-key">해상도</span><span class="pss-val">72dpi (화면용) / 300dpi (인쇄용)</span></div>
+              <div class="pss-item"><span class="pss-key">컬러 뎁스</span><span class="pss-val">8bit 또는 16bit</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-step">
+          <div class="ps-num">02</div>
+          <div class="ps-body">
+            <div class="ps-title">UV 아웃라인 가이드 표시</div>
+            <div class="ps-desc">
+              <strong>UV 메뉴 → 레이어 → 뉴 레이어</strong> 생성 →
+              면 전부 선택(Ctrl+A) →
+              <strong>아웃라인 폴리곤즈(Outline Polygons) 클릭</strong>
+            </div>
+            <div class="ps-tip">이 단계에서 UV 전개도의 외곽선이 레이어에 그려집니다. 포토샵으로 가져갈 때 가이드 역할을 합니다.</div>
+          </div>
+        </div>
+
+        <div class="ps-step">
+          <div class="ps-num">03</div>
+          <div class="ps-body">
+            <div class="ps-title">바디페인트 패널 열기</div>
+            <div class="ps-desc">
+              <strong>메뉴 → 윈도우 → 바디페인트 3D</strong> →
+              <strong>레이어 매니저</strong>와 <strong>컬러 세팅</strong> 패널을 꺼내기
+            </div>
+            <div class="ps-tip">레이어 매니저는 포토샵의 레이어 패널과 동일한 역할을 합니다.</div>
+          </div>
+        </div>
+
+        <div class="ps-step">
+          <div class="ps-num">04</div>
+          <div class="ps-body">
+            <div class="ps-title">UV 위에 직접 페인팅 또는 포토샵으로 이동</div>
+            <div class="ps-desc">
+              <strong>UV 메뉴 → 페인트 → 브러쉬</strong>로 C4D 안에서 직접 그리거나,
+              PSD 파일로 저장 후 포토샵/일러스트에서 UV 가이드 위에 텍스처를 작업합니다.
+            </div>
+            <div class="ps-tip">브러쉬 기능 등 대부분의 UI가 포토샵과 유사하므로 직관적으로 사용 가능합니다.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑤ 3D 파일 포맷 -->
+    <section id="formats" class="section">
+      <div class="section-tag">파일 포맷</div>
+      <h2 class="section-title">3D 파일 포맷 — 상황에 맞게 골라 쓰기</h2>
+      <p class="section-desc">
+        3D 작업물을 저장하거나 다른 프로그램으로 옮길 때 사용하는 파일 포맷은 다양합니다.
+        각 포맷은 특정 용도에 최적화되어 있으므로, 작업 목적에 맞는 포맷을 선택해야 합니다.
+      </p>
+
+      <div class="format-grid">
+
+        <div class="fmt-card fmt-fbx">
+          <div class="fmt-ext">.FBX</div>
+          <div class="fmt-name">FBX</div>
+          <div class="fmt-org">Autodesk</div>
+          <div class="fmt-desc">
+            애니메이션, 리깅, 텍스처 정보까지 포함할 수 있는 범용 3D 포맷.
+            C4D ↔ Substance Painter, Unreal Engine 등 소프트웨어 간 교환에 가장 많이 사용됩니다.
+          </div>
+          <div class="fmt-tags"><span>범용</span><span>애니메이션 포함</span><span>소프트웨어 간 교환</span></div>
+        </div>
+
+        <div class="fmt-card fmt-obj">
+          <div class="fmt-ext">.OBJ</div>
+          <div class="fmt-name">OBJ</div>
+          <div class="fmt-org">Wavefront</div>
+          <div class="fmt-desc">
+            단순하고 가벼운 메쉬(형태) 전용 포맷. 애니메이션은 포함되지 않지만
+            거의 모든 3D 소프트웨어에서 지원하는 가장 호환성 높은 포맷입니다.
+          </div>
+          <div class="fmt-tags"><span>정적 메쉬</span><span>높은 호환성</span><span>가벼움</span></div>
+        </div>
+
+        <div class="fmt-card fmt-abc">
+          <div class="fmt-ext">.ABC</div>
+          <div class="fmt-name">Alembic</div>
+          <div class="fmt-org">ILM / Sony</div>
+          <div class="fmt-desc">
+            애니메이션, 시뮬레이션 캐시 데이터를 저장하는 포맷.
+            파티클, 천 시뮬레이션, 캐릭터 애니메이션 등 복잡한 움직임 데이터를
+            다른 프로그램으로 전달할 때 사용합니다.
+          </div>
+          <div class="fmt-tags"><span>애니메이션 캐시</span><span>시뮬레이션</span><span>VFX</span></div>
+        </div>
+
+        <div class="fmt-card fmt-stl">
+          <div class="fmt-ext">.STL</div>
+          <div class="fmt-name">STL</div>
+          <div class="fmt-org">3D 프린팅 표준</div>
+          <div class="fmt-desc">
+            3D 프린터에 사용하는 전용 포맷. 색상이나 텍스처 정보 없이
+            순수한 메쉬 형태(삼각형 면)만 저장합니다.
+            3D 프린팅 전 슬라이서 소프트웨어에서 열어 사용합니다.
+          </div>
+          <div class="fmt-tags"><span>3D 프린팅</span><span>메쉬 전용</span></div>
+        </div>
+
+        <div class="fmt-card fmt-vdb">
+          <div class="fmt-ext">.VDB</div>
+          <div class="fmt-name">VDB (OpenVDB)</div>
+          <div class="fmt-org">DreamWorks</div>
+          <div class="fmt-desc">
+            연기, 불, 구름, 폭발 등 볼류메트릭(Volume) 데이터를 저장하는 포맷.
+            VFX 업계 표준으로, 옥테인의 VDB Volume 기능과 직접 연동됩니다.
+          </div>
+          <div class="fmt-tags"><span>볼류메트릭</span><span>연기·불·구름</span><span>VFX</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑥ AI 이미지 툴 소개 -->
+    <section id="ai-tools" class="section">
+      <div class="section-tag">AI 이미지 생성</div>
+      <h2 class="section-title">주요 AI 이미지 생성 툴 — 각자의 강점이 다르다</h2>
+      <p class="section-desc">
+        현재 AI 이미지 생성 툴은 빠르게 발전하고 있습니다.
+        각 툴마다 특화된 영역과 사용 방식이 다르므로, 목적에 따라 선택하는 것이 중요합니다.
+        크게 <strong>서버 방식(클라우드)</strong>과 <strong>로컬 방식</strong>으로 나뉩니다.
+      </p>
+
+      <div class="ai-grid">
+
+        <div class="ai-card ai-midjourney">
+          <div class="ai-header">
+            <div class="ai-icon">🎨</div>
+            <div class="ai-name">Midjourney</div>
+            <div class="ai-type ai-type-server">서버</div>
+          </div>
+          <div class="ai-desc">
+            이미지 생성 품질 1위. 예술적 감각이 뛰어난 결과물을 만들어냅니다.
+            Discord 기반으로 운영되며, 모든 연산이 서버에서 처리됩니다.
+          </div>
+          <div class="ai-note">이미지 수정(편집)은 비교적 약한 편</div>
+        </div>
+
+        <div class="ai-card ai-comfyui">
+          <div class="ai-header">
+            <div class="ai-icon">⚙</div>
+            <div class="ai-name">Comfy UI</div>
+            <div class="ai-type ai-type-local">로컬</div>
+          </div>
+          <div class="ai-desc">
+            Stable Diffusion 기반의 노드형 워크플로우 툴. 내 PC에서 직접 실행합니다.
+            고사양 GPU가 필요하지만 완전 무료이며, 커스터마이징과 자동화가 자유롭습니다.
+          </div>
+          <div class="ai-note">생성 · 수정 모두 상위권, 단 진입 장벽 높음</div>
+        </div>
+
+        <div class="ai-card ai-gemini">
+          <div class="ai-header">
+            <div class="ai-icon">✦</div>
+            <div class="ai-name">Gemini</div>
+            <div class="ai-type ai-type-server">서버</div>
+          </div>
+          <div class="ai-desc">
+            Google의 AI 모델. 이미지 수정(편집) 능력이 가장 뛰어납니다.
+            Nanobanana 기능으로 세밀한 이미지 편집이 가능하며 구글 생태계와 통합됩니다.
+          </div>
+          <div class="ai-note">이미지 <strong>수정 1위</strong> — 생성보다 수정에 강함</div>
+        </div>
+
+        <div class="ai-card ai-chatgpt">
+          <div class="ai-header">
+            <div class="ai-icon">🤖</div>
+            <div class="ai-name">ChatGPT (DALL·E)</div>
+            <div class="ai-type ai-type-server">서버</div>
+          </div>
+          <div class="ai-desc">
+            OpenAI의 ChatGPT에 내장된 이미지 생성 기능(DALL·E 기반). 텍스트 이해력이 좋아
+            복잡한 프롬프트도 정확하게 반영합니다. 가장 접근하기 쉬운 툴입니다.
+          </div>
+          <div class="ai-note">범용성이 높고 사용 편의성 우수</div>
+        </div>
+
+        <div class="ai-card ai-higgsfield">
+          <div class="ai-header">
+            <div class="ai-icon">🎬</div>
+            <div class="ai-name">Higgsfield</div>
+            <div class="ai-type ai-type-server">서버</div>
+          </div>
+          <div class="ai-desc">
+            영상·모션 생성에 특화된 AI 툴. 이미지 생성보다는 AI 비디오 생성 영역에서
+            두각을 나타내고 있습니다.
+          </div>
+          <div class="ai-note">이미지보다 영상 생성에 적합</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑦ 성능 랭킹 -->
+    <section id="ai-rank" class="section">
+      <div class="section-tag">성능 비교</div>
+      <h2 class="section-title">AI 이미지 툴 성능 랭킹</h2>
+      <p class="section-desc">
+        같은 AI 툴이라도 <strong>"이미지를 처음 만드는 것"</strong>과 <strong>"기존 이미지를 수정하는 것"</strong>은
+        완전히 다른 능력입니다. 목적에 따라 다른 툴을 선택하세요.
+      </p>
+
+      <div class="rank-compare">
+        <div class="rank-col">
+          <div class="rank-title">
+            <span class="rt-icon">🖼</span>
+            이미지 생성 랭킹
+          </div>
+          <div class="rank-list">
+            <div class="rank-item ri-1">
+              <span class="ri-num">1</span>
+              <span class="ri-name">Midjourney</span>
+              <span class="ri-bar" style="width:95%"></span>
+            </div>
+            <div class="rank-item ri-2">
+              <span class="ri-num">2</span>
+              <span class="ri-name">Comfy UI</span>
+              <span class="ri-bar" style="width:88%"></span>
+            </div>
+            <div class="rank-item ri-3">
+              <span class="ri-num">3</span>
+              <span class="ri-name">Gemini</span>
+              <span class="ri-bar" style="width:78%"></span>
+            </div>
+            <div class="rank-item ri-4">
+              <span class="ri-num">4</span>
+              <span class="ri-name">ChatGPT</span>
+              <span class="ri-bar" style="width:68%"></span>
+            </div>
+            <div class="rank-item ri-5">
+              <span class="ri-num">5</span>
+              <span class="ri-name">Higgsfield</span>
+              <span class="ri-bar" style="width:55%"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rank-col">
+          <div class="rank-title">
+            <span class="rt-icon">✏</span>
+            이미지 수정 랭킹
+          </div>
+          <div class="rank-list">
+            <div class="rank-item ri-1">
+              <span class="ri-num">1</span>
+              <span class="ri-name">Gemini <small>(Nanobanana)</small></span>
+              <span class="ri-bar" style="width:95%"></span>
+            </div>
+            <div class="rank-item ri-2">
+              <span class="ri-num">2</span>
+              <span class="ri-name">Comfy UI</span>
+              <span class="ri-bar" style="width:87%"></span>
+            </div>
+            <div class="rank-item ri-3">
+              <span class="ri-num">3</span>
+              <span class="ri-name">ChatGPT</span>
+              <span class="ri-bar" style="width:74%"></span>
+            </div>
+            <div class="rank-item ri-4">
+              <span class="ri-num">4</span>
+              <span class="ri-name">Higgsfield</span>
+              <span class="ri-bar" style="width:62%"></span>
+            </div>
+            <div class="rank-item ri-5">
+              <span class="ri-num">5</span>
+              <span class="ri-name">Midjourney</span>
+              <span class="ri-bar" style="width:48%"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-key">
+        <div class="callout-icon">★</div>
+        <div class="callout-body">
+          <strong>Comfy UI가 생성·수정 모두 상위권인 이유</strong>
+          <p>Comfy UI는 Stable Diffusion이라는 오픈소스 모델을 기반으로 하며,
+          다양한 커스텀 모델과 워크플로우를 자유롭게 조합할 수 있습니다.
+          무료이면서 강력하지만, 진입 장벽(설치, 설정, GPU 요구)이 높은 것이 단점입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑧ AI 작동 원리 -->
+    <section id="ai-principle" class="section">
+      <div class="section-tag">AI 이해</div>
+      <h2 class="section-title">AI 사이트 작동 원리 — 엔진과 UI는 다르다</h2>
+      <p class="section-desc">
+        우리가 사용하는 AI 이미지 사이트는 사실 두 가지 레이어로 나뉩니다.
+        이 구조를 이해하면 각 서비스의 가격 정책과 차이가 왜 생기는지 알 수 있습니다.
+      </p>
+
+      <div class="principle-flow">
+        <div class="pf-box pf-engine">
+          <div class="pfb-icon">🧠</div>
+          <div class="pfb-title">AI 모델 (엔진)</div>
+          <div class="pfb-desc">특정 회사 또는 나라에서 막대한 비용으로 개발한 핵심 AI 모델. 실제 이미지를 만드는 두뇌 역할.</div>
+          <div class="pfb-examples">
+            <span>GPT-4o</span>
+            <span>Stable Diffusion</span>
+            <span>Gemini</span>
+            <span>Flux</span>
+          </div>
+        </div>
+        <div class="pf-arrow-down">↓<br><small>엔진 위에 UI를 얹음</small></div>
+        <div class="pf-box pf-gui">
+          <div class="pfb-icon">🖥</div>
+          <div class="pfb-title">GUI (서비스 사이트)</div>
+          <div class="pfb-desc">엔진을 편하게 쓸 수 있도록 만든 인터페이스. 사용자는 이 UI를 통해 돈을 내고 엔진을 사용.</div>
+          <div class="pfb-examples">
+            <span>Midjourney 사이트</span>
+            <span>ChatGPT 사이트</span>
+            <span>Adobe Firefly</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="local-server">
+        <div class="ls-title">로컬 vs 서버 방식</div>
+        <div class="ls-compare">
+          <div class="ls-card ls-server">
+            <div class="ls-header">
+              <div class="ls-icon">☁</div>
+              <div class="ls-name">서버 방식 (Cloud)</div>
+            </div>
+            <ul class="ls-list">
+              <li>AI 연산이 회사 서버에서 처리됨</li>
+              <li>내 PC 사양 상관없이 사용 가능</li>
+              <li>월정액 또는 크레딧 구매 필요</li>
+              <li>인터넷 연결 필수</li>
+            </ul>
+            <div class="ls-examples">
+              <span>Midjourney</span>
+              <span>ChatGPT</span>
+              <span>Gemini</span>
+            </div>
+          </div>
+          <div class="ls-card ls-local">
+            <div class="ls-header">
+              <div class="ls-icon">💻</div>
+              <div class="ls-name">로컬 방식 (Local)</div>
+            </div>
+            <ul class="ls-list">
+              <li>AI 연산이 내 PC GPU에서 처리됨</li>
+              <li>고사양 그래픽카드 필요 (VRAM 8GB+)</li>
+              <li>사용 자체는 무료</li>
+              <li>인터넷 없이도 사용 가능</li>
+            </ul>
+            <div class="ls-examples">
+              <span>Comfy UI</span>
+              <span>Stable Diffusion WebUI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="opensource-note">
+        <div class="on-title">오픈소스 AI란?</div>
+        <div class="on-desc">
+          Stable Diffusion처럼 모델의 코드와 가중치를 공개한 AI를 <strong>오픈소스 AI</strong>라고 합니다.
+          누구나 무료로 다운로드·수정·배포할 수 있어 Comfy UI 같은 다양한 커뮤니티 툴이 만들어집니다.
+          반면 GPT, Midjourney, Gemini 등은 코드를 공개하지 않는 <strong>클로즈드 소스</strong> 방식입니다.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>UV 매핑 워크플로우 &amp; AI 이미지 툴 수업 필기 · 2026.04.01 오전반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
