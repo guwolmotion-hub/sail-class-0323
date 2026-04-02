@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>키프레임 & 모션그래픽 기초 — 오전반 0402</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.02 오전반</span>
+      <h1>키프레임 & 모션그래픽 기초</h1>
+      <p class="subtitle">디즈니 12법칙 · 주모션/부모션 · C4D vs AE 차이점 · 4월 커리큘럼</p>
+      <div class="header-tags">
+        <span>키프레임</span>
+        <span>Xpresso</span>
+        <span>디즈니 12법칙</span>
+        <span>주모션/부모션</span>
+        <span>C4D vs AE</span>
+        <span>립스틱 모델링</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#goal">4월 목표</a></li>
+        <li><a href="#motiongraphic">모션그래픽</a></li>
+        <li><a href="#disney12">디즈니 12법칙</a></li>
+        <li><a href="#main-sub">주모션/부모션</a></li>
+        <li><a href="#effect-trend">이펙트 트렌드</a></li>
+        <li><a href="#workflow">작업 순서</a></li>
+        <li><a href="#c4d-vs-ae">C4D vs AE</a></li>
+        <li><a href="#realmotion">실사 움직임</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① 4월 커리큘럼 목표 -->
+    <section id="goal" class="section">
+      <div class="section-tag">4월 목표</div>
+      <h2 class="section-title">이번 달 프로젝트 — 립스틱 한 편 완성하기</h2>
+      <p class="section-desc">
+        4월 한 달 동안 립스틱 제품을 소재로 모델링부터 최종 렌더링까지 전 과정을 완성합니다.
+        단순 기능 학습이 아닌, <strong>실제 광고 영상 수준의 작업 흐름</strong>을 경험하는 것이 목표입니다.
+      </p>
+      <div class="roadmap">
+        <div class="rm-step rm-active">
+          <div class="rm-num">1</div>
+          <div class="rm-content">
+            <div class="rm-title">키프레임 연습</div>
+            <div class="rm-sub">단순 키프레임 → Xpresso</div>
+          </div>
+        </div>
+        <div class="rm-arrow">→</div>
+        <div class="rm-step">
+          <div class="rm-num">2</div>
+          <div class="rm-content">
+            <div class="rm-title">립스틱 모델링</div>
+            <div class="rm-sub">3D 제품 형태 제작</div>
+          </div>
+        </div>
+        <div class="rm-arrow">→</div>
+        <div class="rm-step">
+          <div class="rm-num">3</div>
+          <div class="rm-content">
+            <div class="rm-title">텍스처링</div>
+            <div class="rm-sub">재질·컬러 적용</div>
+          </div>
+        </div>
+        <div class="rm-arrow">→</div>
+        <div class="rm-step">
+          <div class="rm-num">4</div>
+          <div class="rm-content">
+            <div class="rm-title">Xpresso + 키프레임</div>
+            <div class="rm-sub">프로시저럴 애니메이션</div>
+          </div>
+        </div>
+        <div class="rm-arrow">→</div>
+        <div class="rm-step">
+          <div class="rm-num">5</div>
+          <div class="rm-content">
+            <div class="rm-title">가렌더 (프리비즈)</div>
+            <div class="rm-sub">애니메이션 흐름 확인</div>
+          </div>
+        </div>
+        <div class="rm-arrow">→</div>
+        <div class="rm-step">
+          <div class="rm-num">6</div>
+          <div class="rm-content">
+            <div class="rm-title">렌더링</div>
+            <div class="rm-sub">최종 이미지/영상 출력</div>
+          </div>
+        </div>
+        <div class="rm-arrow">→</div>
+        <div class="rm-step">
+          <div class="rm-num">7</div>
+          <div class="rm-content">
+            <div class="rm-title">후반작업</div>
+            <div class="rm-sub">AE 색보정·이펙트</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-today">
+        <div class="callout-icon">📍</div>
+        <div class="callout-body">
+          <strong>오늘은 Step 1 — 키프레임의 원리와 모션 기초 개념을 배웁니다</strong>
+          <p>키프레임을 단순히 "값 변화를 기록하는 것"으로만 보지 않고, 움직임을 <em>설득력 있게</em> 만드는 원칙을 이해하는 것이 핵심입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 모션그래픽이란? -->
+    <section id="motiongraphic" class="section">
+      <div class="section-tag">개념 정리</div>
+      <h2 class="section-title">모션그래픽 — 움직임이 들어간 그래픽 디자인</h2>
+      <p class="section-desc">
+        모션그래픽은 단순히 "애니메이션"이 아닙니다. 그래픽 디자인에 시간 축(타임라인)을 더해
+        정보와 감정을 전달하는 독립적인 비주얼 커뮤니케이션 분야입니다.
+      </p>
+
+      <div class="concept-chain">
+        <div class="cc-item">
+          <div class="cc-icon">🎨</div>
+          <div class="cc-title">그래픽 디자인</div>
+          <div class="cc-desc">정적인 시각 디자인</div>
+        </div>
+        <div class="cc-plus">+</div>
+        <div class="cc-item">
+          <div class="cc-icon">⏱</div>
+          <div class="cc-title">시간 (타임라인)</div>
+          <div class="cc-desc">움직임과 변화</div>
+        </div>
+        <div class="cc-plus">=</div>
+        <div class="cc-item cc-item-result">
+          <div class="cc-icon">✨</div>
+          <div class="cc-title">모션그래픽</div>
+          <div class="cc-desc">움직이는 그래픽 디자인</div>
+        </div>
+      </div>
+
+      <div class="mg-foundation">
+        <div class="mgf-title">모션의 뿌리 — 디즈니 애니메이션 12법칙</div>
+        <div class="mgf-desc">
+          좋은 모션그래픽은 감각적인 디자인만으로는 부족합니다.
+          <strong>움직임의 물리적 설득력</strong>이 있어야 시청자가 자연스럽게 몰입합니다.
+          1930년대 디즈니 애니메이터들이 정립한 12가지 원칙이 지금도 모션그래픽의 기반이 됩니다.
+        </div>
+      </div>
+
+      <div class="xpresso-intro">
+        <div class="xi-left">
+          <div class="xi-label">오늘의 핵심 툴</div>
+          <div class="xi-name">Xpresso</div>
+          <div class="xi-compare">
+            <span class="xic-ae">After Effects의 <strong>익스프레션</strong></span>
+            <span class="xic-arrow">≈</span>
+            <span class="xic-c4d">C4D의 <strong>Xpresso</strong></span>
+          </div>
+        </div>
+        <div class="xi-desc">
+          노드 기반으로 오브젝트 간 관계를 설정해 <strong>자동화된 애니메이션</strong>을 만드는 기능입니다.
+          예를 들어 A 오브젝트가 움직이면 B 오브젝트가 자동으로 연동해서 움직이게 만들 수 있습니다.
+          반복적인 키프레임 작업을 줄여주는 강력한 도구입니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 디즈니 12법칙 -->
+    <section id="disney12" class="section">
+      <div class="section-tag">디즈니 애니메이션 12법칙</div>
+      <h2 class="section-title">움직임에 생명을 불어넣는 원칙들</h2>
+      <p class="section-desc">
+        1930년대 월트 디즈니의 수석 애니메이터들이 개발한 12가지 원칙입니다.
+        지금도 3D 애니메이션, 모션그래픽, UI 애니메이션 등 모든 움직임 디자인의 기초로 사용됩니다.
+        오늘 수업에서 특히 강조된 4가지를 중심으로 살펴봅니다.
+      </p>
+
+      <div class="disney-highlight">
+        <div class="dh-title">⭐ 오늘 수업에서 특히 강조한 원칙</div>
+        <div class="dh-grid">
+
+          <div class="dh-card dh-squash">
+            <div class="dhc-num">01</div>
+            <div class="dhc-name">Squash & Stretch</div>
+            <div class="dhc-kor">늘어나고 찌그러지고</div>
+            <div class="dhc-visual">
+              <div class="sv-ball sv-squash">
+                <div class="sv-shape squash-shape"></div>
+                <div class="sv-label">충돌 시 — 납작</div>
+              </div>
+              <div class="sv-arrow">↔</div>
+              <div class="sv-ball sv-stretch">
+                <div class="sv-shape stretch-shape"></div>
+                <div class="sv-label">이동 시 — 늘어남</div>
+              </div>
+            </div>
+            <div class="dhc-desc">
+              물체가 충돌하거나 힘을 받을 때 찌그러지고, 빠르게 움직일 때 늘어나는 현상입니다.
+              이 표현이 없으면 움직임이 딱딱하고 생기 없어 보입니다.
+            </div>
+          </div>
+
+          <div class="dh-card dh-exaggerate">
+            <div class="dhc-num">08</div>
+            <div class="dhc-name">Exaggeration</div>
+            <div class="dhc-kor">과장을 해라!</div>
+            <div class="dhc-badge">⚡ 수업 핵심 강조</div>
+            <div class="dhc-desc">
+              움직임을 줄 때 현실 그대로 재현하지 말고 <strong>의도적으로 과장</strong>합니다.
+              실제 움직임의 1.2~2배로 과장해야 화면에서 자연스럽게 보입니다.
+              화면 속 "자연스러움"은 실제보다 더 과장된 결과입니다.
+            </div>
+            <div class="dhc-tip">
+              💡 현실 그대로 재현하면 오히려 어색하게 보입니다. 과감하게 과장하세요.
+            </div>
+          </div>
+
+          <div class="dh-card dh-anticipation">
+            <div class="dhc-num">02</div>
+            <div class="dhc-name">Anticipation</div>
+            <div class="dhc-kor">준비 동작</div>
+            <div class="dhc-visual av-visual">
+              <div class="av-step">
+                <div class="avs-icon">⬅</div>
+                <div class="avs-label">준비 (반대 방향)</div>
+              </div>
+              <div class="av-step-arrow">→</div>
+              <div class="av-step av-step-main">
+                <div class="avs-icon">⚡ 메인 액션</div>
+                <div class="avs-label">주 움직임</div>
+              </div>
+            </div>
+            <div class="dhc-desc">
+              주요 동작 전에 <strong>반대 방향의 예비 동작</strong>을 먼저 보여주는 것입니다.
+              야구 타자가 배트를 뒤로 당겼다가 스윙하는 것처럼, 준비 동작이 있어야
+              본 동작이 더 강렬하고 설득력 있게 느껴집니다.
+            </div>
+          </div>
+
+          <div class="dh-card dh-followthrough">
+            <div class="dhc-num">06</div>
+            <div class="dhc-name">Follow Through</div>
+            <div class="dhc-kor">잔상 / 오버랩핑 액션</div>
+            <div class="dhc-badge dh-badge-orange">⭐ 수업 핵심 강조</div>
+            <div class="dhc-desc">
+              주 오브젝트가 멈춘 뒤에도 연결된 부분(머리카락, 옷, 꼬리 등)은 조금 더 움직이다가
+              멈추는 현상입니다. 한 번에 뚝 멈추는 것이 아니라 <strong>관성을 느낄 수 있게</strong>
+              잔상 처리를 해야 움직임이 살아있어 보입니다.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="disney-all">
+        <div class="da-title">나머지 8가지 법칙 — 참고</div>
+        <div class="da-grid">
+          <div class="da-item"><span class="da-num">03</span><span>Staging — 연출·구도 설정</span></div>
+          <div class="da-item"><span class="da-num">04</span><span>Straight Ahead / Pose to Pose — 작업 방식</span></div>
+          <div class="da-item"><span class="da-num">05</span><span>Slow In & Slow Out — 이지이즈 원리</span></div>
+          <div class="da-item"><span class="da-num">07</span><span>Arcs — 호를 그리는 자연스러운 움직임</span></div>
+          <div class="da-item"><span class="da-num">09</span><span>Secondary Action — 부모션 (다음 섹션에서 자세히)</span></div>
+          <div class="da-item"><span class="da-num">10</span><span>Timing — 키프레임 간격이 감정을 결정</span></div>
+          <div class="da-item"><span class="da-num">11</span><span>Solid Drawing — 입체감 있는 드로잉/모델링</span></div>
+          <div class="da-item"><span class="da-num">12</span><span>Appeal — 보는 사람이 매력을 느껴야 함</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 주모션/부모션 -->
+    <section id="main-sub" class="section">
+      <div class="section-tag">핵심 개념</div>
+      <h2 class="section-title">주모션 & 부모션 — 연출의 핵심 구조</h2>
+      <p class="section-desc">
+        모든 동작은 "메인 움직임(주모션)"과 "이를 돋보이게 만드는 보조 움직임(부모션)"으로 구성됩니다.
+        이 두 레이어를 나눠서 작업하는 것이 전문적인 모션 작업의 기본 습관입니다.
+      </p>
+
+      <div class="motion-compare">
+        <div class="mc-card mc-main">
+          <div class="mc-badge">주모션</div>
+          <div class="mc-icon">🎯</div>
+          <div class="mc-title">Primary Action</div>
+          <div class="mc-desc">
+            피사체가 움직일 때 <strong>메인이 되는 행동</strong>입니다.
+            시청자의 시선이 가장 먼저 가는 핵심 동작으로,
+            전체 씬에서 가장 중요한 정보를 전달합니다.
+          </div>
+          <div class="mc-example">
+            <div class="mce-label">예시</div>
+            <div class="mce-text">립스틱이 위로 솟아오르는 동작, 제품이 회전하는 동작</div>
+          </div>
+        </div>
+
+        <div class="mc-vs">VS</div>
+
+        <div class="mc-card mc-sub">
+          <div class="mc-badge mc-badge-sub">부모션</div>
+          <div class="mc-icon">✨</div>
+          <div class="mc-title">Secondary Action</div>
+          <div class="mc-desc">
+            주모션을 <strong>더 돋보이게 만드는 보조 행동</strong>입니다.
+            주모션의 느낌을 강화하고 씬에 생동감과 깊이를 더해줍니다.
+            디즈니 12법칙의 9번째 원칙이기도 합니다.
+          </div>
+          <div class="mc-example">
+            <div class="mce-label">예시</div>
+            <div class="mce-text">립스틱이 올라올 때 주변 파티클이 튀어오르거나, 캡이 살짝 흔들리는 동작</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="motion-order">
+        <div class="mo-title">작업 순서가 중요합니다</div>
+        <div class="mo-rule">
+          <div class="mor-step mor-first">
+            <span class="mors-label">FIRST</span>
+            <span>주모션 완성</span>
+          </div>
+          <div class="mor-arrow">→</div>
+          <div class="mor-step mor-second">
+            <span class="mors-label">THEN</span>
+            <span>부모션 추가</span>
+          </div>
+        </div>
+        <div class="mo-reason">
+          부모션을 먼저 작업하면 주모션을 수정할 때 부모션도 전부 다시 작업해야 합니다.
+          반드시 주모션을 먼저 완성한 뒤 부모션을 얹는 순서로 진행합니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ 이펙트 트렌드 -->
+    <section id="effect-trend" class="section">
+      <div class="section-tag">실무 트렌드</div>
+      <h2 class="section-title">이펙트는 어디서 넣을까? — 3D vs AE</h2>
+      <p class="section-desc">
+        불꽃, 파티클, 글리치 같은 이펙트를 3D 단계에서 처리할지, After Effects 후반작업에서 처리할지는
+        팀 규모와 작업 효율에 따라 다르지만, 요즘 트렌드가 있습니다.
+      </p>
+
+      <div class="effect-compare">
+        <div class="ec-card ec-3d">
+          <div class="ec-header">
+            <div class="ec-icon">🎮</div>
+            <div class="ec-name">3D에서 직접 넣기</div>
+            <div class="ec-tag">구식 방식</div>
+          </div>
+          <ul class="ec-list">
+            <li>렌더링 시간이 기하급수적으로 늘어남</li>
+            <li>수정 시 처음부터 다시 렌더링 필요</li>
+            <li>씬이 무거워져 작업 속도 저하</li>
+          </ul>
+        </div>
+
+        <div class="ec-card ec-ae">
+          <div class="ec-header">
+            <div class="ec-icon">⚡</div>
+            <div class="ec-name">After Effects 후반작업</div>
+            <div class="ec-tag ec-tag-trend">요즘 트렌드 ✓</div>
+          </div>
+          <ul class="ec-list ec-list-pro">
+            <li>3D 렌더링은 순수 오브젝트만 → 빠른 렌더</li>
+            <li>이펙트를 AE에서 자유롭게 수정 가능</li>
+            <li>Plugin(Trapcode, Video Copilot 등) 활용</li>
+            <li>협업 시 역할 분리가 명확해짐</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>파이프라인을 나누는 이유</strong>
+          <p>3D 아티스트가 모든 이펙트를 3D에서 처리하려고 하면 렌더링 시간이 폭발적으로 늘어납니다.
+          3D는 형태와 빛에 집중하고, 이펙트와 색보정은 AE에서 처리하는 것이 현대 모션그래픽 파이프라인의 기본입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 타임라인 단축키 -->
+    <section id="workflow" class="section">
+      <div class="section-tag">C4D 단축키</div>
+      <h2 class="section-title">타임라인 — 핵심 단축키 & 작업 기초</h2>
+
+      <div class="shortcut-box">
+        <div class="sb-title">타임라인 창 열기</div>
+        <div class="sb-key">
+          <kbd>Shift</kbd><span class="sb-plus">+</span><kbd>F3</kbd>
+        </div>
+        <div class="sb-desc">키프레임을 확인하고 조작하는 C4D의 핵심 작업 창입니다.</div>
+      </div>
+    </section>
+
+    <!-- ⑦ C4D vs AE 차이점 -->
+    <section id="c4d-vs-ae" class="section">
+      <div class="section-tag">중요 차이점</div>
+      <h2 class="section-title">C4D 모션 작업 vs AE 모션 작업 — 3가지 핵심 차이</h2>
+      <p class="section-desc">
+        After Effects에서 키프레임 작업을 먼저 배운 경우, C4D에서 예상과 다르게 동작하는 부분이 있습니다.
+        처음에 이 3가지 차이점을 이해하지 못하면 작업 중 계속 당황하게 됩니다.
+      </p>
+
+      <div class="diff-table">
+        <div class="dt-header">
+          <div class="dt-num">#</div>
+          <div class="dt-topic">항목</div>
+          <div class="dt-ae">After Effects</div>
+          <div class="dt-c4d">Cinema 4D</div>
+        </div>
+
+        <div class="dt-row">
+          <div class="dt-num">1</div>
+          <div class="dt-topic">
+            <div class="dtt-main">키프레임 자동 생성</div>
+            <div class="dtt-sub">수치 변경 시</div>
+          </div>
+          <div class="dt-ae">
+            <div class="dt-tag dt-auto">자동</div>
+            <div class="dt-desc">타임라인에서 수치를 변경하면 자동으로 키프레임 생성됨</div>
+          </div>
+          <div class="dt-c4d">
+            <div class="dt-tag dt-manual">수동</div>
+            <div class="dt-desc">수치를 바꿔도 <strong>키프레임이 자동으로 생성되지 않음</strong>. 직접 키를 찍어야 함</div>
+          </div>
+        </div>
+
+        <div class="dt-row">
+          <div class="dt-num">2</div>
+          <div class="dt-topic">
+            <div class="dtt-main">키프레임 보간 기본값</div>
+            <div class="dtt-sub">처음 키 찍을 때</div>
+          </div>
+          <div class="dt-ae">
+            <div class="dt-tag dt-linear">등속 (Linear)</div>
+            <div class="dt-desc">기본이 일정한 속도의 등속 운동</div>
+          </div>
+          <div class="dt-c4d">
+            <div class="dt-tag dt-ease">이지이즈 (Ease)</div>
+            <div class="dt-desc">처음부터 <strong>이지이즈(F9)가 기본 적용</strong>. 시작·끝에서 자연스럽게 감속</div>
+          </div>
+        </div>
+
+        <div class="dt-row">
+          <div class="dt-num">3</div>
+          <div class="dt-topic">
+            <div class="dtt-main">기본 그래프 타입</div>
+            <div class="dtt-sub">그래프 에디터</div>
+          </div>
+          <div class="dt-ae">
+            <div class="dt-tag dt-speed">스피드 그래프</div>
+            <div class="dt-desc">Y축 = 속도(변화율). 곡선의 높이가 움직임의 빠르기</div>
+          </div>
+          <div class="dt-c4d">
+            <div class="dt-tag dt-value">밸류 그래프</div>
+            <div class="dt-desc">Y축 = 수치(실제 값). 곡선의 기울기가 움직임의 빠르기</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diff-tip">
+        <div class="dtip-icon">⚠</div>
+        <div class="dtip-text">
+          AE 경험자가 C4D에서 가장 많이 당황하는 포인트는 <strong>①번(자동 키 생성 없음)</strong>입니다.
+          C4D에서는 원하는 시점에서 반드시 수동으로 키프레임을 찍어야 한다는 점을 꼭 기억하세요.
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑧ 실사 기반 움직임 -->
+    <section id="realmotion" class="section">
+      <div class="section-tag">움직임 원리</div>
+      <h2 class="section-title">실사 기반 움직임 — 힘과 속도의 관계</h2>
+      <p class="section-desc">
+        실제 물리 법칙을 이해하면 더 설득력 있는 움직임을 만들 수 있습니다.
+        핵심 원리는 단 하나입니다.
+      </p>
+
+      <div class="force-visual">
+        <div class="fv-rule">
+          <div class="fvr-left">
+            <div class="fvr-icon">💪</div>
+            <div class="fvr-label">힘을 많이 받는 부분</div>
+          </div>
+          <div class="fvr-eq">=</div>
+          <div class="fvr-right">
+            <div class="fvr-icon">⚡</div>
+            <div class="fvr-label">가장 빠른 부분</div>
+          </div>
+        </div>
+        <div class="fv-examples">
+          <div class="fve-item">
+            <div class="fve-title">공이 바닥을 치는 순간</div>
+            <div class="fve-bar">
+              <div class="fve-fast">빠름 (충돌 순간)</div>
+              <div class="fve-slow">느림 (튀어오름)</div>
+            </div>
+          </div>
+          <div class="fve-item">
+            <div class="fve-title">스윙 동작</div>
+            <div class="fve-bar">
+              <div class="fve-slow fve-start">느림 (준비)</div>
+              <div class="fve-fast">빠름 (임팩트)</div>
+              <div class="fve-slow">느림 (마무리)</div>
+            </div>
+          </div>
+        </div>
+        <div class="fv-graph">
+          <div class="fvg-title">그래프 에디터에서 표현하는 방법</div>
+          <div class="fvg-desc">
+            밸류 그래프에서 <strong>기울기가 가파른 구간</strong>이 빠른 구간입니다.
+            힘이 집중되는 순간(임팩트)에 그래프를 가파르게, 힘이 빠지는 구간(시작/끝)에
+            그래프를 완만하게 만들어 설득력 있는 움직임을 표현합니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>키프레임 & 모션그래픽 기초 수업 필기 · 2026.04.02 오전반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
