@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다이나믹 시뮬레이션 — 저녁반 0402</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.02 저녁반</span>
+      <h1>다이나믹 시뮬레이션</h1>
+      <p class="subtitle">Rigid Body · Collider Body · Trigger · Collision Shape · 시뮬레이션 최적화</p>
+      <div class="header-tags">
+        <span>Rigid Body</span>
+        <span>Collider Body</span>
+        <span>Ghost Body</span>
+        <span>Trigger</span>
+        <span>Individual Elements</span>
+        <span>Shape</span>
+        <span>최적화</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#overview">개요</a></li>
+        <li><a href="#body-types">바디 타입 4종</a></li>
+        <li><a href="#dynamics-tab">Dynamics 항목</a></li>
+        <li><a href="#collision-tab">Collision 항목</a></li>
+        <li><a href="#shape">Shape 설정</a></li>
+        <li><a href="#optimize">시뮬레이션 최적화</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① 개요 -->
+    <section id="overview" class="section">
+      <div class="section-tag">개요</div>
+      <h2 class="section-title">다이나믹 시뮬레이션 — C4D의 물리 엔진</h2>
+      <p class="section-desc">
+        다이나믹 시뮬레이션은 C4D 내에서 중력, 충돌, 반발력 등 물리 법칙을 계산해
+        오브젝트를 현실처럼 움직이게 하는 기능입니다.
+        키프레임 없이도 자동으로 자연스러운 물리 움직임을 만들 수 있습니다.
+      </p>
+
+      <div class="overview-point">
+        <div class="op-card op-warn">
+          <div class="op-icon">⚠</div>
+          <div class="op-content">
+            <div class="op-title">버그가 많다 — 이게 핵심</div>
+            <div class="op-desc">
+              컴퓨터가 물리를 계산하는 방식 특성상 <strong>버그가 자주 발생</strong>합니다.
+              다이나믹 수업의 진짜 목적은 기능을 외우는 것이 아니라,
+              <strong>오류를 찾아서 고치는 방법을 익히는 것</strong>입니다.
+            </div>
+          </div>
+        </div>
+        <div class="op-card op-info">
+          <div class="op-icon">💡</div>
+          <div class="op-content">
+            <div class="op-title">왜 전체 기능을 알아야 하나?</div>
+            <div class="op-desc">
+              버그가 생겼을 때 원인을 파악하려면 시뮬레이션 내 <strong>모든 기능이 어떤 역할을 하는지 알고 있어야</strong> 합니다.
+              하나라도 모르면 어디서 문제가 생겼는지 추적이 불가능합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 바디 타입 4종 -->
+    <section id="body-types" class="section">
+      <div class="section-tag">바디 타입</div>
+      <h2 class="section-title">다이나믹 바디 태그 4종 — 역할 구분이 핵심</h2>
+      <p class="section-desc">
+        다이나믹 시뮬레이션은 오브젝트에 <strong>태그를 붙여서 역할을 지정</strong>하는 방식으로 작동합니다.
+        어떤 태그를 붙이느냐에 따라 오브젝트의 물리적 성질이 완전히 달라집니다.
+      </p>
+
+      <div class="body-grid">
+
+        <div class="body-card body-rigid">
+          <div class="bc-badge">Rigid Body</div>
+          <div class="bc-icon">🧱</div>
+          <div class="bc-title">리지드 바디</div>
+          <div class="bc-subtitle">딱딱한 물체</div>
+          <div class="bc-desc">
+            오브젝트를 <strong>중력의 영향을 받는 충돌체</strong>로 변환합니다.
+            실제로 움직이면서 다른 오브젝트와 부딪혀야 하는 오브젝트에 적용합니다.
+            모양이 변형되지 않는 단단한 물체를 시뮬레이션합니다.
+          </div>
+          <div class="bc-example">예: 공, 박스, 타이포그래피 글자</div>
+        </div>
+
+        <div class="body-card body-soft">
+          <div class="bc-badge bc-badge-soft">Soft Body</div>
+          <div class="bc-icon">🫧</div>
+          <div class="bc-title">소프트 바디</div>
+          <div class="bc-subtitle">부드러운 물체</div>
+          <div class="bc-desc">
+            충돌 시 오브젝트의 <strong>형태 자체가 변형</strong>되는 시뮬레이션입니다.
+            젤리, 쿠션, 풍선처럼 충격을 받으면 찌그러지고 튕겨나오는
+            부드러운 재질의 물체를 표현할 때 사용합니다.
+          </div>
+          <div class="bc-example">예: 젤리, 풍선, 쿠션, 점액</div>
+        </div>
+
+        <div class="body-card body-collider">
+          <div class="bc-badge bc-badge-collider">Collider Body</div>
+          <div class="bc-icon">🏗</div>
+          <div class="bc-title">콜라이더 바디</div>
+          <div class="bc-subtitle">고정된 충돌벽</div>
+          <div class="bc-desc">
+            오브젝트를 <strong>중력의 영향을 받지 않는 충돌체</strong>로 변환합니다.
+            중력으로 떨어지지 않고 제자리에 고정된 채 다른 오브젝트의 충돌을 받아냅니다.
+            씬의 바닥이나 벽면에 적용합니다.
+          </div>
+          <div class="bc-example">예: 바닥, 벽, 고정된 장애물</div>
+        </div>
+
+        <div class="body-card body-ghost">
+          <div class="bc-badge bc-badge-ghost">Ghost Body</div>
+          <div class="bc-icon">👻</div>
+          <div class="bc-title">고스트 바디</div>
+          <div class="bc-subtitle">투명 충돌체</div>
+          <div class="bc-desc">
+            시뮬레이션에서는 존재하지만 <strong>렌더링에는 보이지 않는</strong> 충돌체입니다.
+            보이지 않는 벽이나 트리거 영역을 만들 때 사용합니다.
+            Dynamic 항목을 Ghost로 설정하면 됩니다.
+          </div>
+          <div class="bc-example">예: 보이지 않는 경계선, 충돌 트리거 영역</div>
+        </div>
+
+      </div>
+
+      <div class="body-quick">
+        <div class="bq-title">Dynamic 항목 On/Off/Ghost — 한 태그로 3가지 상태 전환</div>
+        <div class="bq-row">
+          <div class="bq-item bq-on"><span class="bqs-label">On</span><span>→ Rigid Body (중력 영향 O, 충돌 O)</span></div>
+          <div class="bq-item bq-off"><span class="bqs-label">Off</span><span>→ Collider Body (중력 영향 X, 충돌 받기만)</span></div>
+          <div class="bq-item bq-ghost"><span class="bqs-label">Ghost</span><span>→ Ghost Body (보이지 않는 충돌체)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ Dynamics 항목 -->
+    <section id="dynamics-tab" class="section">
+      <div class="section-tag">Dynamics 탭</div>
+      <h2 class="section-title">Dynamics 항목 — 시뮬레이션 상태와 시작 조건 설정</h2>
+
+      <div class="param-group">
+        <div class="pg-title">Set / Clear Initial State</div>
+        <div class="pg-desc">
+          시뮬레이션 시 <strong>오브젝트의 초기 위치값을 고정(Set)하거나 초기화(Clear)</strong>하는 기능입니다.
+          원하는 시점에서 시뮬레이션이 시작되도록 기준점을 잡아줄 때 사용합니다.
+        </div>
+        <div class="pg-note">
+          <span class="pgn-icon">⚠</span>
+          <span><strong>Clear Initial State</strong>는 일반 단독 오브젝트에서는 작동하지 않습니다.
+          <strong>클로너(Cloner) 또는 Parent 관계</strong>로 묶인 오브젝트에서만 사용 가능합니다.</span>
+        </div>
+      </div>
+
+      <div class="param-group">
+        <div class="pg-title">Trigger — 시뮬레이션 시작 조건</div>
+        <div class="pg-desc">
+          시뮬레이션을 <strong>언제, 어떤 조건에서 시작할지</strong> 결정하는 항목입니다.
+          같은 씬이라도 Trigger 설정에 따라 결과가 완전히 달라집니다.
+        </div>
+        <div class="trigger-table">
+          <div class="tt-row tt-header">
+            <div>옵션</div>
+            <div>설명</div>
+            <div>주요 사용 상황</div>
+          </div>
+          <div class="tt-row">
+            <div class="tt-key">Immediately</div>
+            <div>재생 버튼을 누르는 <strong>순간부터</strong> 즉시 시뮬레이션 시작</div>
+            <div>단순 낙하·충돌 표현</div>
+          </div>
+          <div class="tt-row">
+            <div class="tt-key">At Velocity Peak</div>
+            <div>키프레임 애니메이션이 <strong>먼저 실행된 후</strong>, 그 움직임의 최고 속도 시점에서 시뮬레이션 시작</div>
+            <div>던지거나 튕기는 동작 후 물리 전환</div>
+          </div>
+          <div class="tt-row">
+            <div class="tt-key">On Collision</div>
+            <div>다른 오브젝트와 <strong>충돌하는 순간부터</strong> 시뮬레이션 시작</div>
+            <div>충돌 후 파편 분리, 도미노 연쇄</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ Collision 항목 -->
+    <section id="collision-tab" class="section">
+      <div class="section-tag">Collision 탭</div>
+      <h2 class="section-title">Collision 항목 — 계층 구조 & 개별 요소 설정</h2>
+
+      <div class="param-group">
+        <div class="pg-title">Inherit Tag — Parent 관계에서의 시뮬레이션 방식</div>
+        <div class="pg-desc">
+          여러 오브젝트가 Parent(부모) 관계로 묶여 있을 때,
+          <strong>시뮬레이션을 어떤 방식으로 적용할지</strong> 결정합니다.
+        </div>
+        <div class="inherit-cards">
+          <div class="ic-card">
+            <div class="ic-name">Apply Tag To Children</div>
+            <div class="ic-desc">자식 오브젝트 <strong>하나하나 전부 개별적으로</strong> 시뮬레이션 적용. 각 오브젝트가 독립적으로 움직입니다.</div>
+          </div>
+          <div class="ic-card ic-card-mid">
+            <div class="ic-name">Compound Collision Shape</div>
+            <div class="ic-desc">Parent로 묶인 모든 오브젝트를 <strong>하나의 오브젝트로 인식</strong>해서 시뮬레이션. 전체가 한 덩어리로 움직입니다.</div>
+          </div>
+          <div class="ic-card">
+            <div class="ic-name">None</div>
+            <div class="ic-desc">태그가 걸린 <strong>최상단 오브젝트만</strong> 인식. 자식은 무시합니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="param-group">
+        <div class="pg-title">Individual Elements — 3D 타이포 시뮬레이션 필수 설정</div>
+        <div class="pg-desc">
+          겉보기에는 하나의 오브젝트이지만 <strong>내부적으로 분리된 요소</strong>(3D 타이포의 각 글자 등)를
+          어떤 단위로 시뮬레이션할지 결정하는 기능입니다.
+        </div>
+        <div class="individual-table">
+          <div class="it-row it-header">
+            <div>옵션</div>
+            <div>시뮬레이션 단위</div>
+            <div>예시 결과</div>
+          </div>
+          <div class="it-row">
+            <div class="it-key">Off</div>
+            <div>전체를 통으로 하나의 오브젝트로 인식</div>
+            <div>"Hello" 전체가 한 덩어리로 움직임</div>
+          </div>
+          <div class="it-row">
+            <div class="it-key">Top Level</div>
+            <div>최상위 그룹 단위 (줄 단위)</div>
+            <div>줄별로 분리되어 개별 시뮬레이션</div>
+          </div>
+          <div class="it-row">
+            <div class="it-key">Second Level</div>
+            <div>두 번째 그룹 단위 (단어/문장 단위)</div>
+            <div>단어별로 분리되어 개별 시뮬레이션</div>
+          </div>
+          <div class="it-row it-row-highlight">
+            <div class="it-key">All</div>
+            <div>가장 작은 요소 단위 (각 글자 하나하나)</div>
+            <div>글자 한 자씩 개별 시뮬레이션 — 타이포 붕괴 효과</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ Shape 설정 -->
+    <section id="shape" class="section">
+      <div class="section-tag">Shape 설정</div>
+      <h2 class="section-title">Collision Shape — 충돌 계산 정밀도 설정</h2>
+      <p class="section-desc">
+        Shape는 오브젝트의 형태를 물리 엔진이 <strong>얼마나 정교하게 계산할지</strong> 결정합니다.
+        정밀할수록 현실적이지만 연산 부하가 커집니다. 상황에 맞게 선택하는 것이 중요합니다.
+      </p>
+
+      <div class="shape-list">
+
+        <div class="sl-item">
+          <div class="sl-rank sl-rank-low">낮음</div>
+          <div class="sl-content">
+            <div class="sl-name">Automatic</div>
+            <div class="sl-desc">오브젝트 형태를 <strong>가장 단순하게</strong> 계산합니다. 박스, 구, 캡슐 등 단순한 형태로 근사합니다. 연산 부하 최소.</div>
+          </div>
+        </div>
+
+        <div class="sl-item">
+          <div class="sl-rank sl-rank-mid">중간</div>
+          <div class="sl-content">
+            <div class="sl-name">Automatic (MoDynamics) <span class="sl-star">★ 자주 사용</span></div>
+            <div class="sl-desc">
+              기본 Automatic보다 <strong>훨씬 정교</strong>하게 계산하지만, 시뮬레이션 오브젝트가 <strong>서로 겹치는 상황에서는 제대로 작동하지 않을 수 있습니다.</strong>
+              복잡한 형태의 단일 충돌에서 주로 사용합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="sl-item">
+          <div class="sl-rank sl-rank-high">높음</div>
+          <div class="sl-content">
+            <div class="sl-name">Moving Mesh</div>
+            <div class="sl-desc">
+              가장 정교하게 오브젝트 형태를 계산합니다.
+              <strong>겹쳐지는 시뮬레이션(Soft Body, 복잡한 충돌)</strong>에서도 정상 작동합니다.
+              연산 부하가 크므로 꼭 필요한 경우에만 사용합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="sl-item">
+          <div class="sl-rank sl-rank-static">정적</div>
+          <div class="sl-content">
+            <div class="sl-name">Static Mesh <span class="sl-tip">콜라이더 바디 전용 추천</span></div>
+            <div class="sl-desc">
+              가장 정교하지만 <strong>움직이지 않는 오브젝트 전용</strong>입니다.
+              움직임 계산이 없어 연산 비용이 없으므로 콜라이더 바디(바닥, 벽)에 적용하면 가성비 최고입니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="sl-item sl-item-special">
+          <div class="sl-rank sl-rank-opt">최적화</div>
+          <div class="sl-content">
+            <div class="sl-name">Another Object <span class="sl-star sl-star-opt">★★★ 최적화 핵심</span></div>
+            <div class="sl-desc">
+              오브젝트의 충돌 형태를 <strong>다른 오브젝트의 형태로 대체</strong>해서 계산합니다.
+              복잡한 고폴리 오브젝트의 충돌을 단순한 저폴리 프록시 메시로 처리해
+              <strong>시뮬레이션 최적화</strong>에 사용하는 고급 기법입니다.
+            </div>
+            <div class="sl-how">
+              <strong>사용법:</strong> 복잡한 오브젝트 옆에 단순한 대체 메시를 만들고,
+              Another Object 항목에 대체 메시를 지정 → 충돌 계산은 단순 메시 기준으로 처리
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑥ 시뮬레이션 최적화 -->
+    <section id="optimize" class="section">
+      <div class="section-tag">시뮬레이션 최적화</div>
+      <h2 class="section-title">시뮬레이션 최적화 — 오브젝트 면 상태가 핵심</h2>
+      <p class="section-desc">
+        다이나믹 시뮬레이션이 제대로 작동하려면 오브젝트 자체의 메시 상태가 중요합니다.
+        아무리 설정이 맞아도 메시에 문제가 있으면 시뮬레이션이 오작동합니다.
+      </p>
+
+      <div class="optimize-rules">
+
+        <div class="or-card or-bad">
+          <div class="orc-header">
+            <span class="orc-icon">✗</span>
+            <span class="orc-title">면이 너무 많으면 안 됩니다</span>
+          </div>
+          <div class="orc-desc">
+            고폴리곤 메시는 충돌 계산량이 폭증합니다.
+            시뮬레이션용 오브젝트는 <strong>최대한 적은 폴리곤</strong>으로 구성하고,
+            고폴리 디테일이 필요하면 Another Object로 저폴리 대체 메시를 지정합니다.
+          </div>
+        </div>
+
+        <div class="or-card or-bad">
+          <div class="orc-header">
+            <span class="orc-icon">✗</span>
+            <span class="orc-title">N-Gon(엔곤)이 있으면 안 됩니다</span>
+          </div>
+          <div class="orc-desc">
+            N-Gon은 <strong>4개 이상의 꼭짓점을 가진 다각형 면</strong>으로, 삼각화(triangulate) 과정에서
+            예측 불가능한 결과를 낼 수 있습니다.
+            시뮬레이션 전 메시에 N-Gon이 없는지 반드시 확인하고,
+            있다면 삼각형 또는 사각형 폴리곤으로 정리합니다.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="optimize-summary">
+        <div class="os-title">시뮬레이션 오류가 생겼을 때 체크리스트</div>
+        <div class="os-list">
+          <div class="osl-item"><span class="osl-check">①</span><span>메시에 N-Gon 있는지 확인</span></div>
+          <div class="osl-item"><span class="osl-check">②</span><span>폴리곤 수가 과도하게 많지 않은지 확인</span></div>
+          <div class="osl-item"><span class="osl-check">③</span><span>Shape 설정이 오브젝트 특성에 맞는지 확인</span></div>
+          <div class="osl-item"><span class="osl-check">④</span><span>Trigger 조건이 의도와 맞게 설정되어 있는지 확인</span></div>
+          <div class="osl-item"><span class="osl-check">⑤</span><span>Parent 관계가 있다면 Inherit Tag 옵션 확인</span></div>
+          <div class="osl-item"><span class="osl-check">⑥</span><span>콜라이더 바디(바닥/벽)가 제대로 설정되어 있는지 확인</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>다이나믹 시뮬레이션 수업 필기 · 2026.04.02 저녁반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
