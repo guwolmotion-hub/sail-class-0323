@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>다이나믹 시뮬레이션 심화 — Soft Body & Collision | 저녁반 보강 0403</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.03 저녁반 보강</span>
+      <h1>다이나믹 시뮬레이션 심화</h1>
+      <p class="subtitle">Rigid Body Collision 심화 · Soft Body · Springs · 트러블슈팅 · 수치 가이드</p>
+      <div class="header-tags">
+        <span>Size Increment</span>
+        <span>Use Margin</span>
+        <span>Bounce / Friction</span>
+        <span>Soft Body</span>
+        <span>Springs</span>
+        <span>트러블슈팅</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#collision-detail">Collision 심화</a></li>
+        <li><a href="#sim-philosophy">시뮬레이션 철학</a></li>
+        <li><a href="#softbody">Soft Body</a></li>
+        <li><a href="#springs">Springs</a></li>
+        <li><a href="#troubleshoot">트러블슈팅</a></li>
+        <li><a href="#value-guide">수치 가이드</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① Collision 심화 -->
+    <section id="collision-detail" class="section">
+      <div class="section-tag">Rigid Body — Collision 항목 심화</div>
+      <h2 class="section-title">충돌 정밀도 조정 — Size Increment · Use Margin · Bounce · Friction</h2>
+      <p class="section-desc">
+        지난 수업의 Collision Shape에 이어, 충돌 감지의 <strong>범위·완충·반발·마찰</strong>을
+        세부적으로 조정하는 항목들입니다. 시뮬레이션 오류의 상당수가 이 값들로 해결됩니다.
+      </p>
+
+      <div class="param-cards">
+
+        <div class="pc-card">
+          <div class="pc-header">
+            <div class="pc-name">Size Increment</div>
+            <div class="pc-badge">크기 증가</div>
+          </div>
+          <div class="pc-desc">
+            충돌체의 크기를 임의로 <strong>약간 더 크게</strong> 잡아 충돌 범위를 넓히는 수치입니다.
+          </div>
+          <div class="pc-problem">
+            <div class="pcp-label">언제 쓰나?</div>
+            <div class="pcp-text">
+              빠르게 움직이는 오브젝트가 충돌체를 그냥 통과해버리는 경우,
+              수치를 올리면 충돌 감지 범위가 넓어져 <strong>마치 정확한 타이밍에 부딪힌 것처럼</strong> 표현됩니다.
+              물리 연산이 프레임 단위로 진행되다 보니 빠른 속도에서 충돌을 놓치는 현상을 보완합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="pc-card pc-card-mid">
+          <div class="pc-header">
+            <div class="pc-name">Use Margin</div>
+            <div class="pc-badge">충돌 완충 영역</div>
+          </div>
+          <div class="pc-desc">
+            오브젝트 표면 바깥에 <strong>보이지 않는 완충 영역</strong>을 만들어
+            실제로 맞닿기 전에 미리 반응하게 합니다.
+          </div>
+          <div class="pc-problem">
+            <div class="pcp-label">언제 쓰나?</div>
+            <div class="pcp-text">
+              소프트바디나 <strong>얇은 두께 없는 오브젝트</strong>에 시뮬레이션을 걸면
+              오브젝트끼리 서로 통과하거나 "낑기는" 문제가 발생합니다.
+              이 값을 <strong>1~10 정도</strong>만 올려주면 대부분 해결됩니다.
+            </div>
+          </div>
+          <div class="pc-tip">💡 너무 높이 올리면 오히려 공중에 떠있는 것처럼 보이므로 소량씩 올리며 확인</div>
+        </div>
+
+        <div class="pc-card">
+          <div class="pc-header">
+            <div class="pc-name">Bounce</div>
+            <div class="pc-badge">반발력</div>
+          </div>
+          <div class="pc-desc">
+            충돌 시 오브젝트가 <strong>튕겨나가는 정도</strong>를 조정합니다.
+          </div>
+          <div class="pc-range">
+            <div class="pcr-item pcr-low">낮음 — 충돌 후 그 자리에 멈춤 (진흙, 젖은 물체)</div>
+            <div class="pcr-item pcr-high">높음 — 충돌 후 강하게 튕겨나감 (고무공, 탱탱볼)</div>
+          </div>
+        </div>
+
+        <div class="pc-card">
+          <div class="pc-header">
+            <div class="pc-name">Friction</div>
+            <div class="pc-badge">마찰력</div>
+          </div>
+          <div class="pc-desc">
+            표면에서 <strong>미끄러지는 정도</strong>를 조정합니다.
+          </div>
+          <div class="pc-range">
+            <div class="pcr-item pcr-low">낮음 — 미끄러워짐 (얼음, 유리면)</div>
+            <div class="pcr-item pcr-high">높음 — 미끄러지지 않음 (고무, 천, 거친 면)</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ② 시뮬레이션 철학 -->
+    <section id="sim-philosophy" class="section">
+      <div class="section-tag">실무 관점</div>
+      <h2 class="section-title">시뮬레이션은 언제 써야 할까?</h2>
+      <p class="section-desc">
+        다이나믹 시뮬레이션은 강력하지만, 무조건 쓰는 게 능사가 아닙니다.
+        실무에서 시뮬레이션의 위치를 정확히 알고 사용해야 합니다.
+      </p>
+
+      <div class="philosophy-rule">
+        <div class="pr-rank">
+          <div class="prr-item prr-best">
+            <div class="prri-num">1위</div>
+            <div class="prri-label">사람이 직접 키프레임</div>
+            <div class="prri-desc">컨트롤 자유도 최고. 원하는 대로 정확하게. 영상에서 가장 선호.</div>
+          </div>
+          <div class="prr-gt">&gt;&gt;&gt;</div>
+          <div class="prri-item prr-mid">
+            <div class="prri-num">2위</div>
+            <div class="prri-label">다이나믹 시뮬레이션</div>
+            <div class="prri-desc">물리 표현은 탁월. 하지만 자유도 낮고 시간 많이 소요.</div>
+          </div>
+          <div class="prr-gt">&gt;&gt;</div>
+          <div class="prri-item prr-ai">
+            <div class="prri-num">3위</div>
+            <div class="prri-label">AI 자동화</div>
+            <div class="prri-desc">아직 실무 수준 대체 불가.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="philosophy-cards">
+        <div class="phc-card phc-warn">
+          <div class="phc-icon">⏱</div>
+          <div class="phc-content">
+            <div class="phc-title">영상은 시간이 곧 돈</div>
+            <div class="phc-desc">
+              시뮬레이션은 기본적으로 <strong>시간이 굉장히 많이 소모</strong>됩니다.
+              세팅에 걸리는 시간, 오류 수정 시간, 렌더링 시간까지 합하면 직접 키프레임 찍는 것보다 오래 걸리는 경우가 많습니다.
+            </div>
+          </div>
+        </div>
+        <div class="phc-card phc-rule">
+          <div class="phc-icon">✅</div>
+          <div class="phc-content">
+            <div class="phc-title">시뮬레이션을 써야 하는 경우</div>
+            <div class="phc-desc">
+              <strong>시뮬레이션이 아니면 절대로 표현할 수 없는 움직임</strong>일 때만 씁니다.
+              수백 개의 글자가 쏟아지며 부딪히는 연쇄 충돌, 젤리의 물리적 변형처럼
+              키프레임으로는 만들 수 없는 것이 명확할 때만 사용하세요.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ Soft Body -->
+    <section id="softbody" class="section">
+      <div class="section-tag">Soft Body</div>
+      <h2 class="section-title">소프트 바디 — 형태가 변하는 부드러운 물체</h2>
+      <p class="section-desc">
+        소프트 바디는 충돌 시 오브젝트의 <strong>형태 자체가 변형</strong>되는 시뮬레이션입니다.
+        젤리, 고무, 쿠션, 풍선처럼 충격을 받으면 찌그러지고 튕겨나오는 물체를 표현합니다.
+      </p>
+
+      <div class="softbody-info">
+
+        <div class="sbi-card sbi-workflow">
+          <div class="sbi-title">⚙ 기본 워크플로우 — Low Poly → High Poly</div>
+          <div class="sbi-desc">
+            소프트 바디는 형태가 변형되기 때문에 <strong>면이 많을수록 자연스럽지만</strong>,
+            고폴리 상태에서 시뮬레이션을 돌리면 연산량이 폭증합니다.
+          </div>
+          <div class="sbi-flow">
+            <div class="sbif-step">
+              <div class="sbifs-icon">🔲</div>
+              <div class="sbifs-label">Low Poly로 애니메이션 작업</div>
+              <div class="sbifs-desc">적은 면으로 빠르게 시뮬레이션 확인</div>
+            </div>
+            <div class="sbif-arrow">→</div>
+            <div class="sbif-step">
+              <div class="sbifs-icon">🔷</div>
+              <div class="sbifs-label">High Poly로 변환</div>
+              <div class="sbifs-desc">최종 렌더 전 고밀도 메시로 변환</div>
+            </div>
+          </div>
+          <div class="sbi-rule">
+            면 모양은 <strong>삼각형 또는 사각형으로 통일</strong>하는 것이 좋습니다. N-Gon 금지.
+          </div>
+        </div>
+
+        <div class="sbi-card sbi-mode">
+          <div class="sbi-title">🔗 Made of — 스프링 연결 방식 선택</div>
+          <div class="sbi-modes">
+            <div class="sbim-item sbim-clone">
+              <div class="sbim-name">Made of Clones</div>
+              <div class="sbim-desc">
+                클로너로 복사된 오브젝트 <strong>하나하나가 전부 스프링으로 연결</strong>되어 시뮬레이션됩니다.
+                스플라인 느낌의 구슬 연결, 체인 형태의 애니메이션 작업 시 사용합니다.
+              </div>
+            </div>
+            <div class="sbim-item sbim-poly">
+              <div class="sbim-name">Made of Polygon / Line <span class="sbim-rec">일반적 상황 추천</span></div>
+              <div class="sbim-desc">
+                단일 오브젝트의 폴리곤 메시 자체를 스프링 구조로 시뮬레이션합니다.
+                일반적인 젤리, 쿠션, 고무 표현에 사용합니다.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ④ Springs -->
+    <section id="springs" class="section">
+      <div class="section-tag">Springs — 굉장히 중요</div>
+      <h2 class="section-title">스프링 설정 — 소프트 바디의 핵심 물성 조절</h2>
+      <p class="section-desc">
+        소프트 바디는 내부적으로 <strong>스프링(용수철) 구조</strong>로 작동합니다.
+        스프링 5가지 항목이 각각 다른 종류의 변형을 얼마나 허용하거나 막을지 결정합니다.
+        이 값들의 조합이 재질의 느낌을 만들어냅니다.
+      </p>
+
+      <div class="spring-grid">
+
+        <div class="sg-card">
+          <div class="sgc-icon">↕</div>
+          <div class="sgc-name">Shear</div>
+          <div class="sgc-kor">전단력 — 비틀림 방지</div>
+          <div class="sgc-desc">
+            면에 생긴 스프링으로, <strong>옆으로 비틀리거나 사선으로 무너지는 것</strong>을 막는 힘입니다.
+            낮으면 오브젝트가 마름모 형태로 찌그러집니다.
+          </div>
+          <div class="sgc-problem">
+            <span class="sgcp-label">증상</span> 마름모처럼 무너짐, 사선으로 찌그러짐
+          </div>
+        </div>
+
+        <div class="sg-card">
+          <div class="sgc-icon">↩</div>
+          <div class="sgc-name">Flexion</div>
+          <div class="sgc-kor">굽힘 강성 — 접힘 방지</div>
+          <div class="sgc-desc">
+            <strong>접히거나 휘는 것을 막는 힘</strong>입니다.
+            낮으면 젖은 수건처럼 흐물하게 늘어지고, 높으면 단단하게 형태를 유지합니다.
+          </div>
+          <div class="sgc-problem">
+            <span class="sgcp-label">증상</span> 젖은 수건처럼 늘어짐, 너무 쉽게 접힘
+          </div>
+        </div>
+
+        <div class="sg-card">
+          <div class="sgc-icon">↔</div>
+          <div class="sgc-name">Structure</div>
+          <div class="sgc-kor">구조 강성 — 늘어남/찢어짐 방지</div>
+          <div class="sgc-desc">
+            <strong>늘어나거나 찢어지듯 변형되는 것을 막는 힘</strong>입니다.
+            재질의 단단함·탄성을 가장 직접적으로 제어하는 항목입니다.
+          </div>
+          <div class="sgc-problem">
+            <span class="sgcp-label">수치 참고</span> 젤리 1~20 / 고무공 3~70 / 쿠션 50 / 풍선 1~50
+          </div>
+        </div>
+
+        <div class="sg-card">
+          <div class="sgc-icon">〰</div>
+          <div class="sgc-name">Damping</div>
+          <div class="sgc-kor">감쇠 — 출렁임 제거</div>
+          <div class="sgc-desc">
+            충돌 후 <strong>출렁임과 탄성을 빠르게 죽이는 힘</strong>입니다.
+            낮으면 오래 출렁이고, 높으면 충돌 후 빠르게 안정됩니다.
+          </div>
+          <div class="sgc-problem">
+            <span class="sgcp-label">활용</span> 젤리는 낮게(오래 출렁), 쿠션은 높게(빠르게 안정)
+          </div>
+        </div>
+
+        <div class="sg-card">
+          <div class="sgc-icon">↕</div>
+          <div class="sgc-name">Elastic Limit</div>
+          <div class="sgc-kor">탄성 한계</div>
+          <div class="sgc-desc">
+            어디까지는 <strong>원래 형태로 복원</strong>되고, 어디부터는 <strong>변형된 상태로 유지</strong>될지의 한계선입니다.
+            이 값을 넘으면 영구 변형이 발생합니다.
+          </div>
+          <div class="sgc-problem">
+            <span class="sgcp-label">활용</span> 소성 변형(찰흙, 낙타 등) 표현 시 낮게 설정
+          </div>
+        </div>
+
+        <div class="sg-card sg-card-stiff">
+          <div class="sgc-icon">🔒</div>
+          <div class="sgc-name">Stiffness</div>
+          <div class="sgc-kor">형태 유지력</div>
+          <div class="sgc-desc">
+            오브젝트가 <strong>원래 형태를 유지하고자 하는 힘</strong>입니다.
+            높을수록 변형 후 원래 모양으로 돌아오려는 복원력이 강해집니다.
+          </div>
+          <div class="sgc-problem">
+            <span class="sgcp-label">활용</span> 딱딱한 재질(고무공)은 높게, 흐물한 재질(젤리)은 낮게
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⑤ 트러블슈팅 -->
+    <section id="troubleshoot" class="section">
+      <div class="section-tag">트러블슈팅</div>
+      <h2 class="section-title">소프트 바디 오류 — 증상으로 찾는 해결책</h2>
+      <p class="section-desc">
+        소프트 바디는 스프링 값이 잘못 설정되면 현실과 전혀 다른 이상한 움직임이 나옵니다.
+        증상을 보고 어떤 값을 조정해야 하는지 빠르게 판단하는 연습이 필요합니다.
+      </p>
+
+      <div class="trouble-list">
+
+        <div class="tl-item">
+          <div class="tli-symptoms">
+            <div class="tlis-label">증상</div>
+            <div class="tlis-list">
+              <span>물체가 너무 옆으로 찌그러짐</span>
+              <span>마름모 형태로 무너짐</span>
+              <span>탄성보다 흐물하게 틀어짐이 심함</span>
+            </div>
+          </div>
+          <div class="tli-arrow">→</div>
+          <div class="tli-solution">
+            <div class="tls-label">해결</div>
+            <div class="tls-name">Shear 값 올리기</div>
+            <div class="tls-desc">전단력을 높여 사선 변형을 막습니다</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tli-symptoms">
+            <div class="tlis-label">증상</div>
+            <div class="tlis-list">
+              <span>쿠션처럼 되는 게 아니라 젖은 수건처럼 축 늘어짐</span>
+              <span>너무 쉽게 접힘</span>
+              <span>말랑해야 하는데 너무 단단해 보임</span>
+            </div>
+          </div>
+          <div class="tli-arrow">→</div>
+          <div class="tli-solution">
+            <div class="tls-label">해결</div>
+            <div class="tls-name">Flexion 값 조정</div>
+            <div class="tls-desc">접힘 저항을 높이거나 낮춰 원하는 굽힘 정도를 찾습니다</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout callout-key">
+        <div class="callout-icon">💬</div>
+        <div class="callout-body">
+          <strong>"쓰는 게 베스트가 아니다 — 결과가 잘 나오길 기도하며 수치 조정"</strong>
+          <p>소프트 바디는 수치 하나하나가 서로 영향을 주기 때문에 정해진 정답이 없습니다.
+          증상을 보고 원인 스프링을 파악한 뒤, 소량씩 조정하며 눈으로 확인하는 것이 유일한 방법입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 수치 가이드 -->
+    <section id="value-guide" class="section">
+      <div class="section-tag">Structure 수치 가이드</div>
+      <h2 class="section-title">재질별 Structure 수치 참고값</h2>
+      <p class="section-desc">
+        Structure는 소프트 바디에서 재질의 단단함을 가장 직접적으로 제어합니다.
+        아래 수치는 참고값이며 씬마다 다를 수 있으니 반드시 눈으로 확인하며 조정하세요.
+      </p>
+
+      <div class="value-grid">
+
+        <div class="vg-card">
+          <div class="vgc-icon">🍮</div>
+          <div class="vgc-material">젤리</div>
+          <div class="vgc-range">
+            <div class="vgcr-bar" style="--fill: 5%"></div>
+            <div class="vgcr-val">1 ~ 20</div>
+          </div>
+          <div class="vgc-desc">매우 낮게 — 형태 변형이 크고 부드럽게 흐름</div>
+        </div>
+
+        <div class="vg-card">
+          <div class="vgc-icon">🏀</div>
+          <div class="vgc-material">고무공</div>
+          <div class="vgc-range">
+            <div class="vgcr-bar" style="--fill: 45%"></div>
+            <div class="vgcr-val">3 ~ 70</div>
+          </div>
+          <div class="vgc-desc">중간~높게 — 탄성 있게 튕기며 형태 유지</div>
+        </div>
+
+        <div class="vg-card">
+          <div class="vgc-icon">🛋</div>
+          <div class="vgc-material">쿠션</div>
+          <div class="vgc-range">
+            <div class="vgcr-bar" style="--fill: 50%"></div>
+            <div class="vgcr-val">50</div>
+          </div>
+          <div class="vgc-desc">중간 — 눌리지만 금방 복원</div>
+        </div>
+
+        <div class="vg-card">
+          <div class="vgc-icon">🎈</div>
+          <div class="vgc-material">풍선</div>
+          <div class="vgc-range">
+            <div class="vgcr-bar" style="--fill: 25%"></div>
+            <div class="vgcr-val">1 ~ 50</div>
+          </div>
+          <div class="vgc-desc">낮음~중간 — 팽팽하지만 충격에 변형</div>
+        </div>
+
+      </div>
+
+      <div class="use-margin-reminder">
+        <div class="umr-icon">📌</div>
+        <div class="umr-content">
+          <strong>소프트 바디 + Use Margin 함께 사용</strong>
+          <p>소프트 바디는 얇은 오브젝트끼리 서로 통과하는 문제가 자주 발생합니다.
+          시뮬레이션 오류가 보이면 Collision 항목의 <strong>Use Margin을 1~10 정도</strong> 올려보세요.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>다이나믹 시뮬레이션 심화 — Soft Body & Collision 수업 필기 · 2026.04.03 저녁반 보강</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
