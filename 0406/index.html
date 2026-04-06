@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xpresso & 립스틱 모델링 — 오전반 0406</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.06 오전반</span>
+      <h1>Xpresso & 립스틱 모델링</h1>
+      <p class="subtitle">노드 기반 자동화 · Range Mapper · 유저데이터 · 립스틱 오브젝트 분리</p>
+      <div class="header-tags">
+        <span>Xpresso</span>
+        <span>Range Mapper</span>
+        <span>유저데이터</span>
+        <span>Math 노드</span>
+        <span>립스틱 모델링</span>
+        <span>Fill Selection</span>
+        <span>Close Polygon Hole</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#xpresso-intro">Xpresso 개요</a></li>
+        <li><a href="#mindset">작업 마인드셋</a></li>
+        <li><a href="#userdata">유저데이터</a></li>
+        <li><a href="#nodes">Xpresso 노드</a></li>
+        <li><a href="#practice">실습 예시</a></li>
+        <li><a href="#quiz">퀴즈</a></li>
+        <li><a href="#lipstick">립스틱 모델링</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① Xpresso 개요 -->
+    <section id="xpresso-intro" class="section">
+      <div class="section-tag">Xpresso 개요</div>
+      <h2 class="section-title">Xpresso — C4D의 노드 기반 자동화 시스템</h2>
+      <p class="section-desc">
+        After Effects의 <strong>익스프레션(Expression)</strong>과 같은 역할을 하지만,
+        코드를 직접 입력하는 방식이 아닌 <strong>노드를 연결하는 방식</strong>으로 작업합니다.
+        오브젝트 간의 관계를 설정해 하나의 값이 바뀌면 연결된 다른 값들이 자동으로 따라 움직이게 만드는 기능입니다.
+      </p>
+
+      <div class="xp-compare">
+        <div class="xpc-item">
+          <div class="xpc-app">After Effects</div>
+          <div class="xpc-name">Expression</div>
+          <div class="xpc-method">
+            <div class="xpcm-icon">⌨</div>
+            <div class="xpcm-label">코드(텍스트) 입력 방식</div>
+          </div>
+        </div>
+        <div class="xpc-vs">≈</div>
+        <div class="xpc-item xpc-item-c4d">
+          <div class="xpc-app">Cinema 4D</div>
+          <div class="xpc-name">Xpresso</div>
+          <div class="xpc-method">
+            <div class="xpcm-icon">⬡</div>
+            <div class="xpcm-label">노드(시각적) 연결 방식</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-benefit">
+        <div class="xpb-icon">⚡</div>
+        <div class="xpb-content">
+          <div class="xpb-title">기본 개념만 알아도 작업 시간을 굉장히 단축할 수 있다</div>
+          <div class="xpb-desc">
+            Xpresso를 사용하면 Scale이 커질 때 Position도 자동 이동, Rotation도 자동 회전 등
+            복잡하게 연동되는 키프레임을 <strong>컨트롤러 하나로 한 번에 제어</strong>할 수 있습니다.
+            특히 립스틱처럼 여러 파트가 연동되어 움직이는 제품 광고 작업에 필수입니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② 작업 마인드셋 -->
+    <section id="mindset" class="section">
+      <div class="section-tag">3D 파트 담당자의 마인드셋</div>
+      <h2 class="section-title">늘 최적화와 효율을 고민해야 한다</h2>
+
+      <div class="mindset-flow">
+        <div class="mf-step">
+          <div class="mfs-icon">🎬</div>
+          <div class="mfs-label">모션 작업</div>
+        </div>
+        <div class="mf-arrow">→</div>
+        <div class="mf-step">
+          <div class="mfs-icon">⚙</div>
+          <div class="mfs-label">최적화 & 환경 구성</div>
+        </div>
+        <div class="mf-arrow">→</div>
+        <div class="mf-step mfs-highlight">
+          <div class="mfs-icon">⬡</div>
+          <div class="mfs-label">Xpresso 활용</div>
+        </div>
+        <div class="mf-arrow">→</div>
+        <div class="mf-step">
+          <div class="mfs-icon">💡</div>
+          <div class="mfs-label">"더 쉽게 할 수 없을까?" 고민</div>
+        </div>
+      </div>
+
+      <div class="mindset-tip">
+        <div class="mt-icon">💬</div>
+        <div class="mt-content">
+          <strong>Xpresso 작업 시 초보자가 해야 할 첫 번째 단계</strong>
+          <p>노드를 바로 연결하려 하지 말고, <strong>내가 만들고 싶은 동작을 먼저 글로 적어보세요.</strong><br>
+          "A의 수치가 증가하면 → B의 어떤 값이 어떻게 변한다"를 명확히 정의한 뒤 작업을 시작합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 유저데이터 Unit -->
+    <section id="userdata" class="section">
+      <div class="section-tag">유저데이터</div>
+      <h2 class="section-title">User Data — 컨트롤러 슬라이더 만들기</h2>
+      <p class="section-desc">
+        Xpresso에서는 보통 <strong>Null 오브젝트에 유저데이터를 추가</strong>해 컨트롤러로 사용합니다.
+        유저데이터의 Unit(단위) 설정이 Xpresso 노드 연결 시 Range Mapper의 입력 범위를 결정합니다.
+      </p>
+
+      <div class="unit-grid">
+        <div class="ug-card ug-percent">
+          <div class="ugc-name">Percent</div>
+          <div class="ugc-range">0 ~ 100%</div>
+          <div class="ugc-desc">가장 직관적인 컨트롤러. 0%에서 100%까지 슬라이더로 제어. <strong>Xpresso 컨트롤러로 가장 많이 사용.</strong></div>
+        </div>
+        <div class="ug-card">
+          <div class="ugc-name">Degree</div>
+          <div class="ugc-range">각도값 (°)</div>
+          <div class="ugc-desc">회전 관련 수치를 다룰 때 사용. Rotation에 직접 연결할 때 편리.</div>
+        </div>
+        <div class="ug-card">
+          <div class="ugc-name">Length Unit</div>
+          <div class="ugc-range">거리값 (cm)</div>
+          <div class="ugc-desc">Position이나 Scale 거리를 cm 단위로 직접 입력할 때 사용.</div>
+        </div>
+        <div class="ug-card">
+          <div class="ugc-name">Real</div>
+          <div class="ugc-range">실수값</div>
+          <div class="ugc-desc">단위 없는 순수 숫자. 비율 계산이나 Math 노드 입력에 활용.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ Xpresso 노드 -->
+    <section id="nodes" class="section">
+      <div class="section-tag">Xpresso 노드</div>
+      <h2 class="section-title">노드의 기본 구조 — 빨간 버튼 & 파란 버튼</h2>
+      <p class="section-desc">
+        Xpresso의 모든 노드는 <strong>빨간 포트(출력)</strong>와 <strong>파란 포트(입력)</strong>으로 구성됩니다.
+        빨간 포트에서 선을 뽑아 파란 포트에 연결하는 것이 Xpresso 작업의 전부입니다.
+      </p>
+
+      <div class="node-concept">
+        <div class="nc-item nc-red">
+          <div class="nc-dot nc-dot-red"></div>
+          <div class="nc-content">
+            <div class="nc-name">빨간 버튼 — 출력 (Output)</div>
+            <div class="nc-desc">수치를 <strong>내보내는</strong> 포트입니다. 동시에 여러 갈래로 내보낼 수 있습니다.</div>
+            <div class="nc-rule">1 → 여러 개 연결 가능 ✓</div>
+          </div>
+        </div>
+        <div class="nc-arrow">→</div>
+        <div class="nc-item nc-blue">
+          <div class="nc-dot nc-dot-blue"></div>
+          <div class="nc-content">
+            <div class="nc-name">파란 버튼 — 입력 (Input)</div>
+            <div class="nc-desc">수치를 <strong>받아들이는</strong> 포트입니다. 하나의 파란 포트에는 하나의 연결만 가능합니다.</div>
+            <div class="nc-rule">하나만 연결 가능 — 두 개 연결 시 나중 것이 덮어씀</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="key-nodes">
+        <div class="kn-title">핵심 노드 2가지</div>
+        <div class="kn-grid">
+
+          <div class="kng-card kng-range">
+            <div class="kngc-badge">★★★ 필수</div>
+            <div class="kngc-name">Range Mapper</div>
+            <div class="kngc-desc">
+              <strong>서로 다른 단위와 범위를 가진 수치들을 하나로 연결</strong>할 때 사용합니다.
+              예를 들어 0~100%(컨트롤러)를 0~500cm(이동 거리)로 변환하거나,
+              0~100%를 0~360°(회전)로 변환하는 식으로 범위를 매핑합니다.
+            </div>
+            <div class="kngc-example">
+              <div class="kngce-row">
+                <span class="kngcer-from">입력: 0 ~ 100%</span>
+                <span class="kngcer-arrow">→</span>
+                <span class="kngcer-to">출력: 0 ~ 500cm</span>
+              </div>
+              <div class="kngce-row">
+                <span class="kngcer-from">입력: 0 ~ 100%</span>
+                <span class="kngcer-arrow">→</span>
+                <span class="kngcer-to">출력: 0 ~ 360°</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kng-card kng-math">
+            <div class="kngc-badge kngc-badge-math">수학 연산</div>
+            <div class="kngc-name">Math</div>
+            <div class="kngc-desc">
+              수학 공식이 필요할 때 사용합니다. 두 수치를 더하거나, 특정 값을 곱해 스케일을 조정하는 등 연산이 필요한 상황에 노드 사이에 끼워 사용합니다.
+            </div>
+            <div class="math-ops">
+              <span class="mo-item">Add <em>더하기</em></span>
+              <span class="mo-item">Subtract <em>빼기</em></span>
+              <span class="mo-item">Multiply <em>곱하기</em></span>
+              <span class="mo-item">Divide <em>나누기</em></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ 실습 예시 -->
+    <section id="practice" class="section">
+      <div class="section-tag">실습 예시</div>
+      <h2 class="section-title">컨트롤러 하나로 Scale · Position · Rotation 동시 제어</h2>
+      <p class="section-desc">
+        Null 레이어에 퍼센트 유저데이터를 만들어 컨트롤러로 사용하고,
+        이 값에 큐브의 스케일·포지션·로테이션을 한 번에 연동하는 기본 Xpresso 구성입니다.
+      </p>
+
+      <div class="practice-setup">
+        <div class="ps-title">세팅 조건</div>
+        <div class="ps-item">
+          <span class="psi-num">①</span>
+          <div class="psi-content">
+            <strong>컨트롤러</strong> — Null 레이어에 유저데이터 추가. 단위: Percent (0~100%)
+          </div>
+        </div>
+        <div class="ps-item">
+          <span class="psi-num">②</span>
+          <div class="psi-content">
+            <strong>Scale 연동</strong> — 컨트롤러 0~100% → 큐브 Scale 0~1
+            <div class="psi-node">Range Mapper: 입력 0~100 / 출력 0~1</div>
+          </div>
+        </div>
+        <div class="ps-item">
+          <span class="psi-num">③</span>
+          <div class="psi-content">
+            <strong>Position 연동</strong> — 컨트롤러 0~100% → 큐브 Position X 0~500cm
+            <div class="psi-node">Range Mapper: 입력 0~100 / 출력 0~500</div>
+          </div>
+        </div>
+        <div class="ps-item">
+          <span class="psi-num">④</span>
+          <div class="psi-content">
+            <strong>Rotation 연동</strong> — 컨트롤러 0~100% → 큐브 Rotation H/P/B 각각 0~360°
+            <div class="psi-node">Range Mapper 3개: 각 축마다 입력 0~100 / 출력 0~360</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="practice-flow">
+        <div class="pf-title">노드 연결 흐름</div>
+        <div class="pf-diagram">
+          <div class="pfd-node pfd-null">
+            <div class="pfdn-label">Null 레이어</div>
+            <div class="pfdn-sub">유저데이터 (Percent)</div>
+            <div class="pfdn-port red-port">●</div>
+          </div>
+          <div class="pfd-arrow">→</div>
+          <div class="pfd-node pfd-range">
+            <div class="pfdn-port blue-port">●</div>
+            <div class="pfdn-label">Range Mapper</div>
+            <div class="pfdn-sub">단위 변환</div>
+            <div class="pfdn-port red-port">●</div>
+          </div>
+          <div class="pfd-arrow">→</div>
+          <div class="pfd-targets">
+            <div class="pfd-node pfd-cube">
+              <div class="pfdn-port blue-port">●</div>
+              <div class="pfdn-label">Scale</div>
+            </div>
+            <div class="pfd-node pfd-cube">
+              <div class="pfdn-port blue-port">●</div>
+              <div class="pfdn-label">Position X</div>
+            </div>
+            <div class="pfd-node pfd-cube">
+              <div class="pfdn-port blue-port">●</div>
+              <div class="pfdn-label">Rotation H/P/B</div>
+            </div>
+          </div>
+        </div>
+        <div class="pf-note">빨간 포트 하나에서 여러 Range Mapper로 동시에 내보낼 수 있습니다.</div>
+      </div>
+    </section>
+
+    <!-- ⑥ 퀴즈 -->
+    <section id="quiz" class="section">
+      <div class="section-tag">퀴즈</div>
+      <h2 class="section-title">실습 퀴즈 — 큐브 A · B 반대 방향 연동</h2>
+
+      <div class="quiz-condition">
+        <div class="qc-title">조건 설정</div>
+        <div class="qc-setup">
+          <div class="qcs-item">컨트롤러 Null 레이어 생성 → 유저데이터: <strong>퍼센트 (0~100%)</strong></div>
+          <div class="qcs-item">큐브 오브젝트 2개를 컨트롤러 안에 배치 → <strong>큐브 A</strong>, <strong>큐브 B</strong></div>
+        </div>
+      </div>
+
+      <div class="quiz-targets">
+        <div class="qt-card qt-a">
+          <div class="qtc-label">큐브 A</div>
+          <div class="qtc-row">
+            <span class="qtcr-prop">Position X</span>
+            <span class="qtcr-range">0 → <strong>-1000cm</strong> (감소)</span>
+          </div>
+          <div class="qtc-row">
+            <span class="qtcr-prop">Rotation B</span>
+            <span class="qtcr-range">0 → <strong>+250°</strong></span>
+          </div>
+        </div>
+        <div class="qt-vs">vs</div>
+        <div class="qt-card qt-b">
+          <div class="qtc-label">큐브 B</div>
+          <div class="qtc-row">
+            <span class="qtcr-prop">Position X</span>
+            <span class="qtcr-range">0 → <strong>+1000cm</strong> (증가)</span>
+          </div>
+          <div class="qtc-row">
+            <span class="qtcr-prop">Rotation B</span>
+            <span class="qtcr-range">0 → <strong>-250°</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-hint">
+        <div class="qh-icon">💡</div>
+        <div class="qh-text">
+          A와 B가 <strong>반대 방향</strong>으로 움직이도록 Range Mapper의 출력 범위를 반전시키면 됩니다.
+          A: 출력 0~-1000 / B: 출력 0~1000 — Rotation도 마찬가지로 부호만 반전.
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 립스틱 모델링 -->
+    <section id="lipstick" class="section">
+      <div class="section-tag">립스틱 모델링</div>
+      <h2 class="section-title">립스틱 케이스 — 큐브에서 상/하단 오브젝트 분리</h2>
+      <p class="section-desc">
+        큐브 오브젝트를 기반으로 립스틱 케이스의 기본 형태를 만들고,
+        상단(캡)과 하단(본체)을 분리하는 과정입니다.
+        모델링 단축키들을 정확히 익혀두는 것이 핵심입니다.
+      </p>
+
+      <div class="steps">
+
+        <div class="step-item">
+          <div class="si-num">01</div>
+          <div class="si-content">
+            <div class="si-title">큐브 오브젝트 기본 세팅</div>
+            <div class="si-desc">큐브 오브젝트를 생성하고 크기와 세그먼트를 조정합니다.</div>
+            <div class="si-params">
+              <div class="sip-item"><span class="sipl">크기 Y</span><span class="sipv">300cm</span></div>
+              <div class="sip-item"><span class="sipl">세그먼트 X</span><span class="sipv">2</span></div>
+              <div class="sip-item"><span class="sipl">세그먼트 Y</span><span class="sipv">5</span></div>
+              <div class="sip-item"><span class="sipl">세그먼트 Z</span><span class="sipv">2</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="si-num">02</div>
+          <div class="si-content">
+            <div class="si-title">Bulge 디포머 적용</div>
+            <div class="si-desc">큐브에 불지(Bulge) 디포머를 추가해 립스틱 특유의 볼록한 형태를 만듭니다.</div>
+            <div class="si-params">
+              <div class="sip-item"><span class="sipl">Fit to Parent</span><span class="sipv">적용</span></div>
+              <div class="sip-item"><span class="sipl">Strength</span><span class="sipv">25%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="si-num">03</div>
+          <div class="si-content">
+            <div class="si-title">Make Editable → 상/하단 분리</div>
+            <div class="si-desc">큐브를 편집 가능한 상태로 전환한 뒤, 위에서 두 번째 선을 기준으로 상단을 분리합니다.</div>
+            <div class="si-shortcut-list">
+              <div class="sisl-item">
+                <div class="sisl-step">더블클릭 (엣지 모드)</div>
+                <div class="sisl-result">위에서 두 번째 선 루프 셀렉션</div>
+              </div>
+              <div class="sisl-item">
+                <kbd>U</kbd><kbd>F</kbd>
+                <div class="sisl-result">Fill Selection — 선 기준 상단 면 전체 선택</div>
+              </div>
+              <div class="sisl-item">
+                <kbd>U</kbd><kbd>P</kbd>
+                <div class="sisl-result">Split — 선택 영역을 별도 오브젝트로 분리</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="si-num">04</div>
+          <div class="si-content">
+            <div class="si-title">하단 오브젝트(원본) 윗면 제거</div>
+            <div class="si-desc">상단을 분리한 후 하단 오브젝트에 남아있는 위쪽 면을 삭제하면 상·하단이 깔끔하게 분리됩니다.</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="si-num">05</div>
+          <div class="si-content">
+            <div class="si-title">뚜껑 닫기 — Close Polygon Hole</div>
+            <div class="si-desc">분리 후 열린 구멍(뚜껑 없는 상태)을 닫아줍니다. 닫은 뒤 면을 4각형으로 정리해야 합니다.</div>
+            <div class="si-shortcut-list">
+              <div class="sisl-item">
+                <kbd>M</kbd><kbd>D</kbd>
+                <div class="sisl-result">Close Polygon Hole — 열린 구멍을 면으로 닫음</div>
+              </div>
+              <div class="sisl-item">
+                <kbd>M</kbd><kbd>K</kbd>
+                <div class="sisl-result">Line Cut — 뚜껑 면을 4각형으로 분할 정리</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="si-num">06</div>
+          <div class="si-content">
+            <div class="si-title">상단 캡 — 루즈 구멍 만들기</div>
+            <div class="si-desc">상단 오브젝트의 윗면에 Extrude Inner로 면을 줄인 뒤, Extrude로 면을 밀어 넣어 루즈가 나오는 통로를 만듭니다.</div>
+            <div class="si-shortcut-list">
+              <div class="sisl-item">
+                <span>윗면 4개 선택 후</span>
+                <kbd>I</kbd>
+                <div class="sisl-result">Extrude Inner — 면을 안쪽으로 줄이며 복사</div>
+              </div>
+              <div class="sisl-item">
+                <kbd>D</kbd>
+                <div class="sisl-result">Extrude — 면을 뽑아(깊이 추가) 홀 형태 완성</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="shortcut-summary">
+        <div class="ss-title">오늘 사용한 단축키 정리</div>
+        <div class="ss-grid">
+          <div class="ssg-item"><kbd>U</kbd><kbd>F</kbd><span>Fill Selection</span></div>
+          <div class="ssg-item"><kbd>U</kbd><kbd>P</kbd><span>Split (오브젝트 분리)</span></div>
+          <div class="ssg-item"><kbd>M</kbd><kbd>D</kbd><span>Close Polygon Hole</span></div>
+          <div class="ssg-item"><kbd>M</kbd><kbd>K</kbd><span>Line Cut</span></div>
+          <div class="ssg-item"><kbd>I</kbd><span>Extrude Inner</span></div>
+          <div class="ssg-item"><kbd>D</kbd><span>Extrude</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>Xpresso & 립스틱 모델링 수업 필기 · 2026.04.06 오전반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
