@@ -12,11 +12,11 @@
     <div class="header-inner">
       <span class="badge">2026.04.06 저녁반</span>
       <h1>몬스터볼 모델링 & 텍스처링</h1>
-      <p class="subtitle">Sphere · Symmetry · Extrude · Composite Material · Material Layer · Dirt/Grunge</p>
+      <p class="subtitle">Sphere · Symmetry · Composite Material · Material Layer · Dirt / Grunge</p>
       <div class="header-tags">
         <span>Sphere 모델링</span>
-        <span>Symmetry</span>
-        <span>Extrude Inner</span>
+        <span>Extrude + Caps</span>
+        <span>Symmetry XZ</span>
         <span>Composite Material</span>
         <span>Material Layer</span>
         <span>Dirt / Grunge</span>
@@ -28,43 +28,43 @@
     <div class="toc-inner">
       <span class="toc-label">목차</span>
       <ul>
-        <li><a href="#overview">프로젝트 개요</a></li>
-        <li><a href="#modeling">모델링</a></li>
-        <li><a href="#texturing">텍스처링</a></li>
-        <li><a href="#material-layer">Material Layer</a></li>
-        <li><a href="#dirt-grunge">Dirt / Grunge</a></li>
+        <li><a href="#overview">개요</a></li>
+        <li><a href="#modeling">모델링 단계</a></li>
+        <li><a href="#composite">Composite Material</a></li>
+        <li><a href="#layer">Material Layer</a></li>
+        <li><a href="#dirt">Dirt / Grunge</a></li>
       </ul>
     </div>
   </nav>
 
   <main class="container">
 
-    <!-- ① 프로젝트 개요 -->
+    <!-- ① 개요 -->
     <section id="overview" class="section">
       <div class="section-tag">프로젝트 개요</div>
-      <h2 class="section-title">몬스터볼 — 모델링 + 시뮬레이션 + 텍스처링</h2>
+      <h2 class="section-title">몬스터볼 — 모델링부터 텍스처까지</h2>
       <p class="section-desc">
-        오늘은 몬스터볼을 주제로 <strong>스피어 기반 모델링, 시메트리 활용, 컴포지트 텍스처링</strong>까지
-        하나의 오브젝트를 완성하는 전체 파이프라인을 다룹니다.
-        단순해 보이는 형태 안에 C4D 핵심 워크플로우가 압축되어 있습니다.
+        구(Sphere)라는 단순한 형태에서 시작해 두께·대칭·버튼 디테일을 더하고,
+        Composite Material로 <strong>반짝이는 펄 금속 페인트 질감</strong>까지 완성하는 실습입니다.
+        C4D의 핵심 모델링·텍스처링 워크플로우를 한 오브젝트로 압축해 경험합니다.
       </p>
-      <div class="overview-parts">
-        <div class="op-card">
-          <div class="op-num">1</div>
-          <div class="op-label">모델링</div>
-          <div class="op-desc">Sphere → 분리 → Extrude → Symmetry → 버튼 제작</div>
+      <div class="pipeline">
+        <div class="pl-step pl-active">
+          <div class="pl-icon">🟠</div>
+          <div class="pl-label">모델링</div>
+          <div class="pl-sub">Sphere → 두께 → 대칭 → 버튼</div>
         </div>
-        <div class="op-arrow">→</div>
-        <div class="op-card">
-          <div class="op-num">2</div>
-          <div class="op-label">텍스처링</div>
-          <div class="op-desc">Composite Material + Material Layer로 레이어 방식 질감 표현</div>
+        <div class="pl-arrow">→</div>
+        <div class="pl-step">
+          <div class="pl-icon">🎨</div>
+          <div class="pl-label">텍스처링</div>
+          <div class="pl-sub">Composite + Layer + Dirt</div>
         </div>
-        <div class="op-arrow">→</div>
-        <div class="op-card">
-          <div class="op-num">3</div>
-          <div class="op-label">애니메이션</div>
-          <div class="op-desc">다이나믹 시뮬레이션을 곁들인 움직임 표현</div>
+        <div class="pl-arrow">→</div>
+        <div class="pl-step">
+          <div class="pl-icon">⚡</div>
+          <div class="pl-label">애니메이션</div>
+          <div class="pl-sub">시뮬레이션을 곁들인</div>
         </div>
       </div>
     </section>
@@ -72,350 +72,281 @@
     <!-- ② 모델링 -->
     <section id="modeling" class="section">
       <div class="section-tag">모델링</div>
-      <h2 class="section-title">몬스터볼 모델링 — Sphere에서 완성까지</h2>
+      <h2 class="section-title">몬스터볼 모델링 — 7단계</h2>
       <p class="section-desc">
-        스피어(구) 오브젝트를 기반으로 시작해 두께감, 대칭, 버튼 디테일까지 단계적으로 완성합니다.
-        각 단계에서 사용하는 기능과 이유를 함께 이해하는 것이 중요합니다.
+        Sphere 오브젝트 하나에서 시작해 필요 없는 면을 제거하고, Extrude로 두께를 만들고,
+        Symmetry로 아래쪽을 자동 완성하는 효율적인 워크플로우입니다.
       </p>
 
-      <div class="steps">
+      <div class="step-list">
 
-        <div class="step-item">
-          <div class="si-num">01</div>
-          <div class="si-content">
-            <div class="si-title">Sphere 기본 세팅 — 세그먼트 & 회전</div>
-            <div class="si-desc">
-              Sphere 오브젝트를 생성하고 세그먼트를 높게 설정합니다.
-              세그먼트가 많을수록 구의 표면이 부드러워지고,
-              나중에 Extrude로 두께를 줄 때 엣지가 자연스럽게 표현됩니다.
+        <div class="sl-item">
+          <div class="sl-num">01</div>
+          <div class="sl-body">
+            <div class="sl-title">Sphere 생성 — 세그먼트 & 방향 설정</div>
+            <div class="sl-desc">Sphere를 꺼내고 세그먼트를 높게 설정해 표면을 부드럽게 만듭니다.
+            그런 다음 로테이션 90도 회전 — 뚜껑 경계선이 <strong>정면을 바라보도록</strong> 맞추기 위해서입니다.</div>
+            <div class="sl-chips">
+              <span class="chip">Segments 32 ~ 64</span>
+              <span class="chip">Rotation 90°</span>
             </div>
-            <div class="si-params">
-              <div class="sip-item"><span class="sipl">Segments</span><span class="sipv">32 ~ 64</span></div>
-              <div class="sip-item"><span class="sipl">Rotation</span><span class="sipv">90° 회전</span></div>
-            </div>
-            <div class="si-note">
-              90도 회전하는 이유 — 뚜껑의 경계선(분할선)이 <strong>정면을 바라보도록</strong> 맞추기 위해서입니다.
-              기본 스피어는 분할선이 옆을 향하고 있어 반을 선택하기 어렵습니다.
+            <div class="sl-why">
+              기본 Sphere는 경계선이 옆을 향해 절반 선택이 어렵습니다.
+              90도 회전하면 경계선이 정면이 되어 정확하게 절반을 선택·삭제할 수 있습니다.
             </div>
           </div>
         </div>
 
-        <div class="step-item">
-          <div class="si-num">02</div>
-          <div class="si-content">
-            <div class="si-title">절반 제거 — 뚜껑 형태 만들기</div>
-            <div class="si-desc">
-              Make Editable(C키) 후 폴리곤 모드에서 구의 절반을 선택해 삭제합니다.
-              몬스터볼의 뚜껑(상단 반구) 형태를 만드는 단계입니다.
+        <div class="sl-item">
+          <div class="sl-num">02</div>
+          <div class="sl-body">
+            <div class="sl-title">절반 제거 — 뚜껑 반구 만들기</div>
+            <div class="sl-desc">Make Editable 후 폴리곤 모드에서 아래쪽 절반을 선택해 삭제합니다.
+            이어서 뚜껑의 <strong>둥근 윗부분 일부도 추가 삭제</strong>합니다.
+            이 공간에 나중에 버튼(실린더)이 들어갑니다.</div>
+          </div>
+        </div>
+
+        <div class="sl-item">
+          <div class="sl-num">03</div>
+          <div class="sl-body">
+            <div class="sl-title">Extrude — 두께감 만들기</div>
+            <div class="sl-desc">반구 오브젝트에 Extrude를 적용해 실제 플라스틱 케이스 같은 두께를 만듭니다.</div>
+            <div class="sl-chips">
+              <span class="chip chip-important">Create Caps ✓ 체크 필수</span>
             </div>
-            <div class="si-tip">
-              추가로 뚜껑의 <strong>둥근 윗부분 일부를 더 선택해 제거</strong>합니다.
-              이 부분은 나중에 버튼(실린더)을 달기 위한 평평한 공간을 마련하는 작업입니다.
+            <div class="sl-why">
+              Create Caps를 체크해야 Extrude 후 단면이 막힌 상태로 두께가 생깁니다.
+              체크 안 하면 속이 빈 껍데기가 됩니다.
             </div>
           </div>
         </div>
 
-        <div class="step-item">
-          <div class="si-num">03</div>
-          <div class="si-content">
-            <div class="si-title">Extrude — 두께감 만들기</div>
-            <div class="si-desc">
-              뚜껑 구조물에 Extrude를 적용해 실제 플라스틱 케이스처럼 두께를 만듭니다.
-            </div>
-            <div class="si-params">
-              <div class="sip-item sip-important"><span class="sipl">Create Caps</span><span class="sipv">✓ 체크 필수</span></div>
-            </div>
-            <div class="si-note">
-              <strong>Create Caps를 반드시 체크해야</strong> Extrude 후 열린 단면이 막힌 상태로 두께가 생깁니다.
-              체크하지 않으면 두께는 생기지만 단면이 뚫린 빈 껍데기가 됩니다.
+        <div class="sl-item">
+          <div class="sl-num">04</div>
+          <div class="sl-body">
+            <div class="sl-title">Symmetry — 하단 자동 복사</div>
+            <div class="sl-desc">뚜껑을 Symmetry로 감싸면 XZ 평면을 기준으로 아래쪽으로 자동 복사되어
+            몬스터볼 하단 본체가 완성됩니다. 뚜껑을 수정하면 하단도 실시간으로 함께 바뀝니다.</div>
+            <div class="sl-chips">
+              <span class="chip">Mirror Plane: XZ</span>
             </div>
           </div>
         </div>
 
-        <div class="step-item">
-          <div class="si-num">04</div>
-          <div class="si-content">
-            <div class="si-title">Symmetry — 하단 절반 자동 복사</div>
-            <div class="si-desc">
-              뚜껑(상단)을 Symmetry 오브젝트로 감싸면 아래쪽으로 자동 복사되어
-              몬스터볼의 하단 본체가 완성됩니다. 직접 하단을 모델링하지 않아도 됩니다.
-            </div>
-            <div class="si-params">
-              <div class="sip-item"><span class="sipl">Mirror Plane</span><span class="sipv">XZ 방향</span></div>
-            </div>
-            <div class="si-note">
-              XZ 평면을 기준으로 미러링하면 오브젝트가 Y축(위아래)으로 대칭 복사됩니다.
-              Symmetry는 편집 내용이 실시간으로 반영되므로 뚜껑을 수정하면 하단도 함께 변합니다.
+        <div class="sl-item">
+          <div class="sl-num">05</div>
+          <div class="sl-body">
+            <div class="sl-title">경계 Sphere 추가</div>
+            <div class="sl-desc">Sphere를 하나 더 생성해 뚜껑과 하단이 만나는 가운데 경계에 배치합니다.
+            크기를 뚜껑과 정확히 맞춰 몬스터볼 중앙 경계선 디테일을 만듭니다.</div>
+          </div>
+        </div>
+
+        <div class="sl-item">
+          <div class="sl-num">06</div>
+          <div class="sl-body">
+            <div class="sl-title">실린더로 버튼 제작</div>
+            <div class="sl-desc">실린더로 중앙 버튼을 만듭니다. 앞서 지운 둥근 부분보다 <strong>약간 더 작게</strong> 크기 조절 후 윗면에 Extrude Inner → Extrude 순서로 버튼 돌출 형태를 완성합니다.</div>
+            <div class="sl-shortcuts">
+              <div class="slsc-item"><kbd>I</kbd><span>Extrude Inner — 면을 안으로 줄이며 테두리 생성</span></div>
+              <div class="slsc-item"><kbd>D</kbd><span>Extrude — 면을 뽑아 버튼 돌출 완성</span></div>
             </div>
           </div>
         </div>
 
-        <div class="step-item">
-          <div class="si-num">05</div>
-          <div class="si-content">
-            <div class="si-title">가운데 경계 스피어 추가</div>
-            <div class="si-desc">
-              스피어 오브젝트를 하나 더 추가해 뚜껑과 하단이 만나는 경계 부분에 배치합니다.
-              크기를 뚜껑과 정확히 맞춰주면 몬스터볼 중앙의 경계선 디테일이 완성됩니다.
-            </div>
-          </div>
-        </div>
-
-        <div class="step-item">
-          <div class="si-num">06</div>
-          <div class="si-content">
-            <div class="si-title">실린더로 버튼 제작</div>
-            <div class="si-desc">
-              실린더 오브젝트로 몬스터볼 중앙의 동그란 버튼을 만듭니다.
-            </div>
-            <div class="si-tip">
-              실린더 크기는 앞서 지운 뚜껑 둥근 부분보다 <strong>약간 더 작게</strong> 조절합니다.
-            </div>
-            <div class="si-shortcut-list">
-              <div class="sisl-item">
-                <span>윗면 선택 후</span>
-                <kbd>I</kbd>
-                <div class="sisl-desc">Extrude Inner — 면을 안쪽으로 줄이며 테두리 생성</div>
-              </div>
-              <div class="sisl-item">
-                <kbd>D</kbd>
-                <div class="sisl-desc">Extrude — 면을 위로 뽑아 버튼 돌출 형태 완성</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="step-item">
-          <div class="si-num">07</div>
-          <div class="si-content">
-            <div class="si-title">전체 합치기 — Connect Objects</div>
-            <div class="si-desc">
-              뚜껑, Symmetry 본체, 가운데 스피어, 버튼 실린더를 전부 선택한 뒤
-              하나의 오브젝트로 합쳐서 최종 몬스터볼을 완성합니다.
-            </div>
-            <div class="si-note">
-              합치기 전 오브젝트 이름을 정리해두면 나중에 텍스처 적용 시 관리가 훨씬 편합니다.
-            </div>
+        <div class="sl-item">
+          <div class="sl-num">07</div>
+          <div class="sl-body">
+            <div class="sl-title">전체 합치기 — Connect Objects</div>
+            <div class="sl-desc">뚜껑, Symmetry 본체, 경계 Sphere, 버튼 실린더를 모두 선택해
+            하나의 오브젝트로 합칩니다. 이후 텍스처 작업이 훨씬 편해집니다.</div>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- ③ 텍스처링 개요 -->
-    <section id="texturing" class="section">
+    <!-- ③ Composite Material -->
+    <section id="composite" class="section">
       <div class="section-tag">텍스처링</div>
-      <h2 class="section-title">Composite Material — 여러 재질을 하나로 합치는 방식</h2>
+      <h2 class="section-title">Composite Material — 재질을 합쳐서 쓰는 방식</h2>
       <p class="section-desc">
-        C4D에서 텍스처 작업 시 단순히 하나의 재질을 통째로 적용하는 방법도 있지만,
-        실제 표면처럼 복잡한 질감을 만들려면 <strong>Composite Material(컴포지트 메터리얼)</strong>을 활용합니다.
+        단순한 단일 재질 대신, <strong>여러 재질과 효과를 하나의 컨테이너에 담아</strong>
+        복잡한 표면을 표현하는 방식입니다.
+        오늘의 목표는 반짝이는 펄 가루가 들어간 금속 페인트칠 재질을 만드는 것입니다.
       </p>
 
-      <div class="tex-compare">
-        <div class="tc-card tc-single">
-          <div class="tc-header">
-            <div class="tc-icon">🟦</div>
-            <div class="tc-name">일반 Material</div>
+      <div class="mat-compare">
+        <div class="mc-card mc-basic">
+          <div class="mcc-title">일반 Material</div>
+          <div class="mcc-layers">
+            <div class="mccl-single">단일 재질</div>
           </div>
-          <div class="tc-desc">
-            단일 재질 하나를 오브젝트에 적용합니다.
-            빠르고 단순하지만 복잡한 표면 질감(먼지, 광택 얼룩, 긁힘 등)을 표현하기 어렵습니다.
-          </div>
-          <div class="tc-tag tc-tag-simple">단순 작업에 적합</div>
+          <div class="mcc-desc">빠르고 단순하지만 복잡한 표면 표현이 어렵습니다.</div>
         </div>
-        <div class="tc-card tc-composite">
-          <div class="tc-header">
-            <div class="tc-icon">🔲</div>
-            <div class="tc-name">Composite Material</div>
-            <div class="tc-badge">오늘의 핵심</div>
+        <div class="mc-vs">vs</div>
+        <div class="mc-card mc-comp">
+          <div class="mcc-title">Composite Material <span class="mcc-badge">오늘 사용</span></div>
+          <div class="mcc-layers">
+            <div class="mccl-item" style="background:#fce7f3">펄 / Grunge 레이어</div>
+            <div class="mccl-item" style="background:#fda4af">컬러 페인트 레이어</div>
+            <div class="mccl-item" style="background:#fb7185">금속 베이스 레이어</div>
           </div>
-          <div class="tc-desc">
-            여러 재질과 효과를 <strong>레이어처럼 쌓아서</strong> 하나의 복합적인 질감을 만드는 방식입니다.
-            금속 베이스 위에 펄 가루, 그 위에 광택, 다시 먼지까지 층층이 표현 가능합니다.
-          </div>
-          <div class="tc-tag tc-tag-pro">복잡한 표면 질감에 필수</div>
+          <div class="mcc-desc">여러 레이어를 쌓아 복잡한 질감을 자유롭게 표현합니다.</div>
         </div>
       </div>
 
-      <div class="tex-goal">
-        <div class="tg-title">오늘 만들어볼 재질</div>
-        <div class="tg-materials">
-          <div class="tgm-item">
-            <div class="tgm-swatch" style="background: linear-gradient(135deg, #94a3b8, #64748b)"></div>
-            <div class="tgm-label">금속 베이스</div>
-            <div class="tgm-desc">기본 금속 재질</div>
+      <div class="goal-material">
+        <div class="gm-title">만들어볼 재질 — 반짝이는 펄 금속 페인트</div>
+        <div class="gm-row">
+          <div class="gm-step">
+            <div class="gms-swatch" style="background: linear-gradient(135deg,#64748b,#475569)"></div>
+            <div class="gms-name">금속 베이스</div>
           </div>
-          <div class="tgm-plus">+</div>
-          <div class="tgm-item">
-            <div class="tgm-swatch" style="background: linear-gradient(135deg, #fde68a, #fbbf24); position:relative;">
-              <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.8) 2px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(255,255,255,.6) 1.5px, transparent 1.5px), radial-gradient(circle at 50% 80%, rgba(255,255,255,.7) 1px, transparent 1px)"></div>
-            </div>
-            <div class="tgm-label">펄 효과</div>
-            <div class="tgm-desc">반짝이는 가루 입자</div>
+          <div class="gm-plus">+</div>
+          <div class="gm-step">
+            <div class="gms-swatch pearl-swatch"></div>
+            <div class="gms-name">펄 반짝임</div>
           </div>
-          <div class="tgm-plus">+</div>
-          <div class="tgm-item">
-            <div class="tgm-swatch" style="background: linear-gradient(135deg, #dc2626, #be185d)"></div>
-            <div class="tgm-label">컬러 페인트</div>
-            <div class="tgm-desc">광택 있는 도색</div>
+          <div class="gm-plus">+</div>
+          <div class="gm-step">
+            <div class="gms-swatch" style="background: linear-gradient(135deg,#dc2626,#9f1239)"></div>
+            <div class="gms-name">컬러 페인트</div>
+          </div>
+          <div class="gm-plus">+</div>
+          <div class="gm-step">
+            <div class="gms-swatch" style="background: linear-gradient(135deg,#78716c,#57534e); filter: blur(.5px)"></div>
+            <div class="gms-name">Dirt / Grunge</div>
           </div>
         </div>
-        <div class="tg-result">= <strong>반짝이는 펄 가루가 들어간 금속 페인트칠 재질</strong></div>
       </div>
     </section>
 
     <!-- ④ Material Layer -->
-    <section id="material-layer" class="section">
+    <section id="layer" class="section">
       <div class="section-tag">Material Layer</div>
       <h2 class="section-title">Material Layer — 포토샵 레이어처럼 질감을 쌓는다</h2>
       <p class="section-desc">
-        Material Layer는 포토샵의 레이어 시스템과 동일한 개념입니다.
-        아래 레이어가 베이스가 되고, 위 레이어가 그 위에 특정 효과를 입히는 방식으로
-        층층이 쌓아가며 복잡한 표면 질감을 만들어냅니다.
+        Material Layer는 포토샵 레이어와 동일한 개념입니다.
+        아래 레이어가 베이스, 위 레이어가 그 위에 효과를 입히는 방식으로
+        층층이 쌓아 복잡한 표면 질감을 만들어냅니다.
       </p>
 
-      <div class="layer-visual">
-        <div class="lv-title">레이어 구조 — 아래에서 위로 쌓임</div>
-        <div class="lv-stack">
-          <div class="lv-layer lv-top">
-            <div class="lvl-num">3</div>
-            <div class="lvl-content">
-              <div class="lvl-name">Dirt / Grunge 레이어</div>
-              <div class="lvl-desc">표면 오염, 마모, 먼지 효과</div>
+      <div class="layer-stack">
+        <div class="ls-item ls-top">
+          <div class="ls-bar"></div>
+          <div class="ls-content">
+            <div class="ls-num">3</div>
+            <div class="ls-info">
+              <div class="ls-name">Dirt / Grunge</div>
+              <div class="ls-desc">먼지, 긁힘, 마모 — 현실감을 더하는 최상단 레이어</div>
             </div>
-            <div class="lvl-icon">🔝 최상단</div>
-          </div>
-          <div class="lv-layer lv-mid">
-            <div class="lvl-num">2</div>
-            <div class="lvl-content">
-              <div class="lvl-name">펄 / 광택 레이어</div>
-              <div class="lvl-desc">반짝이는 입자, 하이라이트</div>
-            </div>
-            <div class="lvl-icon">중간</div>
-          </div>
-          <div class="lv-layer lv-base">
-            <div class="lvl-num">1</div>
-            <div class="lvl-content">
-              <div class="lvl-name">베이스 금속 재질</div>
-              <div class="lvl-desc">기본 금속 색상과 반사</div>
-            </div>
-            <div class="lvl-icon">🔽 베이스</div>
+            <div class="ls-tag">최상단</div>
           </div>
         </div>
-        <div class="lv-note">
-          각 레이어는 <strong>블렌드 모드와 불투명도</strong>를 조절해 아래 레이어와 합성됩니다.
-          포토샵 레이어 개념을 이미 알고 있다면 즉시 이해할 수 있습니다.
+        <div class="ls-item ls-mid">
+          <div class="ls-bar"></div>
+          <div class="ls-content">
+            <div class="ls-num">2</div>
+            <div class="ls-info">
+              <div class="ls-name">펄 / 광택</div>
+              <div class="ls-desc">반짝이는 입자 효과 — 블렌드 모드로 아래 레이어와 합성</div>
+            </div>
+            <div class="ls-tag">중간</div>
+          </div>
+        </div>
+        <div class="ls-item ls-base">
+          <div class="ls-bar"></div>
+          <div class="ls-content">
+            <div class="ls-num">1</div>
+            <div class="ls-info">
+              <div class="ls-name">금속 베이스</div>
+              <div class="ls-desc">기본 색상과 금속 반사 — 모든 것의 기반</div>
+            </div>
+            <div class="ls-tag">베이스</div>
+          </div>
         </div>
       </div>
 
-      <div class="layer-benefit">
-        <div class="lb-item">
-          <div class="lb-icon">✏</div>
-          <div class="lb-content">
-            <div class="lb-title">수정이 자유롭다</div>
-            <div class="lb-desc">레이어별로 독립 수정 가능. 전체를 다시 만들 필요 없습니다.</div>
-          </div>
+      <div class="layer-points">
+        <div class="lp-item">
+          <div class="lp-icon">✏</div>
+          <div class="lp-text"><strong>레이어별 독립 수정</strong> — 전체를 다시 만들 필요 없이 한 레이어만 조정 가능</div>
         </div>
-        <div class="lb-item">
-          <div class="lb-icon">🎨</div>
-          <div class="lb-content">
-            <div class="lb-title">재사용성이 높다</div>
-            <div class="lb-desc">만든 레이어 구성을 다른 재질에도 적용할 수 있습니다.</div>
-          </div>
+        <div class="lp-item">
+          <div class="lp-icon">🔁</div>
+          <div class="lp-text"><strong>재사용 가능</strong> — 만든 레이어 구성을 다른 재질에도 그대로 활용</div>
         </div>
-        <div class="lb-item">
-          <div class="lb-icon">🔍</div>
-          <div class="lb-content">
-            <div class="lb-title">현실적 표현이 가능하다</div>
-            <div class="lb-desc">실제 물체는 하나의 재질이 아닌 여러 층의 복합 표면입니다. 레이어 방식이 이를 가장 잘 표현합니다.</div>
-          </div>
+        <div class="lp-item">
+          <div class="lp-icon">🎯</div>
+          <div class="lp-text"><strong>현실적 표현</strong> — 실제 물체는 하나의 재질이 아닌 여러 층의 복합 표면</div>
         </div>
       </div>
     </section>
 
     <!-- ⑤ Dirt / Grunge -->
-    <section id="dirt-grunge" class="section">
+    <section id="dirt" class="section">
       <div class="section-tag">Dirt / Grunge</div>
-      <h2 class="section-title">Dirt & Grunge — 현실감을 만드는 오염·마모 효과</h2>
+      <h2 class="section-title">Dirt & Grunge — "너무 깨끗하면 CG처럼 보인다"</h2>
       <p class="section-desc">
-        완벽하게 깨끗한 표면은 오히려 CG처럼 보입니다.
-        <strong>Dirt(먼지/오염)</strong>와 <strong>Grunge(마모/긁힘)</strong> 레이어를 추가하면
-        오랫동안 사용한 듯한 자연스러운 질감을 만들 수 있습니다.
+        완벽하게 깨끗한 표면은 오히려 가짜처럼 보입니다.
+        Dirt와 Grunge 레이어를 얇게 얹으면 사용감, 오염, 마모가 생겨 훨씬 현실적인 질감이 됩니다.
       </p>
 
-      <div class="dg-cards">
-
+      <div class="dg-grid">
         <div class="dg-card dg-dirt">
-          <div class="dgc-header">
-            <div class="dgc-icon">🌫</div>
+          <div class="dgc-top">
+            <div class="dgc-dot" style="background:#a8a29e"></div>
             <div class="dgc-name">Dirt</div>
           </div>
+          <div class="dgc-keyword">먼지 · 오염 · 변색</div>
           <div class="dgc-desc">
-            오브젝트 표면에 먼지, 오염, 변색 효과를 적용합니다.
-            특히 <strong>구석, 홈, 움푹 들어간 부분</strong>에 자동으로 집중되어
-            빛이 닿지 않는 영역처럼 자연스럽게 표현됩니다.
+            오브젝트의 <strong>구석, 홈, 움푹 들어간 부분</strong>에 자동으로 집중되는 오염 효과입니다.
+            빛이 닿기 어려운 영역에 자연스럽게 어두운 오염이 생겨 입체감을 강화합니다.
           </div>
-          <div class="dgc-use">
-            <span class="dgcu-label">주요 활용</span>
-            오래된 금속, 틈새 먼지, 구석 그림자, 녹슨 느낌
+          <div class="dgc-examples">
+            <span>틈새 먼지</span><span>구석 그림자</span><span>오래된 변색</span>
           </div>
         </div>
 
         <div class="dg-card dg-grunge">
-          <div class="dgc-header">
-            <div class="dgc-icon">⚡</div>
+          <div class="dgc-top">
+            <div class="dgc-dot" style="background:#94a3b8"></div>
             <div class="dgc-name">Grunge</div>
           </div>
+          <div class="dgc-keyword">긁힘 · 마모 · 얼룩</div>
           <div class="dgc-desc">
-            표면의 긁힘, 마모, 불규칙한 얼룩을 텍스처로 적용합니다.
-            노이즈 기반의 패턴이 <strong>무작위로 분포</strong>되어
-            인위적으로 만들기 어려운 자연스러운 마모감을 표현합니다.
+            노이즈 패턴 기반의 <strong>불규칙한 마모·긁힘</strong>을 표면에 입힙니다.
+            무작위로 분포되어 인위적으로 만들기 어려운 자연스러운 질감을 빠르게 표현합니다.
           </div>
-          <div class="dgc-use">
-            <span class="dgcu-label">주요 활용</span>
-            긁힌 금속, 페인트 벗겨짐, 닳은 모서리, 오래된 표면
+          <div class="dgc-examples">
+            <span>페인트 벗겨짐</span><span>긁힌 금속</span><span>닳은 모서리</span>
           </div>
         </div>
+      </div>
 
+      <div class="dg-tip">
+        <div class="dgt-icon">💡</div>
+        <div class="dgt-content">
+          <strong>강도는 낮게 — 불투명도 10~30%가 적당</strong>
+          <p>처음엔 효과를 강하게 주고 싶어지지만, 자연스러운 오염과 마모는 생각보다 매우 미묘합니다.
+          불투명도를 낮게 유지하면서 렌더링으로 직접 확인하며 조금씩 올리는 방식으로 작업하세요.</p>
+        </div>
       </div>
 
       <div class="dg-workflow">
-        <div class="dgw-title">Material Layer에 Dirt/Grunge 적용하는 방법</div>
-        <div class="dgw-steps">
-          <div class="dgws-item">
-            <span class="dgwsi-num">1</span>
-            <span>Composite Material 생성</span>
-          </div>
-          <div class="dgws-arrow">→</div>
-          <div class="dgws-item">
-            <span class="dgwsi-num">2</span>
-            <span>베이스 금속 레이어 추가</span>
-          </div>
-          <div class="dgws-arrow">→</div>
-          <div class="dgws-item">
-            <span class="dgwsi-num">3</span>
-            <span>Dirt 레이어 추가 + 블렌드 모드 설정</span>
-          </div>
-          <div class="dgws-arrow">→</div>
-          <div class="dgws-item">
-            <span class="dgwsi-num">4</span>
-            <span>Grunge 레이어로 마모감 추가</span>
-          </div>
-          <div class="dgws-arrow">→</div>
-          <div class="dgws-item dgwsi-final">
-            <span class="dgwsi-num">✓</span>
-            <span>각 레이어 불투명도 조절로 마무리</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="callout callout-key">
-        <div class="callout-icon">💡</div>
-        <div class="callout-body">
-          <strong>Dirt/Grunge의 강도는 낮게 유지하는 것이 좋습니다</strong>
-          <p>처음에는 효과가 잘 보이게 강하게 주고 싶어지지만, 실제로 자연스럽게 보이는 오염과 마모는
-          생각보다 매우 미묘합니다. 불투명도를 10~30% 정도로 낮게 유지하면서
-          렌더링으로 직접 확인하며 조절하는 것이 좋습니다.</p>
+        <div class="dgw-title">적용 순서</div>
+        <div class="dgw-row">
+          <div class="dgwr-step"><span class="dgwrs-n">1</span>Composite Material 생성</div>
+          <div class="dgwr-arr">→</div>
+          <div class="dgwr-step"><span class="dgwrs-n">2</span>금속 베이스 레이어</div>
+          <div class="dgwr-arr">→</div>
+          <div class="dgwr-step"><span class="dgwrs-n">3</span>펄 레이어</div>
+          <div class="dgwr-arr">→</div>
+          <div class="dgwr-step"><span class="dgwrs-n">4</span>Dirt 레이어</div>
+          <div class="dgwr-arr">→</div>
+          <div class="dgwr-step dgwrs-last"><span class="dgwrs-n">5</span>불투명도 조절 마무리</div>
         </div>
       </div>
     </section>
