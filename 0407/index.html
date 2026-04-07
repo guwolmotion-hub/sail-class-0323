@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>립스틱 모델링 심화 & Xpresso 세팅 — 오전반 0407</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">2026.04.07 오전반</span>
+      <h1>립스틱 모델링 심화 & Xpresso</h1>
+      <p class="subtitle">Bool · Current State to Object · Subdivision Surface · 각잡기 · Range Mapper 애니메이션</p>
+      <div class="header-tags">
+        <span>Bool Union</span>
+        <span>Current State to Object</span>
+        <span>Split</span>
+        <span>Subdivision Surface</span>
+        <span>Bevel 각잡기</span>
+        <span>Xpresso</span>
+        <span>Range Mapper</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <ul>
+        <li><a href="#extrude">Extrude 복습</a></li>
+        <li><a href="#bool">Bool 합치기</a></li>
+        <li><a href="#top-modeling">상단 상세 모델링</a></li>
+        <li><a href="#subdivision">Subdivision + 각잡기</a></li>
+        <li><a href="#xpresso">Xpresso 세팅</a></li>
+        <li><a href="#quiz">퀴즈</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ① Extrude 복습 -->
+    <section id="extrude" class="section">
+      <div class="section-tag">기능 복습</div>
+      <h2 class="section-title">Extrude & Extrude Inner — 오늘 핵심 도구</h2>
+
+      <div class="func-cards">
+        <div class="fc-card">
+          <div class="fc-header">
+            <kbd>D</kbd>
+            <div class="fc-name">Extrude</div>
+            <div class="fc-badge">돌출</div>
+          </div>
+          <div class="fc-desc">
+            오브젝트의 <strong>면이나 선을 뽑거나 밀어 넣는</strong> 기능입니다.
+            두께를 만들거나 돌출 형태를 만들 때 사용합니다.
+          </div>
+          <div class="fc-alt">
+            <span class="fca-label">유사 기능</span>
+            <span>Ctrl 누른 상태에서 Move 툴 화살표로 뽑기</span>
+          </div>
+        </div>
+
+        <div class="fc-card fc-card-inner">
+          <div class="fc-header">
+            <kbd>I</kbd>
+            <div class="fc-name">Extrude Inner</div>
+            <div class="fc-badge">면 축소/확대</div>
+          </div>
+          <div class="fc-desc">
+            면의 <strong>모양을 유지하면서 줄이거나 키우는</strong> 기능입니다.
+            Extrude 전에 Extrude Inner로 면을 먼저 줄여 테두리를 만들면
+            더 정교한 형태 표현이 가능합니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② Bool 합치기 -->
+    <section id="bool" class="section">
+      <div class="section-tag">Bool 기능</div>
+      <h2 class="section-title">Bool — 실린더 + 상단 오브젝트 합치기</h2>
+      <p class="section-desc">
+        지난 시간에 만든 립스틱 상단 오브젝트에 실린더를 Bool로 합쳐
+        루즈가 나오는 구멍 부분을 정확하게 만듭니다.
+      </p>
+
+      <div class="bool-settings">
+        <div class="bs-title">Bool 세팅값</div>
+        <div class="bs-grid">
+          <div class="bsg-item">
+            <div class="bsgi-label">실린더 세그먼트</div>
+            <div class="bsgi-vals">
+              <span class="bsgi-val">Height <strong>1</strong></span>
+              <span class="bsgi-val">Rotation <strong>8</strong></span>
+            </div>
+            <div class="bsgi-note">크기는 눈대중으로 조절</div>
+          </div>
+          <div class="bsg-item bsgi-highlight">
+            <div class="bsgi-label">Bool Type</div>
+            <div class="bsgi-vals"><span class="bsgi-val bsgi-primary">Union</span></div>
+            <div class="bsgi-note">두 오브젝트를 하나로 합침</div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsgi-label">Single Object</div>
+            <div class="bsgi-vals"><span class="bsgi-val">✓ 체크</span></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsgi-label">Hide New Edges</div>
+            <div class="bsgi-vals"><span class="bsgi-val bsgi-off">✗ 체크 해제</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bool-after">
+        <div class="ba-title">Bool 사용 후 — 반드시 하나로 합쳐야 합니다</div>
+        <div class="ba-methods">
+
+          <div class="bam-card">
+            <div class="bam-name">Connect Objects Delete</div>
+            <div class="bam-desc">
+              선택한 오브젝트들을 <strong>하나로 합치고 원본을 삭제</strong>합니다.
+              가장 일반적인 합치기 방법입니다.
+            </div>
+          </div>
+
+          <div class="bam-card bam-card-cso">
+            <div class="bam-name">Current State to Object <span class="bam-badge">오늘 핵심</span></div>
+            <div class="bam-desc">
+              오브젝트의 <strong>원본을 유지하면서</strong> 하단 Parent 오브젝트까지 전부 하나로 합쳐
+              <strong>복사본을 새로 만드는</strong> 기능입니다.
+              원본 구조를 보존해야 하거나, Modifier가 적용된 상태 그대로 굳히고 싶을 때 사용합니다.
+            </div>
+            <div class="bam-flow">
+              <span class="bamf-item">원본 구조 유지</span>
+              <span class="bamf-plus">+</span>
+              <span class="bamf-item">현재 형태대로 하나의 메시로 복사</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 상단 상세 모델링 -->
+    <section id="top-modeling" class="section">
+      <div class="section-tag">상단 모델링</div>
+      <h2 class="section-title">립스틱 상단 디테일 — 구멍 뚫기 & 루즈 탑 만들기</h2>
+
+      <div class="steps">
+
+        <div class="si-item">
+          <div class="si-num">01</div>
+          <div class="si-body">
+            <div class="si-title">실린더 뚜껑에 두께 + 구멍 만들기</div>
+            <div class="si-desc">
+              합쳐진 상단 오브젝트에서 실린더 뚜껑 면을 선택한 뒤,
+              Extrude Inner → Extrude 순서로 두께감을 주면서 구멍을 뚫어줍니다.
+            </div>
+            <div class="si-shortcut-row">
+              <div class="sisr-item"><kbd>I</kbd><span>Extrude Inner — 면 안으로 줄이며 테두리 생성</span></div>
+              <div class="sisr-item"><kbd>D</kbd><span>Extrude — 면을 밀어 넣어 구멍 형태 완성</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="si-item">
+          <div class="si-num">02</div>
+          <div class="si-body">
+            <div class="si-title">Split으로 면 분리 복사</div>
+            <div class="si-desc">
+              구멍을 뚫은 면이 선택된 상태 그대로 <strong>UP(Split) 기능</strong>을 사용해
+              해당 면을 별도 오브젝트로 분리·복사합니다.
+              이 복사된 면이 루즈(립스틱 내용물)의 기반이 됩니다.
+            </div>
+            <div class="si-shortcut-row">
+              <div class="sisr-item"><kbd>U</kbd><kbd>P</kbd><span>Split — 선택 면을 분리해 복사</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="si-item">
+          <div class="si-num">03</div>
+          <div class="si-body">
+            <div class="si-title">Extrude 3회 + Scale 줄이기 — 둥근 탑 형태</div>
+            <div class="si-desc">
+              분리된 면을 <strong>Extrude 3번 반복하면서 매번 Scale도 함께 줄여</strong>
+              점점 좁아지는 둥근 탑(립스틱 루즈 끝부분) 형태를 만듭니다.
+            </div>
+            <div class="si-repeat">
+              <div class="sir-step">
+                <div class="sirs-num">1회</div>
+                <div>Extrude + Scale ↓</div>
+              </div>
+              <div class="sir-arrow">→</div>
+              <div class="sir-step">
+                <div class="sirs-num">2회</div>
+                <div>Extrude + Scale ↓</div>
+              </div>
+              <div class="sir-arrow">→</div>
+              <div class="sir-step">
+                <div class="sirs-num">3회</div>
+                <div>Extrude + Scale ↓</div>
+              </div>
+              <div class="sir-arrow">→</div>
+              <div class="sir-step sir-final">
+                <div>둥근 탑 완성</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="si-item">
+          <div class="si-num">04</div>
+          <div class="si-body">
+            <div class="si-title">마지막 면 — Rotation B -20° 사선 만들기</div>
+            <div class="si-desc">
+              가장 끝 면을 선택하고 <strong>Rotation B를 -20도 정도</strong> 돌려
+              실제 립스틱처럼 비스듬하게 깎인 사선 형태를 만들어줍니다.
+            </div>
+            <div class="si-params">
+              <span class="sip">Rotation B <strong>-20°</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="si-item">
+          <div class="si-num">05</div>
+          <div class="si-body">
+            <div class="si-title">Null 레이어로 전체 묶기</div>
+            <div class="si-desc">
+              상단, 하단, 루즈 오브젝트를 <strong>Null 레이어로 하나로 묶어</strong>
+              관리합니다. 이후 Xpresso 애니메이션 세팅 시 구조가 명확해야 합니다.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ④ Subdivision + 각잡기 -->
+    <section id="subdivision" class="section">
+      <div class="section-tag">Subdivision Surface</div>
+      <h2 class="section-title">Subdivision Surface 적용 & 각잡기</h2>
+      <p class="section-desc">
+        완성된 립스틱 오브젝트를 Subdivision Surface에 넣으면 표면이 부드럽게 말립니다.
+        하지만 너무 둥글어지면 형태가 무너지므로, <strong>유지하고 싶은 엣지 주변에 선을 추가해 각을 잡아야 합니다.</strong>
+      </p>
+
+      <div class="bevel-method">
+        <div class="bm-title">각잡기 방법 — 원하는 라인 선택 후 주변에 선 추가</div>
+        <div class="bm-principle">
+          Subdivision Surface는 엣지 사이의 간격이 넓을수록 더 둥글게 처리합니다.
+          각지게 유지하고 싶은 엣지 <strong>바로 옆에 선을 하나 더 추가</strong>하면
+          Subdivision이 해당 부분을 덜 둥글게 처리합니다.
+        </div>
+        <div class="bm-tools">
+          <div class="bmt-card bmt-primary">
+            <div class="bmtc-header">
+              <kbd>M</kbd><kbd>S</kbd>
+              <div class="bmtc-name">Bevel</div>
+              <div class="bmtc-badge">주로 사용</div>
+            </div>
+            <div class="bmtc-desc">
+              선택한 엣지를 양쪽으로 벌려 두 개의 선으로 만드는 기능입니다.
+              각도를 유지하면서 자연스럽게 선을 추가합니다.
+            </div>
+            <div class="bmtc-important">
+              <span class="bmtci-icon">⚠</span>
+              <span>Bevel 모드는 반드시 <strong>Solid 모드</strong>로 진행</span>
+            </div>
+          </div>
+
+          <div class="bmt-card">
+            <div class="bmtc-header">
+              <span class="bmtc-keys"><kbd>M</kbd><kbd>K</kbd></span>
+              <div class="bmtc-name">Line Cut</div>
+            </div>
+            <div class="bmtc-desc">
+              원하는 위치에 자유롭게 선을 잘라 추가합니다.
+              정확한 위치에 선을 하나씩 넣을 때 사용합니다.
+            </div>
+          </div>
+
+          <div class="bmt-card">
+            <div class="bmtc-header">
+              <span class="bmtc-keys"><kbd>M</kbd><kbd>L</kbd></span>
+              <div class="bmtc-name">Loop Path Cut</div>
+            </div>
+            <div class="bmtc-desc">
+              오브젝트를 한 바퀴 도는 루프 형태로 선을 추가합니다.
+              전체적으로 균일하게 선을 넣을 때 효율적입니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ Xpresso 세팅 -->
+    <section id="xpresso" class="section">
+      <div class="section-tag">Xpresso</div>
+      <h2 class="section-title">립스틱 Xpresso 세팅 — 컨트롤러 하나로 전체 연동</h2>
+      <p class="section-desc">
+        "립스틱 애니메이션" 유저데이터(퍼센트)를 컨트롤러로 사용해,
+        값이 증가하면 하단이 회전하고 루즈가 올라오면서 돌아가는 동작을 한 번에 제어합니다.
+      </p>
+
+      <div class="xp-setup">
+        <div class="xps-title">연동 구조</div>
+        <div class="xps-controller">
+          <div class="xpsc-label">컨트롤러</div>
+          <div class="xpsc-name">립스틱 애니메이션</div>
+          <div class="xpsc-unit">Percent (0 ~ 100%)</div>
+        </div>
+        <div class="xps-arrow">↓</div>
+        <div class="xps-targets">
+          <div class="xpst-item xpst-bottom">
+            <div class="xpsti-part">하단 오브젝트</div>
+            <div class="xpsti-props">
+              <div class="xpstip-row">
+                <span class="xpstip-prop">Rotation H</span>
+                <span class="xpstip-range">0 → 130°</span>
+              </div>
+            </div>
+          </div>
+          <div class="xpst-item xpst-rouge">
+            <div class="xpsti-part">루즈 (립스틱 내용물)</div>
+            <div class="xpsti-props">
+              <div class="xpstip-row">
+                <span class="xpstip-prop">Rotation H</span>
+                <span class="xpstip-range">0 → 130°</span>
+              </div>
+              <div class="xpstip-row">
+                <span class="xpstip-prop">Position Y</span>
+                <span class="xpstip-range">0 → 100cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-node-flow">
+        <div class="xpnf-title">Range Mapper 연결 구조</div>
+        <div class="xpnf-diagram">
+          <div class="xpnfd-node xpnfd-src">
+            <div class="xpnfdn-dot red-dot"></div>
+            <div class="xpnfdn-label">컨트롤러</div>
+            <div class="xpnfdn-sub">0 ~ 100%</div>
+          </div>
+          <div class="xpnfd-arrow">→</div>
+          <div class="xpnfd-node xpnfd-mapper">
+            <div class="xpnfdn-dot blue-dot"></div>
+            <div class="xpnfdn-label">Range Mapper</div>
+            <div class="xpnfdn-sub">단위 변환</div>
+            <div class="xpnfdn-dot red-dot"></div>
+          </div>
+          <div class="xpnfd-arrow">→</div>
+          <div class="xpnfd-targets">
+            <div class="xpnfd-node xpnfd-target">
+              <div class="xpnfdn-dot blue-dot"></div>
+              <div class="xpnfdn-label">하단 Rotation H</div>
+              <div class="xpnfdn-sub">0 → 130°</div>
+            </div>
+            <div class="xpnfd-node xpnfd-target">
+              <div class="xpnfdn-dot blue-dot"></div>
+              <div class="xpnfdn-label">루즈 Rotation H</div>
+              <div class="xpnfdn-sub">0 → 130°</div>
+            </div>
+            <div class="xpnfd-node xpnfd-target">
+              <div class="xpnfdn-dot blue-dot"></div>
+              <div class="xpnfdn-label">루즈 Position Y</div>
+              <div class="xpnfdn-sub">0 → 100</div>
+            </div>
+          </div>
+        </div>
+        <div class="xpnf-note">빨간 포트 하나에서 Range Mapper 3개로 분기해 각 속성에 연결합니다.</div>
+      </div>
+
+      <div class="xp-camera">
+        <div class="xpc-icon">🎥</div>
+        <div class="xpc-content">
+          <div class="xpc-title">카메라도 Xpresso로 세팅</div>
+          <div class="xpc-desc">
+            립스틱 애니메이션 수치에 맞춰 카메라 위치·각도도 함께 연동할 수 있습니다.
+            컨트롤러 하나를 움직이면 오브젝트와 카메라가 동시에 반응하는 구조입니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 퀴즈 -->
+    <section id="quiz" class="section">
+      <div class="section-tag">퀴즈</div>
+      <h2 class="section-title">Xpresso 퀴즈 — 립스틱 애니메이션 세팅</h2>
+      <p class="section-desc">
+        Range Mapper를 활용해 아래 조건을 만족하는 Xpresso를 세팅합니다.
+        지난 수업의 큐브 퀴즈와 구조는 동일하고, 대상 오브젝트만 다릅니다.
+      </p>
+
+      <div class="quiz-table">
+        <div class="qt-header">
+          <div>컨트롤러</div>
+          <div>대상</div>
+          <div>속성</div>
+          <div>범위</div>
+        </div>
+        <div class="qt-row">
+          <div class="qt-ctrl" rowspan="3">립스틱 애니메이션<br><span>0 ~ 100%</span></div>
+          <div>하단 오브젝트</div>
+          <div class="qt-prop">Rotation H</div>
+          <div class="qt-range">0° → <strong>130°</strong></div>
+        </div>
+        <div class="qt-row">
+          <div>루즈</div>
+          <div class="qt-prop">Rotation H</div>
+          <div class="qt-range">0° → <strong>130°</strong></div>
+        </div>
+        <div class="qt-row">
+          <div>루즈</div>
+          <div class="qt-prop">Position Y</div>
+          <div class="qt-range">0 → <strong>100cm</strong></div>
+        </div>
+      </div>
+
+      <div class="quiz-hint">
+        <div class="qh-icon">💡</div>
+        <div class="qh-body">
+          <strong>Range Mapper 설정 방법</strong>
+          <ul>
+            <li>Rotation H용: 입력 0~100 / 출력 0~130 (Degree 단위)</li>
+            <li>Position Y용: 입력 0~100 / 출력 0~100 (cm 단위)</li>
+            <li>빨간 포트 하나 → Range Mapper 3개 → 각 파란 포트로 연결</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="top-btn" id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>립스틱 모델링 심화 & Xpresso 세팅 수업 필기 · 2026.04.07 오전반</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
