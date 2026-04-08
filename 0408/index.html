@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카메라 Xpresso & 애니메이션 렌더 — 0408 오전반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0408 오전반</span>
+  <h1>카메라 Xpresso & 애니메이션 렌더</h1>
+  <p class="subtitle">구도 이론 · 카메라 제어 Xpresso 연결 · 가렌더 작업 흐름</p>
+  <div class="header-tags">
+    <span>1/3 구도</span><span>Camera Xpresso</span><span>Focal Length</span><span>Aperture</span><span>Target Tag</span><span>Viewport Render</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#composition">구도 이론</a>
+  <a href="#xpresso-map">Xpresso 연결 지도</a>
+  <a href="#xpresso-detail">파라미터 상세</a>
+  <a href="#prerender">가렌더 작업</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 구도 -->
+  <section id="composition" class="section">
+    <span class="section-tag">구도 이론</span>
+    <h2 class="section-title">구도 잡기 — 1/3 구도 & 중심 구도</h2>
+    <p class="section-desc">좋은 화면을 만드는 첫 번째 단계는 구도입니다. 카메라를 세팅하기 전에 어떤 구도로 찍을지 결정하는 것이 중요합니다.</p>
+
+    <div class="card-grid">
+      <div class="card highlight">
+        <div class="card-icon">⅓</div>
+        <h3>1/3 구도 (Rule of Thirds)</h3>
+        <p>화면을 <strong>3×3 그리드</strong>로 나누고, 주요 피사체나 시선을 그리드 교차점(황금점)에 배치하는 구도법입니다.</p>
+        <ul class="tip-list">
+          <li>C4D 뷰포트: <kbd>Shift+V</kbd> → Grid 옵션에서 3×3 활성화</li>
+          <li>자연스럽고 역동적인 느낌 연출에 유리</li>
+          <li>영상·사진에서 가장 많이 쓰이는 기본 구도</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>중심 구도 (Center Composition)</h3>
+        <p>피사체를 화면 정중앙에 배치하는 구도법입니다.</p>
+        <ul class="tip-list">
+          <li>안정감·대칭미 강조</li>
+          <li>제품 광고, 포스터, 타이틀 시퀀스에 자주 사용</li>
+          <li>단조로울 수 있으므로 배경 디자인으로 변화를 줄 것</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>실무 팁</strong> 카메라 Xpresso를 세팅하기 전에 레퍼런스를 보며 어떤 구도를 쓸지 먼저 결정하세요. 구도가 정해지면 나머지 파라미터 값이 자연스럽게 따라옵니다.
+    </div>
+  </section>
+
+  <!-- 2. Xpresso 연결 지도 -->
+  <section id="xpresso-map" class="section">
+    <span class="section-tag">Camera Xpresso</span>
+    <h2 class="section-title">카메라 Xpresso 연결 지도</h2>
+    <p class="section-desc">유저 데이터(슬라이더) → 실제 카메라·오브젝트 파라미터로 연결하는 전체 구조입니다. Range Mapper를 통해 값 범위를 변환합니다.</p>
+
+    <div class="xpresso-table">
+      <div class="xp-header">
+        <div>유저 데이터 이름</div>
+        <div>연결 대상 오브젝트</div>
+        <div>항목(탭)</div>
+        <div>연결 파라미터</div>
+      </div>
+
+      <div class="xp-row camera-row">
+        <div class="xp-name">Distance</div>
+        <div><span class="obj-tag circle">Circle</span></div>
+        <div>Object</div>
+        <div><code>Radius</code></div>
+      </div>
+      <div class="xp-row camera-row">
+        <div class="xp-name">Focal Length</div>
+        <div><span class="obj-tag cam">Camera</span></div>
+        <div>Object</div>
+        <div><code>Focal Length</code></div>
+      </div>
+      <div class="xp-row camera-row">
+        <div class="xp-name">Height</div>
+        <div><span class="obj-tag circle">Circle</span></div>
+        <div>Coord</div>
+        <div><code>Position Y</code></div>
+      </div>
+      <div class="xp-row camera-row">
+        <div class="xp-name">Rotation From Center</div>
+        <div><span class="obj-tag circle">Circle</span></div>
+        <div>Coord</div>
+        <div><code>Rotation H</code></div>
+      </div>
+      <div class="xp-row camera-row">
+        <div class="xp-name">Tilt</div>
+        <div><span class="obj-tag cam">Camera</span></div>
+        <div>Coord</div>
+        <div><code>Rotation B</code></div>
+      </div>
+      <div class="xp-row octane-row">
+        <div class="xp-name">Aperture</div>
+        <div><span class="obj-tag oct">Octane Camera Tag</span></div>
+        <div>ThinLens → DoF</div>
+        <div><code>Aperture</code></div>
+      </div>
+      <div class="xp-row target-row">
+        <div class="xp-name">Target Object</div>
+        <div><span class="obj-tag tgt">Target Tag</span></div>
+        <div>—</div>
+        <div><code>Target Object</code></div>
+      </div>
+      <div class="xp-row target-row">
+        <div class="xp-name">Focus Object</div>
+        <div><span class="obj-tag cam">Camera</span></div>
+        <div>Object</div>
+        <div><code>Focus Object</code></div>
+      </div>
+      <div class="xp-row constraint-row">
+        <div class="xp-name">Target Constraint</div>
+        <div><span class="obj-tag con">Constraint Tag</span></div>
+        <div>PSR</div>
+        <div><code>Target</code></div>
+      </div>
+      <div class="xp-row constraint-row">
+        <div class="xp-name">Focus Constraint</div>
+        <div><span class="obj-tag con">Constraint Tag</span></div>
+        <div>PSR</div>
+        <div><code>Target</code></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span class="obj-tag circle">Circle</span> 카메라가 이동하는 경로 오브젝트
+      <span class="obj-tag cam">Camera</span> 카메라 오브젝트
+      <span class="obj-tag oct">Octane Camera Tag</span> 옥테인 카메라 태그
+      <span class="obj-tag tgt">Target Tag</span> 목표물 지정 태그
+      <span class="obj-tag con">Constraint Tag</span> PSR 제약 태그
+    </div>
+  </section>
+
+  <!-- 3. 파라미터 상세 -->
+  <section id="xpresso-detail" class="section">
+    <span class="section-tag">파라미터 상세</span>
+    <h2 class="section-title">각 파라미터 역할 & 활용법</h2>
+    <p class="section-desc">10개의 유저 데이터가 각각 어떤 시각적 변화를 만드는지 이해하면 카메라 연출의 폭이 훨씬 넓어집니다.</p>
+
+    <div class="param-grid">
+      <div class="param-card">
+        <div class="param-header cam-color">
+          <span class="param-icon">📏</span>
+          <span>Distance</span>
+        </div>
+        <div class="param-body">
+          <p>카메라가 이동하는 <strong>Circle의 반지름</strong>을 제어. 값이 클수록 피사체에서 멀어짐</p>
+          <div class="param-path">Circle → Object → <strong>Radius</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header cam-color">
+          <span class="param-icon">🔭</span>
+          <span>Focal Length</span>
+        </div>
+        <div class="param-body">
+          <p>렌즈 화각 조절. 값이 클수록 망원(줌인), 작을수록 광각(와이드)</p>
+          <div class="param-path">Camera → Object → <strong>Focal Length</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header cam-color">
+          <span class="param-icon">↕️</span>
+          <span>Height</span>
+        </div>
+        <div class="param-body">
+          <p>카메라 경로(Circle)의 <strong>높이(Y축)</strong>를 제어. 부감/앙각 구도 전환</p>
+          <div class="param-path">Circle → Coord → <strong>Position Y</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header cam-color">
+          <span class="param-icon">🔄</span>
+          <span>Rotation From Center</span>
+        </div>
+        <div class="param-body">
+          <p>피사체를 중심으로 카메라가 <strong>수평 회전</strong>하는 각도 제어 (Turntable 무빙)</p>
+          <div class="param-path">Circle → Coord → <strong>Rotation H</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header cam-color">
+          <span class="param-icon">↗️</span>
+          <span>Tilt</span>
+        </div>
+        <div class="param-body">
+          <p>카메라 자체의 <strong>기울기(롤)</strong> 조절. 화면을 비스듬히 기울여 역동적인 느낌 연출</p>
+          <div class="param-path">Camera → Coord → <strong>Rotation B</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header oct-color">
+          <span class="param-icon">🌀</span>
+          <span>Aperture</span>
+        </div>
+        <div class="param-body">
+          <p>옥테인 카메라의 <strong>조리개</strong> 값. 값이 클수록 피사계심도(DoF) 효과가 강해짐</p>
+          <div class="param-path">Octane Camera Tag → ThinLens → DoF → <strong>Aperture</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header tgt-color">
+          <span class="param-icon">🎯</span>
+          <span>Target Object</span>
+        </div>
+        <div class="param-body">
+          <p>카메라가 항상 바라볼 <strong>목표 오브젝트</strong> 지정. 카메라가 어디 있든 피사체를 향함</p>
+          <div class="param-path">Target Tag → <strong>Target Object</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header tgt-color">
+          <span class="param-icon">🔍</span>
+          <span>Focus Object</span>
+        </div>
+        <div class="param-body">
+          <p>DoF(피사계심도) 포커스가 맞춰질 오브젝트 지정. Aperture와 함께 사용</p>
+          <div class="param-path">Camera → Object → <strong>Focus Object</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header con-color">
+          <span class="param-icon">🔗</span>
+          <span>Target Constraint</span>
+        </div>
+        <div class="param-body">
+          <p>Constraint Tag의 PSR 방식으로 카메라 방향을 특정 오브젝트에 고정</p>
+          <div class="param-path">Constraint Tag → PSR → <strong>Target</strong></div>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div class="param-header con-color">
+          <span class="param-icon">📌</span>
+          <span>Focus Constraint</span>
+        </div>
+        <div class="param-body">
+          <p>DoF 포커스 대상을 Constraint Tag로 연결. 움직이는 오브젝트 추적 포커싱 가능</p>
+          <div class="param-path">Constraint Tag → PSR → <strong>Target</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>구조 이해</strong> Target Tag와 Constraint Tag는 유사하지만 역할이 다릅니다. Target Tag는 카메라가 항상 피사체를 향하게 하고, Constraint Tag는 위치·회전·스케일(PSR) 전체를 다른 오브젝트에 종속시킵니다.
+    </div>
+  </section>
+
+  <!-- 4. 가렌더 -->
+  <section id="prerender" class="section">
+    <span class="section-tag">가렌더 작업</span>
+    <h2 class="section-title">애니메이션 가렌더 (Pre-render) 작업 흐름</h2>
+    <p class="section-desc">최종 렌더 전에 전체 애니메이션 흐름을 빠르게 확인하는 가렌더 작업입니다. 뷰포트 렌더러로 빠르게 확인하고 구성을 점검합니다.</p>
+
+    <div class="step-box">
+      <h3>가렌더 작업 순서</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>씬별로 C4D 파일 분리 저장</strong>
+            <p>씬(장면)마다 별도의 `.c4d` 파일로 저장. 파일명에 씬 번호/이름 명시 (예: `scene_01_intro.c4d`)</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>렌더 모드 → 뷰포트 렌더러 설정</strong>
+            <p>렌더 설정(Ctrl+B) → Output에서 렌더러를 <strong>Viewport Renderer</strong>로 변경. 옥테인 렌더 대비 속도가 빠름</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <strong>저장 경로 설정</strong>
+            <p>Save 탭 → Output File에 저장 폴더와 파일명 지정. 시퀀스 이미지(PNG/JPG) 또는 영상 포맷 선택</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <strong>저장 프레임 범위 설정</strong>
+            <p>Output 탭 → Frame Range에서 시작~끝 프레임 확인. 프레임 레이트(FPS)도 맞는지 체크</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">5</span>
+          <div>
+            <strong>렌더링 시작</strong>
+            <p><kbd>Shift+R</kbd> 또는 렌더 메뉴 → Render to Picture Viewer로 렌더링 실행</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>뷰포트 렌더러의 장점</h3>
+        <ul class="tip-list">
+          <li>옥테인 대비 렌더 속도가 매우 빠름</li>
+          <li>애니메이션 타이밍·구도 검토에 적합</li>
+          <li>클라이언트 확인용 프리뷰로 활용 가능</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">📁</div>
+        <h3>씬 분리 저장의 이유</h3>
+        <ul class="tip-list">
+          <li>파일이 가벼워져 작업 속도 향상</li>
+          <li>씬별 독립 수정이 용이</li>
+          <li>팀 작업 시 파일 충돌 방지</li>
+          <li>렌더 큐 관리가 명확해짐</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <h3>가렌더 체크리스트</h3>
+      <div class="checklist">
+        <label><input type="checkbox"> 씬별 파일 분리 완료</label>
+        <label><input type="checkbox"> 렌더러: Viewport Renderer 설정</label>
+        <label><input type="checkbox"> 저장 경로 지정 완료</label>
+        <label><input type="checkbox"> 프레임 범위 확인 (시작 ~ 끝)</label>
+        <label><input type="checkbox"> FPS 설정 확인 (보통 24 또는 30)</label>
+        <label><input type="checkbox"> 렌더 실행 후 결과물 재생 확인</label>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0408 오전반 · 카메라 Xpresso & 애니메이션 가렌더</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
