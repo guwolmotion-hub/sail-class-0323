@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>멀티패스 렌더링 & Octane 구매 가이드 — 0408 저녁반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0408 저녁반</span>
+  <h1>멀티패스 렌더링 & Octane 구매 가이드</h1>
+  <p class="subtitle">Multi-pass 개념 · AOV 매니저 · 직접광/간접광 · Octane 구독 주의사항</p>
+  <div class="header-tags">
+    <span>Multi-pass</span><span>AOV Manager</span><span>Diffuse Direct</span><span>Reflection</span><span>Octane</span><span>후반작업</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#multipass">멀티패스란?</a>
+  <a href="#passes">패스 종류</a>
+  <a href="#render-setting">렌더 세팅</a>
+  <a href="#octane-buy">Octane 구매</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 멀티패스란? -->
+  <section id="multipass" class="section">
+    <span class="section-tag">개념</span>
+    <h2 class="section-title">멀티패스(Multi-pass)란?</h2>
+    <p class="section-desc">3D 렌더링 결과물을 하나의 완성 이미지로 뽑는 대신, 구성 요소별로 분리해서 렌더링하는 방식입니다. 후반작업(합성·보정)을 훨씬 유연하게 할 수 있게 해줍니다.</p>
+
+    <div class="concept-card">
+      <div class="concept-visual">
+        <div class="layer-stack">
+          <div class="layer l1">완성 렌더 이미지</div>
+          <div class="layer-divider">= 아래 패스들의 합성</div>
+          <div class="layer l2">Diffuse (색상)</div>
+          <div class="layer l3">Specular (반사)</div>
+          <div class="layer l4">Roughness (거칠기)</div>
+          <div class="layer l5">오브젝트 레이어</div>
+          <div class="layer l6">조명 레이어</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>왜 멀티패스를?</strong> 렌더를 다시 돌리지 않고도 After Effects나 Photoshop에서 색감·반사·조명을 개별적으로 조정할 수 있습니다. 클라이언트 수정 요청이 와도 빠르게 대응 가능!
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <h3>일반 렌더 방식</h3>
+        <p>최종 합성된 이미지 한 장만 출력. 사후 수정 시 전체 렌더를 다시 해야 함.</p>
+        <div class="tag-row"><span class="tag-bad">수정 어려움</span><span class="tag-bad">재렌더 필요</span></div>
+      </div>
+      <div class="card highlight">
+        <div class="card-icon">✂️</div>
+        <h3>멀티패스 렌더 방식</h3>
+        <p>구성 요소를 분리해 각각 출력. AE·포토샵에서 레이어별 개별 조정 가능.</p>
+        <div class="tag-row"><span class="tag-good">유연한 수정</span><span class="tag-good">재렌더 불필요</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 패스 종류 -->
+  <section id="passes" class="section">
+    <span class="section-tag">패스 종류</span>
+    <h2 class="section-title">주요 렌더 패스와 직접광 / 간접광</h2>
+    <p class="section-desc">각 패스는 3D 장면을 구성하는 서로 다른 광학적 요소를 담고 있습니다. Direct(직접광)와 InDirect(간접광)로 나뉘는 패스가 핵심입니다.</p>
+
+    <div class="pass-grid">
+      <div class="pass-card">
+        <div class="pass-header diffuse-h">Diffuse</div>
+        <div class="pass-body">
+          <p>오브젝트의 <strong>본래 색상(Base Color)</strong> 정보. 반사나 하이라이트가 제거된 순수 색상만 담김.</p>
+          <div class="sub-passes">
+            <div class="sub-pass">
+              <span class="sub-icon direct">Direct</span>
+              <span>광원에서 직접 오브젝트에 닿는 빛의 색상</span>
+            </div>
+            <div class="sub-pass">
+              <span class="sub-icon indirect">InDirect</span>
+              <span>다른 면에 반사되어 간접적으로 들어오는 빛 (GI, 바운스라이트)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pass-card">
+        <div class="pass-header reflection-h">Reflection</div>
+        <div class="pass-body">
+          <p>오브젝트 표면의 <strong>반사 정보</strong>. 금속·유리·광택 재질에서 핵심 패스.</p>
+          <div class="sub-passes">
+            <div class="sub-pass">
+              <span class="sub-icon direct">Direct</span>
+              <span>광원이 직접 반사되어 보이는 하이라이트 반사</span>
+            </div>
+            <div class="sub-pass">
+              <span class="sub-icon indirect">InDirect</span>
+              <span>주변 환경·다른 오브젝트가 반사되는 환경 반사</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pass-card">
+        <div class="pass-header specular-h">Specular</div>
+        <div class="pass-body">
+          <p>표면의 <strong>반짝임(하이라이트)</strong> 정보. Roughness 값에 따라 선명하거나 흐릿하게 나타남.</p>
+        </div>
+      </div>
+
+      <div class="pass-card">
+        <div class="pass-header roughness-h">Roughness</div>
+        <div class="pass-body">
+          <p>표면의 <strong>거칠기</strong> 정보. 밝을수록 거칠고, 어두울수록 매끄러운 반사를 표현.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="light-compare">
+      <h3>직접광(Direct) vs 간접광(InDirect)</h3>
+      <div class="compare-row-box">
+        <div class="compare-col direct-col">
+          <strong>직접광 (Direct)</strong>
+          <p>광원 → 오브젝트로 <strong>직접</strong> 도달하는 빛<br>그림자가 선명하고 콘트라스트가 강함</p>
+        </div>
+        <div class="compare-col indirect-col">
+          <strong>간접광 (InDirect / GI)</strong>
+          <p>빛이 벽·바닥·다른 오브젝트에 <strong>반사</strong>되어 들어오는 빛<br>그림자가 부드럽고 공간감·현실감이 높아짐</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 렌더 세팅 -->
+  <section id="render-setting" class="section">
+    <span class="section-tag">렌더 세팅</span>
+    <h2 class="section-title">멀티패스 렌더 세팅 방법</h2>
+    <p class="section-desc">Octane 렌더러 기준으로 멀티패스(AOV)를 설정하는 위치를 확인합니다.</p>
+
+    <div class="step-box">
+      <h3>AOV 매니저 접근 방법</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>렌더 설정 열기</strong>
+            <p><kbd>Ctrl+B</kbd> → 렌더 설정 창 오픈. 왼쪽 패널에서 렌더러를 <strong>Octane Renderer</strong>로 설정</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>AOV 매니저 찾기</strong>
+            <p>렌더 설정 탭 중 <strong>가장 오른쪽에 있는 항목</strong>이 AOV 매니저 (버전에 따라 이름이 다를 수 있음)</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <strong>원하는 패스 추가</strong>
+            <p>AOV 매니저에서 Diffuse Direct/InDirect, Reflection Direct/InDirect 등 필요한 패스를 추가</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <strong>저장 설정</strong>
+            <p>Save 탭에서 멀티레이어 EXR 또는 개별 파일로 저장 경로 지정 후 렌더링 실행</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>EXR 포맷 추천</strong> 멀티패스 렌더 시 OpenEXR (.exr) 형식을 권장합니다. 32bit 색상 정보와 여러 패스를 하나의 파일에 담을 수 있어 AE에서 관리가 편리합니다.
+    </div>
+  </section>
+
+  <!-- 4. Octane 구매 -->
+  <section id="octane-buy" class="section">
+    <span class="section-tag">Octane 구매</span>
+    <h2 class="section-title">Octane 구매 방법 & 주의사항</h2>
+    <p class="section-desc">Octane은 OTOY에서 구독 방식으로 판매합니다. 처음 구매 시 반드시 주의해야 할 사항들이 있습니다.</p>
+
+    <div class="step-box">
+      <h3>구매 절차</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>구글에서 "Otoy" 검색</strong>
+            <p>공식 사이트(otoy.com) 접속</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>Google 계정으로 회원가입</strong>
+            <p>기존 Google 아이디로 소셜 로그인 권장</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <strong>플러그인 플랫폼: Cinema 4D로 설정</strong>
+            <p>구독 시 연동 플랫폼을 <strong>반드시 Cinema 4D</strong>로 지정할 것</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <strong>구독 플랜 선택 후 결제</strong>
+            <p>월/연 구독 중 선택하여 결제 완료</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <h3>⚠️ 절대 주의사항</h3>
+      <div class="warning-item">
+        <span class="warn-icon">🚨</span>
+        <div>
+          <strong>라이센스 수량 절대 증가시키지 말 것!</strong>
+          <p>실수로 수량을 늘리면 늘린 개수만큼 매달 요금이 청구됩니다. 잘못 눌렀다가 예상치 못한 금액이 나올 수 있으니 수량 변경 화면에서는 매우 신중하게 클릭하세요.</p>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="warn-icon">🖥️</span>
+        <div>
+          <strong>플러그인을 반드시 Cinema 4D로 설정</strong>
+          <p>다른 플랫폼으로 설정하면 C4D에서 Octane을 사용할 수 없습니다. 구독 전 플랫폼 선택 화면을 꼭 확인하세요.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-box">
+      <h3>구독 요금 참고</h3>
+      <div class="price-grid">
+        <div class="price-card monthly">
+          <div class="price-label">월 구독</div>
+          <div class="price-amount">약 41,000원<span>/월</span></div>
+          <p>부담 없이 시작하기 좋음. 월별 유연하게 해지 가능.</p>
+          <div class="recommend-tag">추천</div>
+        </div>
+        <div class="price-card yearly">
+          <div class="price-label">연 구독</div>
+          <div class="price-amount">약 400,000원<span>/년</span></div>
+          <p>월 환산 시 더 저렴. 장기 사용이 확실할 때 선택.</p>
+        </div>
+      </div>
+      <div class="callout warning">
+        <strong>추천</strong> 처음 구독이라면 <strong>월 구독</strong>으로 시작하세요. Octane이 내 작업 스타일에 맞는지 확인한 뒤 연 구독으로 전환하는 것이 안전합니다.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0408 저녁반 · 멀티패스 렌더링 & Octane 구매 가이드</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
