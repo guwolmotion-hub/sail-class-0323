@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>메터리얼 레이어 & 영상 기획론 — 0409 오전반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0409 오전반</span>
+  <h1>메터리얼 레이어 & 영상 기획론</h1>
+  <p class="subtitle">펄 글로시 재질 · 로고 작업 · 가렌더 · 영상 기획과 목적</p>
+  <div class="header-tags">
+    <span>Material Layer</span><span>Fall Off Node</span><span>Flake</span><span>Logo Work</span><span>기획</span><span>시놉시스</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#material-layer">메터리얼 레이어</a>
+  <a href="#logo">로고 작업</a>
+  <a href="#prerender">최종 가렌더</a>
+  <a href="#planning">영상 기획론</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 메터리얼 레이어 -->
+  <section id="material-layer" class="section">
+    <span class="section-tag">재질 심화</span>
+    <h2 class="section-title">메터리얼 레이어 — 펄 글로시 질감 만들기</h2>
+    <p class="section-desc">레이어 형태로 여러 층을 쌓아가며 재질을 표현하는 기능입니다. 오늘의 목표: <strong>펄이 들어간 글로시 질감</strong> 제작.</p>
+
+    <div class="callout tip">
+      <strong>핵심 개념</strong> 메터리얼 레이어는 포토샵의 레이어처럼 재질을 겹겹이 쌓습니다. 아래부터 Diffuse → 펄(Pearl) → Specular 순으로 쌓으면 됩니다.
+    </div>
+
+    <div class="step-box">
+      <h3>펄 글로시 재질 제작 순서</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>메터리얼 레이어 활성화</strong>
+            <p>재질 노드 클릭 → <strong>Basic 항목</strong>에서 메터리얼 레이어 체크박스 활성화</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>레이어 그룹 추가</strong>
+            <p>메터리얼 레이어 항목 → <strong>Add 버튼</strong> → <strong>레이어 그룹</strong> 선택. 여러 층을 묶어 관리할 때 사용하는 컨테이너</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <strong>메탈릭 레이어 + Flake 노드로 펄 층 제작</strong>
+            <p>메탈릭 레이어를 추가하고 <strong>Flake 노드</strong>를 연결. 크기와 맵핑 상태 조정 후 <strong>Fall Off 노드</strong>로 아래 Diffuse 층과 자연스럽게 블렌딩</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <strong>스펙큘러 레이어 추가</strong>
+            <p>마지막으로 스펙큘러(반사) 레이어를 추가해 광택층 완성</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="node-grid">
+      <div class="node-card falloff">
+        <div class="node-title">Fall Off 노드</div>
+        <div class="node-desc">
+          <p>오브젝트의 <strong>각도에 따라</strong> 효과 강도를 조절하는 노드입니다.</p>
+          <ul class="node-list">
+            <li>카메라를 향하는 면 → 강하게 표현</li>
+            <li>측면·뒷면 → 점점 약해짐 (또는 반대)</li>
+            <li>프레넬(Fresnel) 효과 연출에 필수</li>
+          </ul>
+        </div>
+      </div>
+      <div class="node-card flake">
+        <div class="node-title">Flake 노드</div>
+        <div class="node-desc">
+          <p>도료 속 <strong>반짝이는 금속 파편(플레이크)</strong>을 표현하는 노드입니다.</p>
+          <ul class="node-list">
+            <li>자동차 도장·펄 재질에 핵심</li>
+            <li>Scale로 파편 크기 조절</li>
+            <li>맵핑 조정으로 밀도·패턴 변경</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer-diagram">
+      <div class="layer-title">레이어 구조 (위 → 아래 순서로 쌓임)</div>
+      <div class="layer-item spec">
+        <span class="layer-num">3</span>
+        <div>
+          <strong>스펙큘러 레이어</strong>
+          <span>표면 광택 · 하이라이트</span>
+        </div>
+      </div>
+      <div class="layer-arrow">↓ Fall Off 블렌딩</div>
+      <div class="layer-item pearl">
+        <span class="layer-num">2</span>
+        <div>
+          <strong>메탈릭 레이어 (Flake)</strong>
+          <span>펄 · 반짝임 파편</span>
+        </div>
+      </div>
+      <div class="layer-arrow">↓ 베이스</div>
+      <div class="layer-item diffuse">
+        <span class="layer-num">1</span>
+        <div>
+          <strong>Diffuse 레이어</strong>
+          <span>본래 색상 (Base Color)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 로고 작업 -->
+  <section id="logo" class="section">
+    <span class="section-tag">로고 작업</span>
+    <h2 class="section-title">오브젝트에 로고 넣기</h2>
+    <p class="section-desc">특정 면에만 로고 재질을 적용하고 위치와 타일 현상을 제어하는 방법입니다.</p>
+
+    <div class="step-box">
+      <h3>로고 작업 순서</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>로고용 재질 준비 & 면 선택 적용</strong>
+            <p>새 재질(글로시 or 메탈릭) 생성 → 로고 이미지를 컬러/알파 채널에 연결 → 오브젝트에서 <strong>로고를 넣을 면만 선택</strong> 후 재질 드래그 적용</p>
+            <div class="sub-callout">
+              <strong>로고 이미지 권장 형식</strong>
+              <span class="img-tag png">PNG 알파</span>
+              <span class="img-tag bw">배경 검정 + 로고 흰색</span>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>프로젝션 모드 → Flat으로 변경</strong>
+            <p>재질 태그 클릭 → 프로젝션(Projection) 항목을 <strong>Flat</strong>으로 변경. 텍스처 모드(좌측 버튼)로 크기·위치 직접 조절</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <strong>타일 현상 제거</strong>
+            <p>로고 이미지가 반복되는 타일 현상이 생길 경우 아래 두 방법 중 선택:</p>
+            <div class="method-grid">
+              <div class="method-item">
+                <strong>방법 A</strong>
+                <p>재질 태그 → <strong>타일(Tile) 옵션 비활성화</strong></p>
+              </div>
+              <div class="method-item">
+                <strong>방법 B</strong>
+                <p>이미지 텍스처 노드 → Border Mode UV → <strong>Black</strong>으로 변경</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <strong>재질 이름 정리</strong>
+            <p>완성된 재질들은 역할에 맞게 이름을 명확하게 변경. 재질이 많아질수록 이름 관리가 핵심!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>Flat 프로젝션이란?</strong> 텍스처를 정면에서 납작하게 투영하는 방식입니다. 로고·스티커처럼 특정 방향에서만 보이는 이미지를 붙일 때 적합합니다.
+    </div>
+  </section>
+
+  <!-- 3. 최종 가렌더 -->
+  <section id="prerender" class="section">
+    <span class="section-tag">최종 점검</span>
+    <h2 class="section-title">최종 렌더 전 옥테인 가렌더</h2>
+    <p class="section-desc">편집에 들어가기 전, 옥테인이 적용된 상태로 한 번 더 가렌더를 돌려 전체 흐름을 확인합니다.</p>
+
+    <div class="card-grid">
+      <div class="card highlight">
+        <div class="card-icon">⚡</div>
+        <h3>샘플 수 낮게 설정</h3>
+        <p>가렌더 목적은 <strong>품질 확인이 아닌 흐름 확인</strong>입니다. 샘플 수를 최대한 낮게 설정해 렌더 속도를 높이세요.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h3>확인 항목</h3>
+        <ul class="tip-list">
+          <li>재질·조명이 의도대로 보이는지</li>
+          <li>카메라 구도 및 움직임</li>
+          <li>애니메이션 타이밍</li>
+          <li>전체 씬 길이와 흐름</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>작업 순서</strong> 가렌더 확인 → 수정 → 최종 렌더. 최종 렌더는 한 번만! 가렌더에서 충분히 검토하면 불필요한 재렌더를 줄일 수 있습니다.
+    </div>
+  </section>
+
+  <!-- 4. 영상 기획론 -->
+  <section id="planning" class="section">
+    <span class="section-tag">영상 기획</span>
+    <h2 class="section-title">영상 기획 — 툴보다 기획이 먼저다</h2>
+    <p class="section-desc">화려한 영상은 많습니다. 하지만 화려하다고 다 좋은 것이 아닙니다. <strong>영상의 목적</strong>을 먼저 정의해야 합니다.</p>
+
+    <div class="purpose-box">
+      <div class="purpose-icon">🎯</div>
+      <h3>영상이라는 장르의 목적</h3>
+      <p class="purpose-text">짧은 시간 안에 <strong>정확한 정보</strong>를 상대에게 전달하는 것</p>
+      <p class="purpose-sub">긴 글을 한 장의 이미지로, 복잡한 메시지를 몇 초의 영상으로 — 이것이 영상의 본질입니다.</p>
+    </div>
+
+    <div class="callout warning">
+      <strong>인강의 함정</strong> 인강으로 스킬을 배운 학생들의 포트폴리오는 구도·연출·스타일이 거의 똑같습니다. 소스만 다를 뿐 기획 능력이 없으면 현장에서 3개월을 버티기 어렵습니다. 기본기와 기획력은 본인이 직접 키워야 합니다.
+    </div>
+
+    <div class="plan-steps">
+      <h3>기획 → 제작 흐름</h3>
+      <div class="plan-flow">
+        <div class="plan-item">
+          <div class="plan-icon">✍️</div>
+          <strong>글부터 써라</strong>
+          <p>먼저 텍스트로 정리. 생각을 글로 쓰는 것이 기획의 시작</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="plan-item">
+          <div class="plan-icon">🎬</div>
+          <strong>시놉시스 작성</strong>
+          <p>타겟 / 전달 메시지 / 이 영상의 목적 3가지 정의</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="plan-item">
+          <div class="plan-icon">🖼️</div>
+          <strong>레퍼런스 수집</strong>
+          <p>최소 5~10장 이상 찾을 것. 한두 장은 너무 적다</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="plan-item">
+          <div class="plan-icon">📋</div>
+          <strong>스토리보드</strong>
+          <p>씬별 구도·움직임·타이밍을 시각화해 제작 전 검토</p>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="plan-item">
+          <div class="plan-icon">🛠️</div>
+          <strong>제작</strong>
+          <p>기획이 탄탄하면 툴 작업은 빠르고 방향이 흔들리지 않음</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="synopsis-box">
+      <h3>시놉시스 필수 3요소</h3>
+      <div class="synopsis-grid">
+        <div class="synopsis-item">
+          <span class="syn-num">01</span>
+          <strong>영상을 보는 타겟</strong>
+          <p>누가 볼 것인가? 연령·직군·관심사를 구체적으로 설정</p>
+        </div>
+        <div class="synopsis-item">
+          <span class="syn-num">02</span>
+          <strong>전달하고자 하는 메시지</strong>
+          <p>이 영상을 보고 나서 시청자가 느끼거나 알아야 할 것</p>
+        </div>
+        <div class="synopsis-item">
+          <span class="syn-num">03</span>
+          <strong>이 영상의 목적</strong>
+          <p>홍보? 설명? 감성 전달? 목적이 명확해야 구성이 명확해진다</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>툴은 늘릴 수 있다</strong> 툴 실력은 연습하면 늘어납니다. 하지만 기획력과 연출 감각은 본인이 의식적으로 키우지 않으면 절대 늘지 않습니다. 레퍼런스를 많이 보고, 많이 분석하고, 많이 써보세요.
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0409 오전반 · 메터리얼 레이어 & 영상 기획론</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
