@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D 후반작업 & AE 보정 기법 — 0409 저녁반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0409 저녁반</span>
+  <h1>3D 후반작업 & AE 보정 기법</h1>
+  <p class="subtitle">멀티패스 AE 합성 · 블렌딩 모드 · 색보정 · 블러 · 노이즈 · 플러그인</p>
+  <div class="header-tags">
+    <span>Multi-pass 합성</span><span>Blending Mode</span><span>Curves</span><span>Deep Glow</span><span>Particular</span><span>언멀트</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#multipass-ae">멀티패스 합성</a>
+  <a href="#blending">블렌딩 모드</a>
+  <a href="#color">색보정 효과</a>
+  <a href="#blur">블러 & 선명도</a>
+  <a href="#noise">노이즈</a>
+  <a href="#plugins">플러그인</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 멀티패스 AE 합성 -->
+  <section id="multipass-ae" class="section">
+    <span class="section-tag">멀티패스 합성</span>
+    <h2 class="section-title">C4D 렌더링 후 AE 후반작업</h2>
+    <p class="section-desc">C4D에서 출력된 이미지는 색감이 쨍하지 않습니다. 멀티패스로 분리한 레이어들을 AE에서 블렌딩 모드로 합성해 색감을 살립니다.</p>
+
+    <div class="fps-box">
+      <div class="fps-item">
+        <span class="fps-label">2D 영상 표준</span>
+        <span class="fps-val">29.97 fps</span>
+        <span class="fps-sub">드랍 프레임(Drop Frame)</span>
+      </div>
+      <div class="fps-divider"></div>
+      <div class="fps-item">
+        <span class="fps-label">논드랍</span>
+        <span class="fps-val">30 fps</span>
+        <span class="fps-sub">Non-Drop Frame</span>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <strong>C4D 색감 특성</strong> C4D 기본 렌더 이미지는 색감이 쨍하게 잡히지 않습니다. 멀티패스를 활용한 AE 합성과 색보정 작업이 필수입니다.
+    </div>
+
+    <div class="composite-flow">
+      <h3>멀티패스 합성 구조</h3>
+      <div class="comp-stack">
+        <div class="comp-layer plugin-layer">
+          <span class="comp-tag top">최상위</span>
+          <strong>언멀트(Unmult) 적용 레이어</strong>
+          <span>검은 영역을 제거한 후 블렌딩 모드 적용</span>
+        </div>
+        <div class="comp-layer reflection-layer">
+          <strong>Reflection Direct / InDirect</strong>
+          <span>블렌딩 모드: <code>Screen</code> — 반사감 강화</span>
+        </div>
+        <div class="comp-layer diffuse-layer">
+          <strong>Diffuse Direct / InDirect</strong>
+          <span>블렌딩 모드: <code>Soft Light</code> / <code>Screen</code> / <code>Opacity</code></span>
+        </div>
+        <div class="comp-layer base-layer">
+          <span class="comp-tag bottom">베이스</span>
+          <strong>메인 렌더 이미지</strong>
+          <span>C4D 최종 출력 이미지</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 블렌딩 모드 -->
+  <section id="blending" class="section">
+    <span class="section-tag">블렌딩 모드</span>
+    <h2 class="section-title">멀티패스 합성용 블렌딩 모드 가이드</h2>
+    <p class="section-desc">같은 Diffuse 패스라도 어떤 블렌딩 모드를 쓰느냐에 따라 결과가 완전히 달라집니다. 상황에 맞게 선택하세요.</p>
+
+    <div class="blend-grid">
+      <div class="blend-card soft-light">
+        <div class="blend-header">Soft Light</div>
+        <div class="blend-body">
+          <p>이미지 전체 색감의 <strong>대비(Contrast)를 강하게</strong> 주고 싶을 때</p>
+          <ul class="blend-list">
+            <li>어두운 부분은 더 어둡게, 밝은 부분은 더 밝게</li>
+            <li>드라마틱한 느낌 연출에 적합</li>
+          </ul>
+          <span class="use-tag">Diffuse에 주로 사용</span>
+        </div>
+      </div>
+      <div class="blend-card screen">
+        <div class="blend-header">Screen</div>
+        <div class="blend-body">
+          <p>색상 표현이 <strong>더 밝아졌으면</strong> 할 때</p>
+          <ul class="blend-list">
+            <li>이미지 전체를 밝혀주는 효과</li>
+            <li>여러 번 덮으면 더 강해짐 (반사 강조에 활용)</li>
+          </ul>
+          <span class="use-tag reflection">Diffuse & Reflection 모두 사용</span>
+        </div>
+      </div>
+      <div class="blend-card opacity">
+        <div class="blend-header">Opacity (불투명도)</div>
+        <div class="blend-body">
+          <p>원본 색감을 <strong>그대로 유지</strong>하면서 좀 더 쨍하게</p>
+          <ul class="blend-list">
+            <li>색 변환 없이 채도·선명도만 높이는 느낌</li>
+            <li>수치를 낮춰 미묘하게 조정할 때 유용</li>
+          </ul>
+          <span class="use-tag">Diffuse에 사용</span>
+        </div>
+      </div>
+      <div class="blend-card unmult">
+        <div class="blend-header">언멀트(Unmult) 플러그인</div>
+        <div class="blend-body">
+          <p>패스 이미지의 <strong>검은 영역을 투명하게 제거</strong>한 뒤 블렌딩 모드를 동일하게 적용</p>
+          <ul class="blend-list">
+            <li>검은 배경이 합성에 영향을 주는 문제 해결</li>
+            <li>더 깔끔한 합성 결과물</li>
+          </ul>
+          <span class="use-tag plugin">플러그인 필요</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>Reflection 패스 활용법</strong> Diffuse 보정을 하고 나면 반사가 많이 죽습니다. 이때 Reflection Direct/InDirect 패스를 Screen 모드로 올려 반사를 되살리거나, 더 강한 반사 이미지를 원할 때 여러 번 덮어 사용합니다.
+    </div>
+  </section>
+
+  <!-- 3. 색보정 -->
+  <section id="color" class="section">
+    <span class="section-tag">색보정</span>
+    <h2 class="section-title">AE 색보정 효과 총정리</h2>
+    <p class="section-desc">3D 결과물 보정 시 자주 쓰이는 AE 이펙트입니다. 정밀도 순서로 이해하면 용도가 명확해집니다.</p>
+
+    <div class="effect-table">
+      <div class="effect-header">
+        <div>효과 이름</div>
+        <div>역할 & 특징</div>
+        <div>정밀도</div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">Hue / Saturation</div>
+        <div>색조(Hue)와 채도(Saturation)를 조절. 특정 색만 골라서 보정 가능</div>
+        <div><span class="prec prec2">중</span></div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">Brightness</div>
+        <div>전체 명도를 올리거나 내림. 흰색·검정을 이미지에 덮는 느낌 — 톤 유지 X</div>
+        <div><span class="prec prec1">낮음</span></div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">Levels</div>
+        <div>명도를 세부적으로 보정. 입력/출력 범위를 조절해 밝기 분포 제어</div>
+        <div><span class="prec prec3">중상</span></div>
+      </div>
+      <div class="effect-row highlight-row">
+        <div class="effect-name">Curves ★</div>
+        <div>명도 보정 중 <strong>가장 세밀하게</strong> 조절 가능. RGB 개별 채널 제어. 실무 표준</div>
+        <div><span class="prec prec4">최고</span></div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">CC Toner</div>
+        <div>Octane 그라디언트와 유사한 색조 효과. Tint, Tritone과 비슷한 기능</div>
+        <div><span class="prec prec2">중</span></div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">Fill</div>
+        <div>레이어 전체를 단색으로 채움. 색상 오버레이로 활용</div>
+        <div><span class="prec prec1">낮음</span></div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">Gradient Ramp</div>
+        <div>두 색상의 그라디언트 생성. 배경·오버레이 합성에 활용</div>
+        <div><span class="prec prec2">중</span></div>
+      </div>
+      <div class="effect-row">
+        <div class="effect-name">4 Color Gradient</div>
+        <div>네 꼭짓점에 각각 색상을 지정한 그라디언트. 분위기 연출에 강함</div>
+        <div><span class="prec prec2">중</span></div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>보정 레벨 이해</strong> Brightness → Levels → Curves 순으로 정밀도가 높아집니다. 가능하면 Curves를 써서 세밀하게 조정하는 습관을 들이세요.
+    </div>
+  </section>
+
+  <!-- 4. 블러 & 선명도 -->
+  <section id="blur" class="section">
+    <span class="section-tag">블러 & 선명도</span>
+    <h2 class="section-title">빛 보정 & 선명도 조정 — Blur 이펙트</h2>
+    <p class="section-desc">DoF 연출, 모션 블러, 글로우 효과 등 다양한 목적으로 사용되는 블러 이펙트입니다.</p>
+
+    <div class="blur-grid">
+      <div class="blur-card">
+        <h3>Fast Box Blur</h3>
+        <p>가장 빠른 블러. 렌더 속도가 중요할 때 사용. 품질은 낮지만 부드러운 효과에 적합</p>
+      </div>
+      <div class="blur-card">
+        <h3>Gaussian Blur</h3>
+        <p>가장 일반적인 블러. 자연스러운 흐림 효과. 배경 소프트 처리에 많이 사용</p>
+      </div>
+      <div class="blur-card highlight-card">
+        <h3>Camera Lens Blur</h3>
+        <p>실제 카메라 렌즈의 DoF(피사계심도)를 시뮬레이션. 보케(Bokeh) 효과 포함. 가장 현실적</p>
+      </div>
+      <div class="blur-card">
+        <h3>Radial Fast Blur</h3>
+        <p>중심점에서 방사형으로 퍼지는 블러. 줌 인/아웃 모션, 속도감 표현에 적합</p>
+      </div>
+      <div class="blur-card">
+        <h3>Directional Blur</h3>
+        <p>특정 방향으로만 흐림 처리. 수평·수직 모션 블러, 속도감 연출에 활용</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 노이즈 -->
+  <section id="noise" class="section">
+    <span class="section-tag">노이즈</span>
+    <h2 class="section-title">노이즈 추가 & 제거</h2>
+    <p class="section-desc">깨끗한 3D 렌더는 오히려 부자연스러울 수 있습니다. 적절한 노이즈를 추가해 사실감과 질감을 높일 수 있습니다.</p>
+
+    <div class="noise-grid">
+      <div class="noise-card primary-card">
+        <h3>Noise HLS ★</h3>
+        <p>색상(Hue)·명도(Lightness)·채도(Saturation) 채널을 이용해 노이즈를 만드는 이펙트입니다.</p>
+        <div class="noise-tip">
+          <strong>추천 사용법</strong> 명도(L)나 채도(S) 채널만 활성화해서 사용하면 색 변화 없이 자연스러운 필름 그레인 느낌을 만들 수 있습니다.
+        </div>
+      </div>
+      <div class="noise-card">
+        <h3>Add Grain</h3>
+        <p>필름 그레인 노이즈를 추가. 다양한 필름 종류 시뮬레이션 파라미터 제공. 아날로그 감성 표현에 적합</p>
+      </div>
+      <div class="noise-card">
+        <h3>Fractal Noise</h3>
+        <p>프랙탈 기반의 복잡한 노이즈 패턴 생성. 연기·안개·텍스처 배경 등 다양하게 활용 가능</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 플러그인 -->
+  <section id="plugins" class="section">
+    <span class="section-tag">플러그인</span>
+    <h2 class="section-title">AE 필수 플러그인 목록</h2>
+    <p class="section-desc">3D 후반작업에서 전문가들이 실무에서 사용하는 AE 플러그인입니다.</p>
+
+    <div class="plugin-grid">
+      <div class="plugin-card">
+        <div class="plugin-icon">🔳</div>
+        <h3>언멀트 (Unmult)</h3>
+        <p>멀티패스 합성 필수. 검은 영역을 알파로 변환해 깔끔한 블렌딩 가능</p>
+        <span class="plugin-type free">무료</span>
+      </div>
+      <div class="plugin-card">
+        <div class="plugin-icon">🖥️</div>
+        <h3>Fx Console</h3>
+        <p>AE 이펙트를 빠르게 검색·적용하는 런처. 작업 속도를 크게 향상시키는 필수 생산성 도구</p>
+        <span class="plugin-type free">무료</span>
+      </div>
+      <div class="plugin-card">
+        <div class="plugin-icon">✨</div>
+        <h3>Particular</h3>
+        <p>파티클 시스템 플러그인. 먼지·불꽃·연기·광선 등 자연 현상 표현의 업계 표준</p>
+        <span class="plugin-type paid">유료</span>
+      </div>
+      <div class="plugin-card">
+        <div class="plugin-icon">🎨</div>
+        <h3>Magic Bullet Looks</h3>
+        <p>영화·광고 수준의 색보정 플러그인. 프리셋 기반의 시네마틱 룩 적용이 쉬움</p>
+        <span class="plugin-type paid">유료</span>
+      </div>
+      <div class="plugin-card">
+        <div class="plugin-icon">🌟</div>
+        <h3>Universe — Finisher / Glow</h3>
+        <p>다양한 전환·글로우·스타일 이펙트 모음. Finisher는 원클릭 마무리 효과로 유명</p>
+        <span class="plugin-type paid">유료</span>
+      </div>
+      <div class="plugin-card highlight-plugin">
+        <div class="plugin-icon">💡</div>
+        <h3>Deep Glow</h3>
+        <p>물리적으로 정확한 글로우 효과. 기본 AE 글로우보다 훨씬 자연스럽고 아름다운 발광 표현</p>
+        <span class="plugin-type paid">유료</span>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>우선순위</strong> 당장 설치해야 할 필수 무료 플러그인: <strong>언멀트</strong> + <strong>Fx Console</strong>. 이 두 가지만 있어도 AE 3D 후반작업 효율이 크게 올라갑니다.
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0409 저녁반 · 3D 후반작업 & AE 보정 기법</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
