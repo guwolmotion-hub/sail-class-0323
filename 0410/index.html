@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영상 기획 이론 & 레이아웃 — 0410 오전반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0410 오전반</span>
+  <h1>영상 기획 이론 & 레이아웃</h1>
+  <p class="subtitle">마인드맵 · 메타포 · 모티브/모티프 · 스토리보드 · 구도 · 레이아웃 원칙</p>
+  <div class="header-tags">
+    <span>마인드맵</span><span>메타포</span><span>모티브/모티프</span><span>시각언어</span><span>스토리보드</span><span>레이아웃</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#workflow">영상 워크플로우</a>
+  <a href="#mindmap">마인드맵</a>
+  <a href="#metaphor">메타포</a>
+  <a href="#motive">모티브 & 모티프</a>
+  <a href="#visual-lang">시각 언어</a>
+  <a href="#storyboard">스토리보드</a>
+  <a href="#composition">구도</a>
+  <a href="#layout">레이아웃</a>
+</nav>
+
+<main class="container">
+
+  <!-- 0. 워크플로우 -->
+  <section id="workflow" class="section">
+    <span class="section-tag">영상 워크플로우</span>
+    <h2 class="section-title">영상 제작 전체 흐름</h2>
+    <p class="section-desc">좋은 영상은 툴이 아니라 기획에서 시작됩니다. 전체 워크플로우를 이해하면 어디서 시간을 쓰고 어디서 결정을 내려야 하는지 명확해집니다.</p>
+    <div class="flow-row">
+      <div class="flow-step">
+        <span class="flow-num">1</span>
+        <strong>기획</strong>
+        <span>마인드맵 → 시놉시스 → 레퍼런스</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">2</span>
+        <strong>컬러 & 레이아웃</strong>
+        <span>구도 설계 · 색상 계획</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">3</span>
+        <strong>스토리보드</strong>
+        <span>씬별 흐름 시각화</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">4</span>
+        <strong>제작</strong>
+        <span>모델링 · 애니메이션 · 렌더</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="flow-num">5</span>
+        <strong>후반작업</strong>
+        <span>AE 합성 · 색보정 · 편집</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. 마인드맵 -->
+  <section id="mindmap" class="section">
+    <span class="section-tag">기획 [1]</span>
+    <h2 class="section-title">마인드맵으로 주제 도출하기</h2>
+    <p class="section-desc">마인드맵은 주제에서 부주제, 세부주제를 뽑아내기 위한 브레인스토밍 도구입니다. 형식보다 흐름이 중요합니다.</p>
+
+    <div class="mindmap-visual">
+      <div class="mm-center">주제</div>
+      <div class="mm-branches">
+        <div class="mm-branch">
+          <div class="mm-sub">부주제 A</div>
+          <div class="mm-details">
+            <span>세부 1</span><span>세부 2</span>
+          </div>
+        </div>
+        <div class="mm-branch">
+          <div class="mm-sub">부주제 B</div>
+          <div class="mm-details">
+            <span>세부 1</span><span>세부 2</span>
+          </div>
+        </div>
+        <div class="mm-branch">
+          <div class="mm-sub">부주제 C</div>
+          <div class="mm-details">
+            <span>세부 1</span><span>세부 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule-list">
+      <div class="rule-item">
+        <span class="rule-icon">✍️</span>
+        <div>
+          <strong>의식의 흐름대로 작성</strong>
+          <p>검열하지 말고 떠오르는 것을 전부 써라. 정리는 나중에 해도 된다.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <span class="rule-icon">📌</span>
+        <div>
+          <strong>주제 → 부주제 → 세부주제 순서</strong>
+          <p>마인드맵 완성 후 간단한 시놉시스 형태로 스토리 초안을 작성하는 것이 1단계</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <span class="rule-icon">🛠️</span>
+        <div>
+          <strong>양식은 자유</strong>
+          <p>마인드맵 앱, 노션, 손으로 쓰기 — 방법은 상관없음. 단, <strong>주제와 세부주제는 반드시 준비</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 메타포 -->
+  <section id="metaphor" class="section">
+    <span class="section-tag">기획 [2]</span>
+    <h2 class="section-title">메타포 — 은유, 비유, 상징적 표현</h2>
+    <p class="section-desc">디자인과 영상에서 메타포는 선택이 아닌 필수입니다. 복잡한 개념을 직설적으로 표현하면 오히려 전달력이 떨어집니다.</p>
+
+    <div class="why-box">
+      <h3>왜 메타포가 필요한가?</h3>
+      <div class="why-grid">
+        <div class="why-item">
+          <span class="why-num">01</span>
+          <p>디자인의 본질적 목적은 <strong>정보 전달</strong> — 복잡한 개념을 불특정 다수에게 효율적으로</p>
+        </div>
+        <div class="why-item">
+          <span class="why-num">02</span>
+          <p>1차원적·직설적 표현을 피하기 위해 — 구구절절 설명은 영상 제작 시간의 효율을 망침</p>
+        </div>
+        <div class="why-item">
+          <span class="why-num">03</span>
+          <p>인간의 두뇌는 <strong>심플하고 쉬운 것</strong>에 자동으로 끌림 (예: "돈 많은 백수")</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">⚡</div>
+        <h3>빠른 이해</h3>
+        <p>비유적 표현은 여러 인간 감각을 동시에 자극해 복잡한 개념을 쉽고 빠르게 이해시킴</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🧠</div>
+        <h3>오래 기억</h3>
+        <p>감성·감정적 변화(공감, 재미, 흥미, 감동)를 일으켜 기억에 오래 남음</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🎨</div>
+        <h3>창의적 표현</h3>
+        <p>독창적이고 새로운 시각적 아이디어를 만들 수 있는 토대가 됨</p>
+      </div>
+    </div>
+
+    <div class="metaphor-formula">
+      <h3>메타포 공식</h3>
+      <div class="formula-box">
+        <span class="formula">A는 B이다</span>
+        <span class="formula-or">또는</span>
+        <span class="formula">A같은 B &nbsp;/&nbsp; B인 A</span>
+      </div>
+      <div class="example-grid">
+        <div class="example-item">
+          <span class="ex-label">개념</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-meta">개나리는 <strong>봄을 밝히는 노란 전구</strong>다</span>
+        </div>
+        <div class="example-item">
+          <span class="ex-label">감성</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-meta"><strong>햇살처럼</strong> 니가 내렸다</span>
+        </div>
+        <div class="example-item">
+          <span class="ex-label">사회</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-meta">현대인은 <strong>빠르게 달리는 자동차</strong>와 같다</span>
+        </div>
+        <div class="example-item">
+          <span class="ex-label">감정</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-meta">내 마음은 <strong>호수</strong>요</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-metaphor">
+      <h3>시각 메타포 — 개념과 이미지 연결</h3>
+      <div class="vm-grid">
+        <div class="vm-item"><span class="vm-concept">평화</span><span class="vm-arrow">→</span><span class="vm-image">🕊️ 비둘기 · 악수 · 흰 깃발</span></div>
+        <div class="vm-item"><span class="vm-concept">사랑</span><span class="vm-arrow">→</span><span class="vm-image">❤️ 하트</span></div>
+        <div class="vm-item"><span class="vm-concept">가벼움</span><span class="vm-arrow">→</span><span class="vm-image">🪶 깃털</span></div>
+        <div class="vm-item"><span class="vm-concept">밤</span><span class="vm-arrow">→</span><span class="vm-image">🌙 달 · 별</span></div>
+        <div class="vm-item"><span class="vm-concept">낮</span><span class="vm-arrow">→</span><span class="vm-image">☀️ 태양</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 모티브 & 모티프 -->
+  <section id="motive" class="section">
+    <span class="section-tag">기획 [3]</span>
+    <h2 class="section-title">모티브 & 모티프 — 브랜딩의 뿌리</h2>
+    <p class="section-desc">모티브와 모티프는 브랜딩 영상에서 일관성을 만드는 핵심 개념입니다. 이 둘을 구분하지 못하면 영상이 잡탕이 됩니다.</p>
+
+    <div class="motif-compare">
+      <div class="motif-card motif-a">
+        <div class="motif-header">모티브 (Motif-왜)</div>
+        <div class="motif-body">
+          <p class="motif-def">이유 / 동기 / 출발점</p>
+          <p>브랜드가 <strong>무엇에서 영감을 받았는가?</strong></p>
+          <div class="motif-questions">
+            <span>이 브랜드는 왜 이런 컨셉을 잡았는가?</span>
+            <span>어떤 대상·가치·스토리에서 출발했는가?</span>
+            <span>브랜드 아이덴티티의 근본 아이디어는?</span>
+          </div>
+        </div>
+      </div>
+      <div class="motif-card motif-b">
+        <div class="motif-header">모티프 (Motif-어떻게)</div>
+        <div class="motif-body">
+          <p class="motif-def">반복되는 시각 / 표현 요소</p>
+          <p>그 영감을 <strong>어떤 형태로 반복해서 보여주는가?</strong></p>
+          <div class="motif-questions">
+            <span>누가 어디서 무엇을 봐도 이 브랜드가 떠오르게 하는 시각 요소</span>
+            <span>형태 · 색상 · 질감 · 각도</span>
+            <span>디자인 · 움직임 · 전개방식 · 트랜지션 — 일관성 유지</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-example">
+      <h3>브랜드 예시 분석</h3>
+      <div class="brand-box">
+        <div class="brand-title">브랜드: <strong>도심 속 작은 휴식</strong></div>
+        <div class="brand-detail">
+          <div>
+            <strong>모티브 (출발점)</strong>
+            <p>숲 · 새벽 공기 · 잔잔한 자연 · 여유로운 호흡</p>
+          </div>
+          <div>
+            <strong>모티프 (시각 요소)</strong>
+            <p>만화경 · 컬러칩으로 이루어진 비주얼 요소 → 반복적으로 사용</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout warning">
+        <strong>주의</strong> 하나의 모티프로 디자인·움직임·전개방식·트랜지션을 통일해야 합니다. 잡탕스럽게 표현하지 않는 것이 브랜딩 영상의 핵심입니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 시각 언어 -->
+  <section id="visual-lang" class="section">
+    <span class="section-tag">시각 언어</span>
+    <h2 class="section-title">시각 언어 — 약속된 표현 시스템</h2>
+    <p class="section-desc">시각 언어는 형태·색·크기 등의 시각 요소와 특정 의미를 연결하는 암묵적 규칙입니다. 이 규칙을 이해해야 효과적인 전달이 가능합니다.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">👁️</div>
+        <h3>대중적·직감적 표현 사용</h3>
+        <p>누구나 알아볼 수 있는 보편적인 시각 언어를 우선 사용. 독창성보다 전달력이 먼저</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>시각 요소 ↔ 의미 연결</h3>
+        <p>형태, 색, 크기 등의 요소와 특정 의미를 연결하는 시스템을 활용 (예: 신호등, 아이콘)</p>
+      </div>
+    </div>
+
+    <div class="signal-example">
+      <h3>반례 — 신호등 예시</h3>
+      <p class="signal-desc">신호등의 색이 바뀌면 어떤 혼란이 생기는지 생각해보면 시각 언어의 힘을 이해할 수 있습니다.</p>
+      <div class="signal-grid">
+        <div class="signal-item wrong">
+          <span class="signal-dot purple"></span>
+          <strong>보라색 불</strong>
+          <span>→ 정지??</span>
+        </div>
+        <div class="signal-item wrong">
+          <span class="signal-dot pink"></span>
+          <strong>핑크색 불</strong>
+          <span>→ 가세요?!</span>
+        </div>
+        <div class="signal-item wrong">
+          <span class="signal-dot sky"></span>
+          <strong>하늘색 불</strong>
+          <span>→ 대기?</span>
+        </div>
+      </div>
+      <p class="signal-note">기존 약속된 시각 언어(빨강=정지, 초록=출발)를 벗어나면 혼란이 발생합니다.</p>
+    </div>
+  </section>
+
+  <!-- 5. 스토리보드 -->
+  <section id="storyboard" class="section">
+    <span class="section-tag">스토리보드</span>
+    <h2 class="section-title">스토리보드 작성법</h2>
+    <p class="section-desc">스토리보드는 영상의 네비게이션입니다. 스토리보드만 봐도 영상의 전체 흐름이 읽혀야 합니다.</p>
+
+    <div class="sb-table">
+      <div class="sb-row">
+        <div class="sb-label">필수 표현</div>
+        <div class="sb-content">
+          <ul>
+            <li>레이아웃과 주제부·부주제부 간의 위치</li>
+            <li>카메라 워크 (줌인/아웃, 패닝, 틸트 등)</li>
+            <li>애니메이션 방향성 및 흐름</li>
+            <li>화면의 흐름 (씬 전환 방식)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">필수 아님</div>
+        <div class="sb-content">
+          <p>디자인 완성도 — 스토리보드에서는 읽히지 않아도 괜찮음. 대신 레이아웃과 흐름은 명확해야 함.</p>
+        </div>
+      </div>
+      <div class="sb-row warning-row">
+        <div class="sb-label">⚠️ 주의</div>
+        <div class="sb-content">
+          <p>너무 부족해도 안 되고, 너무 많아도 안 됨. <strong>방향성이 일관적으로 흐르는지</strong> 체크 필요.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>열린 사고로 작성</strong> 처음부터 너무 확정지어 그리는 건 피할 것. 하나의 글에서 나올 수 있는 그림은 무수히 많습니다. 작품의 분위기와 연출 방향에 따라 최적의 방향을 찾는 과정이므로 여러 방향을 열어두고 생각하세요.
+    </div>
+
+    <div class="sb-example">
+      <h3>같은 지문, 다른 연출</h3>
+      <p class="sb-ex-desc">"캐릭터의 정면을 보여준다"라는 동일한 지문도 연출가마다 달라집니다.</p>
+      <div class="sb-ex-grid">
+        <div class="sb-ex-item">
+          <strong>연출 A</strong>
+          <p>풀샷 → 얼굴 입 클로즈업 → 눈빛 클로즈업 순서로 쪼개서 보여줌</p>
+        </div>
+        <div class="sb-ex-item">
+          <strong>연출 B</strong>
+          <p>풀샷 하나로만 보여줌</p>
+        </div>
+      </div>
+      <p class="sb-note">어느 쪽이 맞다는 게 아니라, 분위기와 연출 방향에 따라 더 어울리는 것이 다름</p>
+    </div>
+  </section>
+
+  <!-- 6. 구도 -->
+  <section id="composition" class="section">
+    <span class="section-tag">컬러 & 레이아웃 [1]</span>
+    <h2 class="section-title">영상 구도 5가지</h2>
+    <p class="section-desc">레퍼런스 툴: <strong>Moodboard(믹스보드)</strong>, <strong>PureRef</strong>. 전경과 근경, 라이팅, 오브젝트 포징을 고려해 구성합니다.</p>
+
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-num">01</div>
+        <h3>1/3 구도 (Rule of Thirds)</h3>
+        <p>화면을 3×3 그리드로 나누고 피사체를 교차점(황금점)에 배치. 가장 기본적이고 보편적인 구도.</p>
+      </div>
+      <div class="comp-card">
+        <div class="comp-num">02</div>
+        <h3>라인 구도</h3>
+        <p>소실점, 피사체·오브젝트로 만들어진 선을 활용. 시선을 원하는 방향으로 자연스럽게 유도.</p>
+      </div>
+      <div class="comp-card">
+        <div class="comp-num">03</div>
+        <h3>시선 구도</h3>
+        <p>여러 인물/오브젝트가 한 방향을 바라볼 때 시청자의 시선이 그 방향으로 자연스럽게 이동.</p>
+      </div>
+      <div class="comp-card">
+        <div class="comp-num">04</div>
+        <h3>Frame in Frame</h3>
+        <p>창문·문·아치·구멍 등 프레임 안에 또 다른 프레임으로 피사체를 감쌈. 피사체를 강조하는 효과.</p>
+      </div>
+      <div class="comp-card full-width">
+        <div class="comp-num">05</div>
+        <h3>대비 구도</h3>
+        <p>다섯 가지 대비 요소를 활용해 시선을 주제부로 집중시킴</p>
+        <div class="contrast-tags">
+          <span>명도 대비</span>
+          <span>크기 대비</span>
+          <span>공간 대비</span>
+          <span>색상 대비</span>
+          <span>속도 대비</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-lang-box">
+      <h3>영상 언어 — 방향성과 심리</h3>
+      <div class="direction-grid">
+        <div class="dir-item left-right">
+          <span class="dir-arrow">→</span>
+          <div>
+            <strong>좌 → 우 이동</strong>
+            <p>글을 읽는 방식과 동일. 편안함·안정감을 느낌.</p>
+          </div>
+        </div>
+        <div class="dir-item right-left">
+          <span class="dir-arrow">←</span>
+          <div>
+            <strong>우 → 좌 이동</strong>
+            <p>본능적으로 불안함·역동성을 느낌. 긴장감 연출에 활용.</p>
+          </div>
+        </div>
+        <div class="dir-item top-bottom">
+          <span class="dir-arrow">↓</span>
+          <div>
+            <strong>상단 넓고 하단 좁은 구성</strong>
+            <p>불안정한 느낌. 반대(하단 넓음)가 안정적.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 레이아웃 -->
+  <section id="layout" class="section">
+    <span class="section-tag">컬러 & 레이아웃 [2]</span>
+    <h2 class="section-title">레이아웃 원칙</h2>
+    <p class="section-desc">레이아웃은 보는 사람의 시선을 설계하는 작업입니다. "내가 제일 잘 보이고 싶은 것이 잘 보이게" 만드는 것이 목표입니다.</p>
+
+    <div class="layout-rules">
+      <div class="lr-item">
+        <span class="lr-icon good">✓</span>
+        <div>
+          <strong>시선의 흐름 설계</strong>
+          <p>주제부가 먼저 눈에 띄고, 부주제부가 자연스럽게 이어지도록 배치</p>
+        </div>
+      </div>
+      <div class="lr-item">
+        <span class="lr-icon good">✓</span>
+        <div>
+          <strong>포인트는 최대 3개까지</strong>
+          <p>원포인트, 투포인트는 괜찮음. 쓰리포인트 이상은 시선이 분산됨. <em>"갈 곳을 잃은 내 두 눈"</em> = 잘못된 레이아웃</p>
+        </div>
+      </div>
+      <div class="lr-item">
+        <span class="lr-icon good">✓</span>
+        <div>
+          <strong>3×3 or 6:4 황금비율</strong>
+          <p>요소 배치 시 애매한 위치를 피하고, 그리드에 맞춰 명확하게 배치</p>
+        </div>
+      </div>
+      <div class="lr-item">
+        <span class="lr-icon good">✓</span>
+        <div>
+          <strong>주제부와 부주제부 간 대비</strong>
+          <p>확실한 위계질서가 중요. 크기·밝기·색상 차이로 어디를 먼저 봐야 할지 명확하게</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist-box">
+      <h3>레이아웃 셀프 체크리스트</h3>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox"> 오브젝트 배치 시 시작선·끝선이 겹치지 않는가</label>
+        <label class="check-item"><input type="checkbox"> 형태를 복붙처럼 똑같이 만들지 않았는가</label>
+        <label class="check-item"><input type="checkbox"> 간격이 다양한가 (일정 간격 ≠ 리듬감)</label>
+        <label class="check-item"><input type="checkbox"> 조형 크기·위치·각도·형태가 다양한가</label>
+        <label class="check-item"><input type="checkbox"> 점·선·면 요소가 전부 존재하는가</label>
+        <label class="check-item"><input type="checkbox"> 포인트가 3개 이하인가</label>
+        <label class="check-item"><input type="checkbox"> 방향성이 일관적으로 흐르는가</label>
+        <label class="check-item"><input type="checkbox"> 주제부와 부주제부의 대비가 명확한가</label>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>추천 참고 자료</strong> 영상학·영화학 공부를 원한다면 <strong>Skim On West</strong>를 찾아볼 것.
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0410 오전반 · 영상 기획 이론 & 레이아웃</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
