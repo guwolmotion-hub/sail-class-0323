@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다이나믹 심화 — Ghost Body & 이펙터 — 0410 저녁반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0410 저녁반</span>
+  <h1>다이나믹 심화 — Ghost Body & 이펙터</h1>
+  <p class="subtitle">고스트바디 · 이펙터 · 중력 제어 · 포스 리스트 · Mass 설정 · 베이크</p>
+  <div class="header-tags">
+    <span>Ghost Body</span><span>Effector</span><span>Attractor</span><span>Force List</span><span>Mass</span><span>Bake</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#ghost">고스트바디</a>
+  <a href="#effector">이펙터</a>
+  <a href="#gravity">중력 제어</a>
+  <a href="#force">포스 리스트</a>
+  <a href="#mass">Mass 설정</a>
+  <a href="#bake">시뮬레이션 베이크</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 고스트바디 -->
+  <section id="ghost" class="section">
+    <span class="section-tag">시뮬레이션 바디</span>
+    <h2 class="section-title">고스트바디 (Ghost Body)</h2>
+    <p class="section-desc">다이나믹 시뮬레이션에서 가장 특이한 바디 타입 중 하나입니다. 실제로는 충돌하지 않지만, 충돌한 것처럼 다른 오브젝트에 영향을 줍니다.</p>
+
+    <div class="compare-cards">
+      <div class="compare-card">
+        <h3>일반 바디와 차이점</h3>
+        <div class="diff-list">
+          <div class="diff-item">
+            <span class="diff-icon no">✗</span>
+            <span>실제 물리 충돌 발생 안 함</span>
+          </div>
+          <div class="diff-item">
+            <span class="diff-icon no">✗</span>
+            <span>중력의 영향을 받지 않음</span>
+          </div>
+          <div class="diff-item">
+            <span class="diff-icon yes">✓</span>
+            <span>다른 오브젝트에게 충돌로 인식시킴</span>
+          </div>
+          <div class="diff-item">
+            <span class="diff-icon yes">✓</span>
+            <span>트리거 기능과 결합해 특정 타이밍 제어 가능</span>
+          </div>
+        </div>
+      </div>
+      <div class="compare-card highlight-card">
+        <h3>트리거 / On Collision 와 함께 사용</h3>
+        <p>고스트바디는 Trigger나 On Collision 기능과 함께 사용하면 강력해집니다.</p>
+        <ul class="tip-list">
+          <li>원하는 위치에서 시뮬레이션 시작</li>
+          <li>원하는 타이밍에 애니메이션 발동</li>
+          <li>충돌 없이 스타트 신호만 보낼 때 활용</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 이펙터 -->
+  <section id="effector" class="section">
+    <span class="section-tag">MoGraph 이펙터</span>
+    <h2 class="section-title">이펙터 (Effector)</h2>
+    <p class="section-desc">클로너(Cloner)를 비롯한 MoGraph 기능에 추가적인 효과를 적용하는 도구입니다. 오브젝트들의 위치·회전·크기에 다양한 변화를 줄 수 있습니다.</p>
+
+    <div class="effector-grid">
+      <div class="effector-card">
+        <div class="effector-header random">Random Effector</div>
+        <div class="effector-body">
+          <p class="effector-summary">PSR (Position / Scale / Rotation)에 <strong>랜덤성</strong>을 부여</p>
+          <ul class="effector-list">
+            <li>클로너로 복제된 오브젝트들이 각각 조금씩 다른 위치·크기·각도를 갖게 됨</li>
+            <li>너무 규칙적으로 보이는 복제 배열을 자연스럽게 만들 때 필수</li>
+            <li>Seed 값으로 랜덤 패턴 변경 가능</li>
+          </ul>
+        </div>
+      </div>
+      <div class="effector-card">
+        <div class="effector-header pushap">Push Apart Effector</div>
+        <div class="effector-body">
+          <p class="effector-summary">오브젝트들이 서로 <strong>겹치지 않게</strong> 자동으로 밀어냄</p>
+          <ul class="effector-list">
+            <li>복제 오브젝트가 서로 붙거나 겹칠 때 간격을 자동으로 벌려줌</li>
+            <li>Random Effector와 함께 사용하면 자연스러운 흩어진 배치 완성</li>
+            <li>Radius 값으로 최소 간격 조절</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 중력 제어 -->
+  <section id="gravity" class="section">
+    <span class="section-tag">중력 제어</span>
+    <h2 class="section-title">중력 개별 제어 — 오브젝트마다 다른 중력 설정</h2>
+    <p class="section-desc">실습 목표: 위에서 작은 상자들이 쏟아져 내려올 때, 큰 상자는 공중에 떠 있으면서 형태만 찌그러지게 만들기.</p>
+
+    <div class="goal-box">
+      <h3>구현 조건</h3>
+      <div class="condition-list">
+        <div class="condition-item bad">
+          <span class="cond-icon">✗</span>
+          <div>
+            <strong>큰 상자는 중력 영향 없음</strong>
+            <p>공중에 떠 있는 상태를 유지해야 하므로 중력 적용 불가</p>
+          </div>
+        </div>
+        <div class="condition-item bad">
+          <span class="cond-icon">✗</span>
+          <div>
+            <strong>큰 상자는 원래 형태로 복원되면 안 됨</strong>
+            <p>소프트바디처럼 찌그러진 상태 그대로 유지</p>
+          </div>
+        </div>
+        <div class="condition-item good">
+          <span class="cond-icon">✓</span>
+          <div>
+            <strong>작은 큐브들만 중력 981 적용</strong>
+            <p>작은 상자들만 정상적으로 떨어지게</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <h3>중력 개별 제어 방법</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <strong>프로젝트 전체 중력 제거</strong>
+            <p><kbd>Ctrl+D</kbd> → 프로젝트 설정 → Dynamics 항목 → <strong>Gravity 값을 0</strong>으로 변경. 씬 전체의 중력이 사라짐.</p>
+            <div class="code-block">Gravity: <span class="val-bad">981</span> → <span class="val-good">0</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <strong>작은 큐브에만 중력 개별 적용</strong>
+            <p>작은 큐브 오브젝트의 시뮬레이션 태그 → Force 항목 → Force List 사용 또는 중력(Gravity) Force를 개별 추가해 <strong>981 값 설정</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="attractor-box">
+      <h3>Attractor — 인력과 척력</h3>
+      <div class="attr-grid">
+        <div class="attr-item">
+          <span class="attr-icon attract">↓↓</span>
+          <div>
+            <strong>인력 (Attract)</strong>
+            <p>오브젝트를 Attractor 방향으로 당기는 힘. 중심으로 모이게 하는 효과.</p>
+          </div>
+        </div>
+        <div class="attr-item">
+          <span class="attr-icon repel">↑↑</span>
+          <div>
+            <strong>척력 (Repel)</strong>
+            <p>오브젝트를 Attractor에서 밀어내는 힘. 밖으로 퍼뜨리는 효과.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 포스 리스트 -->
+  <section id="force" class="section">
+    <span class="section-tag">시뮬레이션 태그</span>
+    <h2 class="section-title">포스 리스트 & 움직임 제어</h2>
+    <p class="section-desc">시뮬레이션 태그의 Force 항목을 통해 각 오브젝트에 적용할 힘(포스)과 움직임 제한을 세밀하게 설정할 수 있습니다.</p>
+
+    <div class="force-table">
+      <div class="force-header">
+        <div>설정 항목</div>
+        <div>역할</div>
+      </div>
+      <div class="force-row">
+        <div class="force-name">
+          <span class="force-tag include">Include</span>
+          Force List
+        </div>
+        <div>포스 리스트 안에 있는 포스 <strong>만</strong> 이 오브젝트에 적용</div>
+      </div>
+      <div class="force-row">
+        <div class="force-name">
+          <span class="force-tag exclude">Exclude</span>
+          Force List
+        </div>
+        <div>포스 리스트 안에 있는 포스 <strong>만</strong> 이 오브젝트에 미적용 (나머지는 모두 적용)</div>
+      </div>
+      <div class="force-row highlight-row">
+        <div class="force-name">Follow Position / Rotation</div>
+        <div><strong>사이드브레이크</strong> 역할 — 오브젝트의 움직임을 완전히 고정</div>
+      </div>
+      <div class="force-row">
+        <div class="force-name">Linear Damping</div>
+        <div><strong>브레이크</strong> 역할 — 이동 속도를 서서히 감속시켜 멈추게 함</div>
+      </div>
+      <div class="force-row">
+        <div class="force-name">Angular Damping</div>
+        <div><strong>회전 브레이크</strong> — 회전 속도를 서서히 감속시켜 멈추게 함</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>사이드브레이크 vs 브레이크</strong> Follow Position/Rotation은 즉시 완전 고정(사이드브레이크), Linear/Angular Damping은 서서히 멈추는 감속(브레이크)입니다. 상황에 맞게 선택하세요.
+    </div>
+  </section>
+
+  <!-- 5. Mass 설정 -->
+  <section id="mass" class="section">
+    <span class="section-tag">물리 무게</span>
+    <h2 class="section-title">Mass(무게) 설정 3가지</h2>
+    <p class="section-desc">C4D 다이나믹에서 무게의 기준은 기본적으로 오브젝트의 크기입니다. 시뮬레이션 태그의 Mass 항목에서 세 가지 방식으로 설정할 수 있습니다.</p>
+
+    <div class="mass-grid">
+      <div class="mass-card">
+        <div class="mass-header world">World Density</div>
+        <div class="mass-body">
+          <p><strong>크기 = 무게</strong> (기본값)</p>
+          <p>오브젝트의 크기가 클수록 무겁고, 작을수록 가볍습니다. 수동 조정 불가.</p>
+          <div class="mass-visual">
+            <div class="mass-obj big">큰 오브젝트<br><span>무거움 ↑</span></div>
+            <div class="mass-obj small">작은<br><span>가벼움 ↓</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="mass-card">
+        <div class="mass-header custom-d">Custom Density</div>
+        <div class="mass-body">
+          <p><strong>크기 기준 + 수치 조정 가능</strong></p>
+          <p>크기에 따라 무게가 결정되지만, Density 수치를 조절해 원하는 무게로 변경 가능. 재질(밀도) 시뮬레이션에 적합.</p>
+        </div>
+      </div>
+      <div class="mass-card">
+        <div class="mass-header custom-m">Custom Mass</div>
+        <div class="mass-body">
+          <p><strong>크기 무관 — 수치가 높은 쪽이 무거움</strong></p>
+          <p>오브젝트 크기와 상관없이 입력한 Mass 수치가 높을수록 무겁게 작동합니다. 크기와 무게를 독립적으로 설정할 때 사용.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 베이크 -->
+  <section id="bake" class="section">
+    <span class="section-tag">⚠️ 필수</span>
+    <h2 class="section-title">시뮬레이션 베이크 (Bake) — 반드시 해야 하는 이유</h2>
+    <p class="section-desc">시뮬레이션 작업 후 가장 중요한 마무리 단계입니다. 이걸 빠뜨리면 나중에 큰 낭패를 겪습니다.</p>
+
+    <div class="problem-box">
+      <h3>베이크 안 하면 생기는 문제</h3>
+      <div class="problem-scenario">
+        <div class="scenario-step">
+          <span class="sc-icon">🏫</span>
+          <p>학원에서 열심히 작업해 완성</p>
+        </div>
+        <div class="sc-arrow">→</div>
+        <div class="scenario-step">
+          <span class="sc-icon">🏠</span>
+          <p>집에서 파일 열었더니 시뮬레이션 결과가 달라짐</p>
+        </div>
+        <div class="sc-arrow">→</div>
+        <div class="scenario-step">
+          <span class="sc-icon">😱</span>
+          <p>학원 다시 와서 열었더니 또 다름</p>
+        </div>
+      </div>
+      <div class="callout warning">
+        <strong>원인</strong> 시뮬레이션은 매번 계산을 새로 합니다. PC 성능, 랜덤 시드, 실행 환경에 따라 결과가 달라질 수 있습니다. 베이크하지 않으면 결과를 보장할 수 없습니다.
+      </div>
+    </div>
+
+    <div class="bake-box">
+      <h3>베이크 방법</h3>
+      <div class="bake-steps">
+        <div class="bake-step">
+          <span class="bake-num">1</span>
+          <div>
+            <strong>시뮬레이션 재생 완료 확인</strong>
+            <p>원하는 애니메이션 결과가 나왔는지 타임라인 끝까지 재생해 확인</p>
+          </div>
+        </div>
+        <div class="bake-step">
+          <span class="bake-num">2</span>
+          <div>
+            <strong>시뮬레이션 베이크 실행</strong>
+            <p>상단 메뉴 → Simulate → Bake All (또는 시뮬레이션 태그 우클릭 → Bake)</p>
+          </div>
+        </div>
+        <div class="bake-step">
+          <span class="bake-num">3</span>
+          <div>
+            <strong>결과 확인</strong>
+            <p>베이크 완료 후 타임라인을 앞뒤로 이동해도 동일한 결과가 유지되는지 확인</p>
+          </div>
+        </div>
+      </div>
+      <div class="bake-rule">
+        <span class="bake-rule-icon">📌</span>
+        <strong>시뮬레이션 끝나면 무조건 베이크!</strong>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0410 저녁반 · 다이나믹 심화 Ghost Body & 이펙터</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
