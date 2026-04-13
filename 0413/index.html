@@ -3,355 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>색상 이론 & 컬러 팔레트 — 0413 오전반</title>
+<title>After Effects 기초 — 해상도 & 단축키 — 0413</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="site-header">
-  <span class="badge">0413 오전반</span>
-  <h1>색상 이론 & 컬러 팔레트</h1>
-  <p class="subtitle">고유색·빛·환경색 · 컬러 팔레트 전략 · 색상 조화 · 6:3:1 기법</p>
+  <span class="badge">0413 수업</span>
+  <h1>After Effects 기초</h1>
+  <p class="subtitle">영상 해상도 · FPS · AE 필수 단축키</p>
   <div class="header-tags">
-    <span>고유색</span><span>빛의 색</span><span>환경색</span><span>컬러 팔레트</span><span>6:3:1</span><span>색상 조화</span>
+    <span>Resolution</span><span>FPS</span><span>단축키</span><span>앵커포인트</span><span>화면 제어</span>
   </div>
 </header>
 
 <nav class="toc">
-  <a href="#color-3d">3D 색상 요소</a>
-  <a href="#palette">컬러 팔레트 전략</a>
-  <a href="#color-roles">컬러 역할</a>
-  <a href="#checklist">색상 체크리스트</a>
-  <a href="#harmony">색상 조화</a>
-  <a href="#631">6:3:1 기법</a>
-  <a href="#reference">레퍼런스 사이트</a>
+  <a href="#resolution">해상도</a>
+  <a href="#fps">프레임레이트</a>
+  <a href="#shortcuts">AE 단축키</a>
 </nav>
 
 <main class="container">
 
-  <!-- 1. 3D 색상 3요소 -->
-  <section id="color-3d" class="section">
-    <span class="section-tag">3D 색상 기초</span>
-    <h2 class="section-title">3D에서 신경 써야 하는 색상 3요소</h2>
-    <p class="section-desc">3D 렌더링에서 색감이 이상하게 느껴지는 대부분의 원인은 이 세 가지 요소 중 하나를 놓쳤기 때문입니다.</p>
+  <!-- 1. 해상도 -->
+  <section id="resolution" class="section">
+    <span class="section-tag">영상 해상도</span>
+    <h2 class="section-title">영상 해상도 완전 정리</h2>
+    <p class="section-desc">해상도는 가로 × 세로 픽셀 수입니다. 픽셀이 많을수록 이미지의 색상 표현이 디테일해집니다.</p>
 
-    <div class="color3d-grid">
-      <div class="color3d-card diffuse-card">
-        <div class="color3d-header">고유색 (Base Color)</div>
-        <div class="color3d-body">
-          <p>물체가 원래 가지고 있는 <strong>고유한 색상</strong>. 빛이나 환경의 영향이 없을 때의 순수 색상.</p>
-          <div class="term-tags">
-            <span>Diffuse</span><span>Albedo</span><span>Base Color</span><span>Color</span>
-          </div>
-          <p class="color3d-note">모두 같은 역할 — 렌더러마다 이름이 다를 뿐</p>
+    <div class="orientation-box">
+      <div class="orient-card landscape">
+        <div class="orient-preview landscape-prev">
+          <div class="orient-inner">16:9</div>
+        </div>
+        <div class="orient-info">
+          <strong>1920 × 1080</strong>
+          <span>가로형 (Landscape)</span>
+          <p>유튜브 · TV · 모니터 — 가장 일반적인 해상도</p>
         </div>
       </div>
-      <div class="color3d-card light-card">
-        <div class="color3d-header">빛의 색 (Light Color)</div>
-        <div class="color3d-body">
-          <p>광원이 가진 색상. 야외는 자연광, 실내는 전등 등 광원의 종류에 따라 다름.</p>
-          <div class="influence-box">
-            <span class="inf-icon">→</span>
-            <span><strong>하이라이트</strong>에 영향을 줌</span>
-          </div>
-          <p class="color3d-note">낮의 햇빛 = 따뜻한 노란빛 / 흐린 날 = 차가운 회색빛</p>
+      <div class="orient-card portrait">
+        <div class="orient-preview portrait-prev">
+          <div class="orient-inner">9:16</div>
+        </div>
+        <div class="orient-info">
+          <strong>1080 × 1920</strong>
+          <span>세로형 (Portrait)</span>
+          <p>틱톡 · 유튜브 쇼츠 · 인스타 릴스 — 숏폼 콘텐츠 표준</p>
         </div>
       </div>
-      <div class="color3d-card env-card">
-        <div class="color3d-header">환경색 (Ambient Color)</div>
-        <div class="color3d-body">
-          <p>주변 환경에서 반사되어 오브젝트에 영향을 주는 색상.</p>
-          <div class="influence-box">
-            <span class="inf-icon">→</span>
-            <span><strong>그림자 영역</strong>에 영향을 줌</span>
-          </div>
-          <p class="color3d-note">야외 = 하늘색 / 실내 = 벽지·인테리어 색상</p>
-        </div>
+    </div>
+
+    <div class="res-table">
+      <div class="res-header">
+        <div>이름</div>
+        <div>해상도</div>
+        <div>픽셀 수</div>
+        <div>주요 용도</div>
+      </div>
+      <div class="res-row">
+        <div><span class="res-badge hd">HD</span></div>
+        <div>1280 × 720</div>
+        <div class="res-px">921,600 px</div>
+        <div>구형 유튜브, 저용량 웹 영상</div>
+      </div>
+      <div class="res-row highlight-res">
+        <div><span class="res-badge fhd">FHD</span></div>
+        <div>1920 × 1080</div>
+        <div class="res-px">2,073,600 px</div>
+        <div>현재 영상 표준 — 가장 많이 사용</div>
+      </div>
+      <div class="res-row">
+        <div><span class="res-badge qhd">QHD</span></div>
+        <div>2560 × 1440</div>
+        <div class="res-px">3,686,400 px</div>
+        <div>고해상도 모니터, 유튜브 고화질</div>
+      </div>
+      <div class="res-row">
+        <div><span class="res-badge uhd">UHD</span></div>
+        <div>3840 × 2160</div>
+        <div class="res-px">8,294,400 px</div>
+        <div>4K — 방송, 고품질 광고</div>
       </div>
     </div>
 
     <div class="callout info">
-      <strong>실전 팁</strong> 그림자가 단순히 어둡기만 하다면 환경색이 빠진 것입니다. 그림자에 환경색(보통 약한 파란빛)을 더해주면 훨씬 자연스러운 3D 렌더가 됩니다.
+      <strong>핵심 이해</strong> 해상도가 높아질수록 픽셀 조각이 많아져 색상 표현이 훨씬 섬세해집니다. 대신 파일 용량과 렌더 시간이 함께 늘어납니다.
     </div>
   </section>
 
-  <!-- 2. 컬러 팔레트 전략 -->
-  <section id="palette" class="section">
-    <span class="section-tag">컬러 팔레트</span>
-    <h2 class="section-title">컬러 팔레트 — 디자인 시작 전에 완성해야 한다</h2>
-    <p class="section-desc">즉흥적인 컬러 사용은 작품을 망칩니다. 초기 기획 단계에서 컬러 팔레트를 미리 확정하는 것이 프로의 방식입니다.</p>
+  <!-- 2. FPS -->
+  <section id="fps" class="section">
+    <span class="section-tag">프레임레이트</span>
+    <h2 class="section-title">FPS (Frame Per Second) — 프레임레이트</h2>
+    <p class="section-desc">초당 보여주는 이미지의 개수입니다. 이 값이 높을수록 동작이 부드럽고 자연스럽게 보입니다.</p>
 
-    <div class="palette-rules">
-      <div class="prule-item">
-        <span class="prule-num">01</span>
-        <div>
-          <strong>기획 초기에 컬러 팔레트 확정</strong>
-          <p>물감 작업처럼 사용할 색을 미리 다 계획해두고 시작. 제작 중 즉흥적인 컬러 추가 금지.</p>
-        </div>
+    <div class="fps-grid">
+      <div class="fps-card">
+        <div class="fps-num">24</div>
+        <div class="fps-label">fps</div>
+        <p>영화 표준. 약간의 잔상이 시네마틱한 느낌을 만들어 광고·영화에 자주 사용</p>
       </div>
-      <div class="prule-item">
-        <span class="prule-num">02</span>
-        <div>
-          <strong>한 작품에 5~8색 이내</strong>
-          <p>색이 많아질수록 복잡하고 산만한 느낌이 될 확률이 높아집니다. 적게, 명확하게.</p>
-        </div>
+      <div class="fps-card highlight-fps">
+        <div class="fps-num">30</div>
+        <div class="fps-label">fps (29.97)</div>
+        <p>TV·유튜브 표준. 가장 범용적인 프레임레이트. 드랍프레임(29.97)이 일반적</p>
       </div>
-      <div class="prule-item">
-        <span class="prule-num">03</span>
-        <div>
-          <strong>브랜드 작업일수록 더 엄격하게</strong>
-          <p>브랜드 아이덴티티는 색상으로 결정됩니다. 컬러 선택이 곧 브랜드 인식입니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. 컬러 역할 -->
-  <section id="color-roles" class="section">
-    <span class="section-tag">컬러 역할</span>
-    <h2 class="section-title">컬러 팔레트 4가지 역할</h2>
-    <p class="section-desc">팔레트 내 각 색상은 명확한 역할이 있습니다. 역할 없이 색을 추가하면 안 됩니다.</p>
-
-    <div class="role-grid">
-      <div class="role-card main-color">
-        <div class="role-swatch" style="background:#036630"></div>
-        <div class="role-info">
-          <h3>메인컬러</h3>
-          <p>작품을 대표하는 색상. 브랜드 컬러이자 보고 싶은 분위기를 결정하는 핵심 색.</p>
-          <div class="role-example">
-            <span>예)</span>
-            <span class="hex-code">#036630</span>
-            <span>스타벅스 그린</span>
-          </div>
-        </div>
-      </div>
-      <div class="role-card sub-color">
-        <div class="role-swatch" style="background:#44BB7A"></div>
-        <div class="role-info">
-          <h3>서브컬러</h3>
-          <p>메인컬러를 보조하는 색상. 보통 Neutral Tone(미색)이나 메인과 가까운 유사색 계열 사용.</p>
-          <div class="role-example">
-            <span>예)</span>
-            <span class="hex-code">#44BB7A</span>
-            <span>밝은 녹색 (보조)</span>
-          </div>
-        </div>
-      </div>
-      <div class="role-card point-color">
-        <div class="role-swatch" style="background:#660C03"></div>
-        <div class="role-info">
-          <h3>포인트컬러</h3>
-          <p>작품의 포인트가 되는 강조 색상. 주로 메인컬러의 <strong>보색 계열</strong>을 사용해 시선을 집중시킴.</p>
-          <div class="role-example">
-            <span>예)</span>
-            <span class="hex-code">#660C03</span>
-            <span>딥레드 (보색 포인트)</span>
-          </div>
-        </div>
-      </div>
-      <div class="role-card dark-color">
-        <div class="role-swatch" style="background:#0C3C21"></div>
-        <div class="role-info">
-          <h3>어두운컬러</h3>
-          <p>작품의 대비를 만들고 무게감을 주는 깊은 색상. 그림자·배경·테두리에 사용.</p>
-          <div class="role-example">
-            <span>예)</span>
-            <span class="hex-code">#0C3C21</span>
-            <span>딥그린 (무게감)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="palette-preview">
-      <div class="preview-label">스타벅스 컬러 팔레트 예시</div>
-      <div class="preview-swatches">
-        <div class="ps" style="background:#036630"><span>#036630</span><span>메인</span></div>
-        <div class="ps" style="background:#44BB7A"><span>#44BB7A</span><span>서브</span></div>
-        <div class="ps" style="background:#660C03"><span>#660C03</span><span>포인트</span></div>
-        <div class="ps dark-swatch" style="background:#0C3C21"><span>#0C3C21</span><span>어두운</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. 색상 체크리스트 -->
-  <section id="checklist" class="section">
-    <span class="section-tag">색상 체크리스트</span>
-    <h2 class="section-title">컬러 팔레트 완성 전 체크</h2>
-    <p class="section-desc">팔레트를 정했다면 이 체크리스트로 검토하세요. 하나라도 해당되면 수정이 필요합니다.</p>
-
-    <div class="check-items">
-      <div class="check-item">
-        <div class="check-q">채도가 전체적으로 너무 낮거나 높진 않은가?</div>
-        <div class="check-effects">
-          <div class="effect-item effect-low">
-            <strong>채도 낮음</strong>
-            <p>칙칙하고 무거운 느낌 → 빈티지·올드 스타일</p>
-          </div>
-          <div class="effect-item effect-high">
-            <strong>채도 높음</strong>
-            <p>과하고 자극적인 느낌 → 하이틴·유아적 스타일</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="check-item">
-        <div class="check-q">명도 대비가 충분한가?</div>
-        <div class="check-effects">
-          <div class="effect-item effect-warn">
-            <strong>명도 대비 부족</strong>
-            <p>전체가 뭉개져 보이고 작품의 무게감·입체감이 사라짐</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="check-item">
-        <div class="check-q">한색과 난색이 적절히 섞여 있는가?</div>
-        <div class="check-effects">
-          <div class="effect-item cold-item">
-            <strong>한색 (Cool)</strong>
-            <p>차가운 느낌의 색상 (파랑, 보라, 회색)<br>제품·건물·무생물 등 보정에 적합</p>
-          </div>
-          <div class="effect-item warm-item">
-            <strong>난색 (Warm)</strong>
-            <p>따뜻한 느낌의 색상 (빨강, 주황, 노랑)<br>꽃·사람·생명이 있는 것들 보정에 적합</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="check-item">
-        <div class="check-q">피해야 할 색상 조합</div>
-        <div class="check-effects">
-          <div class="effect-item effect-bad">
-            <strong>다원색 (무지개색) 사용</strong>
-            <p>빨강·주황·노랑·초록·파랑이 함께 있으면 산만하고 싸 보임</p>
-          </div>
-          <div class="effect-item effect-bad">
-            <strong>완전 검정 / 완전 흰색</strong>
-            <p>모노크롬 스케일에서 순수 #000000 · #FFFFFF는 너무 강함. 약간의 색기를 섞을 것</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. 색상 조화 -->
-  <section id="harmony" class="section">
-    <span class="section-tag">색상 조화</span>
-    <h2 class="section-title">색상 조화 방법 6가지</h2>
-    <p class="section-desc">컬러 팔레트를 뽑는 공식입니다. 컬러 휠(Color Wheel)을 기준으로 관계를 설정합니다.</p>
-
-    <div class="harmony-grid">
-      <div class="harmony-card">
-        <div class="harmony-dots monochrome-dots">
-          <span></span><span></span><span></span>
-        </div>
-        <h3>단색 (Monochromatic)</h3>
-        <p>하나의 색상에서 명도·채도만 다르게 변형. 통일감이 강하고 세련된 느낌.</p>
-      </div>
-      <div class="harmony-card">
-        <div class="harmony-dots analogous-dots">
-          <span></span><span></span><span></span>
-        </div>
-        <h3>유사색 (Analogous)</h3>
-        <p>컬러 휠에서 인접한 색상들의 조합. 부드럽고 자연스러운 조화.</p>
-      </div>
-      <div class="harmony-card">
-        <div class="harmony-dots complement-dots">
-          <span></span><span></span>
-        </div>
-        <h3>보색 (Complementary)</h3>
-        <p>컬러 휠에서 정반대 위치의 색상. 강한 대비와 긴장감. 포인트 컬러에 활용.</p>
-      </div>
-      <div class="harmony-card">
-        <div class="harmony-dots split-dots">
-          <span></span><span></span><span></span>
-        </div>
-        <h3>분할보색 (Split-Complementary)</h3>
-        <p>보색의 양옆 색상 2개 사용. 보색보다 부드럽고 다양한 느낌.</p>
-      </div>
-      <div class="harmony-card">
-        <div class="harmony-dots triadic-dots">
-          <span></span><span></span><span></span>
-        </div>
-        <h3>트리아딕 (Triadic)</h3>
-        <p>컬러 휠을 3등분한 세 색상. 강렬하고 생기 있는 조합.</p>
-      </div>
-      <div class="harmony-card">
-        <div class="harmony-dots tetradic-dots">
-          <span></span><span></span><span></span><span></span>
-        </div>
-        <h3>테트라딕 (Tetradic)</h3>
-        <p>컬러 휠을 4등분한 네 색상(두 쌍의 보색). 가장 다채롭지만 균형 잡기가 어려움.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. 6:3:1 -->
-  <section id="631" class="section">
-    <span class="section-tag">컬러 기법</span>
-    <h2 class="section-title">6:3:1 컬러 기법</h2>
-    <p class="section-desc">인테리어와 디자인에서 검증된 황금 비율입니다. 이 비율로 색상을 배분하면 안정적인 시각적 균형을 만들 수 있습니다.</p>
-
-    <div class="ratio-visual">
-      <div class="ratio-bar bar-60">
-        <span class="ratio-num">60%</span>
-        <span class="ratio-name">메인컬러</span>
-        <span class="ratio-desc">배경·주요 영역 · 가장 많이 사용</span>
-      </div>
-      <div class="ratio-bar bar-30">
-        <span class="ratio-num">30%</span>
-        <span class="ratio-name">서브컬러</span>
-        <span class="ratio-desc">보조 요소 · 섹션 구분</span>
-      </div>
-      <div class="ratio-bar bar-10">
-        <span class="ratio-num">10%</span>
-        <span class="ratio-name">포인트컬러</span>
-        <span class="ratio-desc">강조 요소 · CTA · 아이콘</span>
+      <div class="fps-card">
+        <div class="fps-num">60</div>
+        <div class="fps-label">fps</div>
+        <p>게임·스포츠 영상. 매우 부드러운 움직임. 파일 용량이 30fps의 2배</p>
       </div>
     </div>
 
     <div class="callout tip">
-      <strong>적용 원칙</strong> 포인트컬러는 10%만 써야 포인트가 됩니다. 강조하려다 많이 쓰면 오히려 포인트가 없어집니다. 적을수록 눈에 더 잘 띕니다.
+      <strong>드랍프레임 vs 논드랍</strong> 29.97fps(드랍프레임)은 방송 표준으로 타임코드가 실제 시간과 일치합니다. 30fps(논드랍)는 계산은 깔끔하지만 방송에서는 드랍프레임이 기본입니다.
     </div>
   </section>
 
-  <!-- 7. 레퍼런스 -->
-  <section id="reference" class="section">
-    <span class="section-tag">레퍼런스</span>
-    <h2 class="section-title">컬러 & 렌더링 레퍼런스 사이트</h2>
-    <p class="section-desc">좋은 컬러 감각은 좋은 레퍼런스를 많이 보는 것에서 시작됩니다.</p>
+  <!-- 3. 단축키 -->
+  <section id="shortcuts" class="section">
+    <span class="section-tag">AE 단축키</span>
+    <h2 class="section-title">After Effects 필수 단축키</h2>
+    <p class="section-desc">자주 쓰는 단축키를 손에 익혀두면 작업 속도가 크게 향상됩니다.</p>
 
-    <div class="ref-grid">
-      <div class="ref-card">
-        <div class="ref-icon">🎨</div>
-        <h3>hokyoungkim.com</h3>
-        <p>색감과 연출이 뛰어난 3D 아티스트 포트폴리오</p>
+    <div class="shortcut-group">
+      <h3 class="group-title">툴 선택</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>타입 툴 (Type Tool)</strong>
+            <p>텍스트 입력 모드로 전환</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>T</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>셀렉션 툴 (Selection Tool)</strong>
+            <p>오브젝트 선택 모드 — 가장 자주 쓰는 기본 툴</p>
+          </div>
+          <div class="keys"><kbd>V</kbd></div>
+        </div>
       </div>
-      <div class="ref-card">
-        <div class="ref-icon">✨</div>
-        <h3>ericpautz.com</h3>
-        <p>사실적인 재질 표현과 라이팅이 뛰어난 아티스트</p>
+    </div>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">오브젝트 위치 정렬</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item highlight-item">
+          <div class="shortcut-desc">
+            <strong>앵커포인트를 오브젝트 정중앙으로</strong>
+            <p>오브젝트 자체의 기준점(피벗)을 오브젝트 중앙으로 이동</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Alt</kbd><span>+</span><kbd>Home</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>오브젝트를 화면 정중앙으로</strong>
+            <p>선택한 오브젝트를 컴포지션 화면 정중앙으로 이동</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Home</kbd></div>
+        </div>
       </div>
-      <div class="ref-card">
-        <div class="ref-icon">🌿</div>
-        <h3>benjaminflouw.com</h3>
-        <p>자연스러운 색감과 분위기 연출의 레퍼런스</p>
+    </div>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">화면 제어 (뷰포트)</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>화면 이동 (Pan)</strong>
+            <p>뷰포트 안에서 화면을 드래그로 이동</p>
+          </div>
+          <div class="keys"><kbd>Space</kbd> + 드래그</div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>화면 확대 / 축소</strong>
+            <p>두 가지 방법 모두 동일하게 작동</p>
+          </div>
+          <div class="keys-col">
+            <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>+</kbd> / <kbd>-</kbd></div>
+            <div class="keys-sub">또는 휠 드래그</div>
+          </div>
+        </div>
+        <div class="shortcut-item highlight-item">
+          <div class="shortcut-desc">
+            <strong>화면 크게 보기 (패널 최대화)</strong>
+            <p>현재 뷰어 패널을 전체 화면으로 확대. 다시 누르면 복원.</p>
+          </div>
+          <div class="keys-col">
+            <div class="keys"><kbd>`</kbd></div>
+            <div class="keys-sub">또는 <kbd>Alt</kbd> + <kbd>/</kbd></div>
+          </div>
+        </div>
       </div>
-      <div class="ref-card">
-        <div class="ref-icon">🖼️</div>
-        <h3>robertfrankhunter.com</h3>
-        <p>독특한 컬러 팔레트와 스타일리시한 3D 작업</p>
-      </div>
-      <div class="ref-card">
-        <div class="ref-icon">🏆</div>
-        <h3>artstation.com</h3>
-        <p>전 세계 최고 수준의 3D·일러스트·영상 포트폴리오 플랫폼</p>
-      </div>
-      <div class="ref-card highlight-ref">
-        <div class="ref-icon">🤖</div>
-        <h3>Midjourney</h3>
-        <p>연출 이해도만 있으면 2D 애니메이션 수준의 결과물 생성 가능. 레퍼런스 이미지 생성에도 활용.</p>
+    </div>
+
+    <div class="summary-box">
+      <h3>한눈에 보기</h3>
+      <div class="summary-grid">
+        <div class="sum-item"><kbd>Ctrl+T</kbd><span>타입 툴</span></div>
+        <div class="sum-item"><kbd>V</kbd><span>셀렉션 툴</span></div>
+        <div class="sum-item"><kbd>Ctrl+Alt+Home</kbd><span>앵커 중앙 정렬</span></div>
+        <div class="sum-item"><kbd>Ctrl+Home</kbd><span>화면 중앙 정렬</span></div>
+        <div class="sum-item"><kbd>Space+드래그</kbd><span>화면 이동</span></div>
+        <div class="sum-item"><kbd>Ctrl+±</kbd><span>확대/축소</span></div>
+        <div class="sum-item"><kbd>`</kbd><span>패널 최대화</span></div>
+        <div class="sum-item"><kbd>Alt+/</kbd><span>화면 크게 보기</span></div>
       </div>
     </div>
   </section>
@@ -361,7 +220,7 @@
 <button id="topBtn" aria-label="맨 위로">↑</button>
 
 <footer class="site-footer">
-  <p>C4D 수업자료 — 0413 오전반 · 색상 이론 & 컬러 팔레트</p>
+  <p>AE 수업자료 — 0413 · After Effects 기초 해상도 & 단축키</p>
 </footer>
 
 <script src="script.js"></script>
