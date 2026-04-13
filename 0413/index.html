@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After Effects 기초 — 해상도 & 단축키 — 0413</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0413 수업</span>
+  <h1>After Effects 기초</h1>
+  <p class="subtitle">영상 해상도 · FPS · AE 필수 단축키</p>
+  <div class="header-tags">
+    <span>Resolution</span><span>FPS</span><span>단축키</span><span>앵커포인트</span><span>화면 제어</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#resolution">해상도</a>
+  <a href="#fps">프레임레이트</a>
+  <a href="#shortcuts">AE 단축키</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 해상도 -->
+  <section id="resolution" class="section">
+    <span class="section-tag">영상 해상도</span>
+    <h2 class="section-title">영상 해상도 완전 정리</h2>
+    <p class="section-desc">해상도는 가로 × 세로 픽셀 수입니다. 픽셀이 많을수록 이미지의 색상 표현이 디테일해집니다.</p>
+
+    <div class="orientation-box">
+      <div class="orient-card landscape">
+        <div class="orient-preview landscape-prev">
+          <div class="orient-inner">16:9</div>
+        </div>
+        <div class="orient-info">
+          <strong>1920 × 1080</strong>
+          <span>가로형 (Landscape)</span>
+          <p>유튜브 · TV · 모니터 — 가장 일반적인 해상도</p>
+        </div>
+      </div>
+      <div class="orient-card portrait">
+        <div class="orient-preview portrait-prev">
+          <div class="orient-inner">9:16</div>
+        </div>
+        <div class="orient-info">
+          <strong>1080 × 1920</strong>
+          <span>세로형 (Portrait)</span>
+          <p>틱톡 · 유튜브 쇼츠 · 인스타 릴스 — 숏폼 콘텐츠 표준</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="res-table">
+      <div class="res-header">
+        <div>이름</div>
+        <div>해상도</div>
+        <div>픽셀 수</div>
+        <div>주요 용도</div>
+      </div>
+      <div class="res-row">
+        <div><span class="res-badge hd">HD</span></div>
+        <div>1280 × 720</div>
+        <div class="res-px">921,600 px</div>
+        <div>구형 유튜브, 저용량 웹 영상</div>
+      </div>
+      <div class="res-row highlight-res">
+        <div><span class="res-badge fhd">FHD</span></div>
+        <div>1920 × 1080</div>
+        <div class="res-px">2,073,600 px</div>
+        <div>현재 영상 표준 — 가장 많이 사용</div>
+      </div>
+      <div class="res-row">
+        <div><span class="res-badge qhd">QHD</span></div>
+        <div>2560 × 1440</div>
+        <div class="res-px">3,686,400 px</div>
+        <div>고해상도 모니터, 유튜브 고화질</div>
+      </div>
+      <div class="res-row">
+        <div><span class="res-badge uhd">UHD</span></div>
+        <div>3840 × 2160</div>
+        <div class="res-px">8,294,400 px</div>
+        <div>4K — 방송, 고품질 광고</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>핵심 이해</strong> 해상도가 높아질수록 픽셀 조각이 많아져 색상 표현이 훨씬 섬세해집니다. 대신 파일 용량과 렌더 시간이 함께 늘어납니다.
+    </div>
+  </section>
+
+  <!-- 2. FPS -->
+  <section id="fps" class="section">
+    <span class="section-tag">프레임레이트</span>
+    <h2 class="section-title">FPS (Frame Per Second) — 프레임레이트</h2>
+    <p class="section-desc">초당 보여주는 이미지의 개수입니다. 이 값이 높을수록 동작이 부드럽고 자연스럽게 보입니다.</p>
+
+    <div class="fps-grid">
+      <div class="fps-card">
+        <div class="fps-num">24</div>
+        <div class="fps-label">fps</div>
+        <p>영화 표준. 약간의 잔상이 시네마틱한 느낌을 만들어 광고·영화에 자주 사용</p>
+      </div>
+      <div class="fps-card highlight-fps">
+        <div class="fps-num">30</div>
+        <div class="fps-label">fps (29.97)</div>
+        <p>TV·유튜브 표준. 가장 범용적인 프레임레이트. 드랍프레임(29.97)이 일반적</p>
+      </div>
+      <div class="fps-card">
+        <div class="fps-num">60</div>
+        <div class="fps-label">fps</div>
+        <p>게임·스포츠 영상. 매우 부드러운 움직임. 파일 용량이 30fps의 2배</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>드랍프레임 vs 논드랍</strong> 29.97fps(드랍프레임)은 방송 표준으로 타임코드가 실제 시간과 일치합니다. 30fps(논드랍)는 계산은 깔끔하지만 방송에서는 드랍프레임이 기본입니다.
+    </div>
+  </section>
+
+  <!-- 3. 단축키 -->
+  <section id="shortcuts" class="section">
+    <span class="section-tag">AE 단축키</span>
+    <h2 class="section-title">After Effects 필수 단축키</h2>
+    <p class="section-desc">자주 쓰는 단축키를 손에 익혀두면 작업 속도가 크게 향상됩니다.</p>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">툴 선택</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>타입 툴 (Type Tool)</strong>
+            <p>텍스트 입력 모드로 전환</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>T</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>셀렉션 툴 (Selection Tool)</strong>
+            <p>오브젝트 선택 모드 — 가장 자주 쓰는 기본 툴</p>
+          </div>
+          <div class="keys"><kbd>V</kbd></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">오브젝트 위치 정렬</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item highlight-item">
+          <div class="shortcut-desc">
+            <strong>앵커포인트를 오브젝트 정중앙으로</strong>
+            <p>오브젝트 자체의 기준점(피벗)을 오브젝트 중앙으로 이동</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Alt</kbd><span>+</span><kbd>Home</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>오브젝트를 화면 정중앙으로</strong>
+            <p>선택한 오브젝트를 컴포지션 화면 정중앙으로 이동</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Home</kbd></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">화면 제어 (뷰포트)</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>화면 이동 (Pan)</strong>
+            <p>뷰포트 안에서 화면을 드래그로 이동</p>
+          </div>
+          <div class="keys"><kbd>Space</kbd> + 드래그</div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>화면 확대 / 축소</strong>
+            <p>두 가지 방법 모두 동일하게 작동</p>
+          </div>
+          <div class="keys-col">
+            <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>+</kbd> / <kbd>-</kbd></div>
+            <div class="keys-sub">또는 휠 드래그</div>
+          </div>
+        </div>
+        <div class="shortcut-item highlight-item">
+          <div class="shortcut-desc">
+            <strong>화면 크게 보기 (패널 최대화)</strong>
+            <p>현재 뷰어 패널을 전체 화면으로 확대. 다시 누르면 복원.</p>
+          </div>
+          <div class="keys-col">
+            <div class="keys"><kbd>`</kbd></div>
+            <div class="keys-sub">또는 <kbd>Alt</kbd> + <kbd>/</kbd></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <h3>한눈에 보기</h3>
+      <div class="summary-grid">
+        <div class="sum-item"><kbd>Ctrl+T</kbd><span>타입 툴</span></div>
+        <div class="sum-item"><kbd>V</kbd><span>셀렉션 툴</span></div>
+        <div class="sum-item"><kbd>Ctrl+Alt+Home</kbd><span>앵커 중앙 정렬</span></div>
+        <div class="sum-item"><kbd>Ctrl+Home</kbd><span>화면 중앙 정렬</span></div>
+        <div class="sum-item"><kbd>Space+드래그</kbd><span>화면 이동</span></div>
+        <div class="sum-item"><kbd>Ctrl+±</kbd><span>확대/축소</span></div>
+        <div class="sum-item"><kbd>`</kbd><span>패널 최대화</span></div>
+        <div class="sum-item"><kbd>Alt+/</kbd><span>화면 크게 보기</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>AE 수업자료 — 0413 · After Effects 기초 해상도 & 단축키</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
