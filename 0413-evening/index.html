@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRDF 모델 심화 — 0413 저녁반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0413 저녁반</span>
+  <h1>BRDF 모델 심화</h1>
+  <p class="subtitle">Specular BRDF · Diffuse BRDF · 재질별 선택 가이드</p>
+  <div class="header-tags">
+    <span>BRDF</span><span>GGX</span><span>Beckmann</span><span>Ward</span><span>Lambertian</span><span>Oren-Nayar</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#what">BRDF란?</a>
+  <a href="#specular">Specular BRDF</a>
+  <a href="#usecase">용도별 선택</a>
+  <a href="#diffuse">Diffuse BRDF</a>
+  <a href="#summary">요약</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. BRDF 개요 -->
+  <section id="what" class="section">
+    <span class="section-tag">BRDF 기초</span>
+    <h2 class="section-title">BRDF Model — 빛을 얼마나 정교하게 계산할 것인가</h2>
+    <p class="section-desc">BRDF(Bidirectional Reflectance Distribution Function)는 재질 계산 시 빛 에너지를 얼마나 물리적으로 정교하게 계산하느냐를 결정하는 모델입니다.</p>
+
+    <div class="concept-box">
+      <div class="concept-row">
+        <div class="concept-icon">💡</div>
+        <div class="concept-text">
+          <strong>빛이 표면에 닿았을 때 어느 방향으로, 얼마나 반사되는가?</strong>
+          <p>같은 재질이라도 BRDF 모델에 따라 하이라이트 모양, 거칠기 표현, 빛번짐(Tail)의 양이 달라집니다.</p>
+        </div>
+      </div>
+      <div class="concept-row">
+        <div class="concept-icon">⚙️</div>
+        <div class="concept-text">
+          <strong>Specular BRDF와 Diffuse BRDF 두 가지로 나뉜다</strong>
+          <p>Specular BRDF = 반사광(하이라이트)을 어떻게 계산할지 / Diffuse BRDF = 난반사(매트한 빛 확산)를 어떻게 계산할지</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Specular BRDF -->
+  <section id="specular" class="section">
+    <span class="section-tag">Specular BRDF</span>
+    <h2 class="section-title">Specular BRDF 모델 비교</h2>
+    <p class="section-desc">반사광(하이라이트)을 계산하는 방식입니다. 모델에 따라 하이라이트의 모양과 빛번짐(Tail)이 달라집니다.</p>
+
+    <div class="brdf-cards">
+
+      <div class="brdf-card">
+        <div class="brdf-header octane-header">
+          <div class="brdf-name">Octane</div>
+          <div class="brdf-tag">단순 · 무난</div>
+        </div>
+        <div class="brdf-body">
+          <p>Octane 전용 기본 모드. 빛을 가장 단순하게 계산하는 레거시 성향의 방식.</p>
+          <ul class="brdf-list">
+            <li>무난하고 안정적인 스펙큘러 반사</li>
+            <li>하이라이트가 부드럽고 자극적이지 않음</li>
+            <li>물리적 정밀도는 GGX/Beckmann에 비해 낮음</li>
+            <li>디테일한 거칠기 표현에는 한계 있음</li>
+          </ul>
+          <div class="use-pill">일반 오브젝트 · 빠른 작업</div>
+        </div>
+      </div>
+
+      <div class="brdf-card highlight-card">
+        <div class="brdf-header ggx-header">
+          <div class="brdf-name">GGX</div>
+          <div class="brdf-tag">PBR 표준 · 가장 현실적</div>
+        </div>
+        <div class="brdf-body">
+          <p>물리 기반 렌더링(PBR)에서 산업 표준으로 사용되는 모델. 현실에 가장 가까운 반사 계산.</p>
+          <ul class="brdf-list">
+            <li>러프니스가 높아질수록 <strong>Tail(빛번짐 꼬리)</strong>이 생성 → 실제 빛번짐과 가장 유사</li>
+            <li>현실적이고 생동감 있는 하이라이트</li>
+            <li>금속·코팅·자동차 도장 등 고급 재질에 최적</li>
+            <li>러프니스 디테일이 중요한 컷에서 최강</li>
+          </ul>
+          <div class="use-pill use-primary">금속 · 자동차 · 코팅 · 향수병</div>
+        </div>
+      </div>
+
+      <div class="brdf-card">
+        <div class="brdf-header beckmann-header">
+          <div class="brdf-name">Beckmann</div>
+          <div class="brdf-tag">전통적 · 정돈된 느낌</div>
+        </div>
+        <div class="brdf-body">
+          <p>전통적인 Microfacet BRDF. GGX보다 빛번짐이 적어 깔끔하고 차분한 하이라이트를 만든다.</p>
+          <ul class="brdf-list">
+            <li>하이라이트가 깔끔하고 정돈된 느낌</li>
+            <li>러프니스가 높아져도 광택이 차분하게 유지</li>
+            <li>GGX보다 Tail(빛번짐 꼬리)이 훨씬 적음</li>
+            <li>과한 반사 없이 제품 광택 표현에 적합</li>
+          </ul>
+          <div class="use-pill">플라스틱 · 제품 컷 · 스타일라이즈</div>
+        </div>
+      </div>
+
+      <div class="brdf-card">
+        <div class="brdf-header ward-header">
+          <div class="brdf-name">Ward</div>
+          <div class="brdf-tag">애니소트로피 전용</div>
+        </div>
+        <div class="brdf-body">
+          <p>방향성 거칠기(Anisotropy)를 표현하는 특수 모델. 결이 있는 금속 재질에 특화.</p>
+          <ul class="brdf-list">
+            <li><strong>애니소트로피</strong> — 방향에 따라 반사 특성이 다름</li>
+            <li>헤어라인 금속, 브러시드 알루미늄, 다마스커스 패턴</li>
+            <li>결 방향이 있는 재질에만 사용</li>
+          </ul>
+          <div class="use-pill">브러시드 메탈 · 헤어라인 · 다마스커스</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout info">
+      <strong>AO (Ambient Occlusion)</strong> 음영을 추가해 오브젝트에 깊이감을 부여하는 패스. 미세한 틈이나 접힘 부분의 어두운 음영을 계산해 리얼리티를 높입니다.
+    </div>
+  </section>
+
+  <!-- 3. 용도별 선택 -->
+  <section id="usecase" class="section">
+    <span class="section-tag">선택 가이드</span>
+    <h2 class="section-title">상황별 Specular BRDF 선택 기준</h2>
+    <p class="section-desc">작업 성격에 맞는 모델을 선택하면 렌더 품질과 작업 효율이 모두 올라갑니다.</p>
+
+    <div class="usecase-table">
+      <div class="uc-header">
+        <div>작업 유형 / 소재</div>
+        <div>추천 모델</div>
+        <div>이유</div>
+      </div>
+      <div class="uc-row">
+        <div>금속 재질 · 자동차 도장</div>
+        <div><span class="model-badge ggx-badge">GGX</span></div>
+        <div>Tail 빛번짐이 실제 금속 반사와 동일</div>
+      </div>
+      <div class="uc-row">
+        <div>코팅된 패키지 · 향수병</div>
+        <div><span class="model-badge ggx-badge">GGX</span></div>
+        <div>코팅 특유의 하이라이트 표현에 최적</div>
+      </div>
+      <div class="uc-row highlight-uc">
+        <div>러프니스 디테일이 중요한 컷</div>
+        <div><span class="model-badge ggx-badge">GGX</span></div>
+        <div>거칠기 단계별 표현이 가장 정교함</div>
+      </div>
+      <div class="uc-row">
+        <div>깔끔한 플라스틱 · 제품 광고</div>
+        <div><span class="model-badge beckmann-badge">Beckmann</span></div>
+        <div>과한 빛번짐 없이 정돈된 광택</div>
+      </div>
+      <div class="uc-row">
+        <div>캐릭터풍 · 스타일라이즈 렌더</div>
+        <div><span class="model-badge beckmann-badge">Beckmann</span></div>
+        <div>현실적이지 않아도 되는 깔끔한 느낌</div>
+      </div>
+      <div class="uc-row">
+        <div>UI 느낌 · 클린 오브젝트</div>
+        <div><span class="model-badge beckmann-badge">Beckmann</span></div>
+        <div>차분하고 정갈한 반사감</div>
+      </div>
+      <div class="uc-row">
+        <div>브러시드 메탈 · 헤어라인 알루미늄</div>
+        <div><span class="model-badge ward-badge">Ward</span></div>
+        <div>방향성 거칠기(애니소트로피) 전용</div>
+      </div>
+      <div class="uc-row">
+        <div>일반 오브젝트 · 빠른 시안 작업</div>
+        <div><span class="model-badge octane-badge">Octane</span></div>
+        <div>단순 계산으로 빠르고 무난한 결과</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Diffuse BRDF -->
+  <section id="diffuse" class="section">
+    <span class="section-tag">Diffuse BRDF</span>
+    <h2 class="section-title">Diffuse BRDF 모델 — 난반사 계산 방식</h2>
+    <p class="section-desc">빛이 표면에서 매트하게 퍼지는 난반사를 어떻게 계산할지 결정합니다. 고유색(Diffuse) 채널의 표현 품질에 영향을 줍니다.</p>
+
+    <div class="diffuse-grid">
+
+      <div class="diffuse-card">
+        <div class="diffuse-header octane-header">Octane</div>
+        <div class="diffuse-body">
+          <p>Specular BRDF의 Octane 모드와 동일한 방식. 단순하게 계산하는 무난한 기본 모드.</p>
+          <div class="diffuse-tag-row">
+            <span class="dtag">단순 계산</span>
+            <span class="dtag">무난한 기본값</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="diffuse-card">
+        <div class="diffuse-header lambertian-header">Lambertian</div>
+        <div class="diffuse-body">
+          <p>빛이 표면에 균일하게 퍼지는 가장 기본적인 난반사 모델.</p>
+          <ul class="brdf-list">
+            <li>계산이 단순하고 안정적</li>
+            <li>매트한 느낌이지만 아주 현실적이진 않음</li>
+            <li>표면 거칠기·미세 난반사가 단순화됨</li>
+            <li>무광 재질에는 장점 → 단, 노말/범프 왜곡 시 약간 평평해 보일 수 있음</li>
+          </ul>
+          <div class="diffuse-tag-row">
+            <span class="dtag">무광 오브젝트</span>
+            <span class="dtag">단순 소재</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="diffuse-card highlight-diffuse">
+        <div class="diffuse-header oren-header">Oren-Nayar</div>
+        <div class="diffuse-body">
+          <p>표면이 거칠수록 빛이 더 복잡하게 퍼지는 것을 시뮬레이션. 현실에 가장 가까운 Diffuse 모델.</p>
+          <ul class="brdf-list">
+            <li>거칠기에 따라 빛 확산이 자연스럽게 변함</li>
+            <li>각도에 따른 음영 변화가 자연스러움</li>
+            <li>범프·노말이 들어간 디테일한 표현에 유리</li>
+            <li>거친 벽, 천, 분필, 종이, 콘크리트, 피부 등에 최적</li>
+          </ul>
+          <div class="diffuse-tag-row">
+            <span class="dtag dtag-primary">벽 · 천 · 피부</span>
+            <span class="dtag dtag-primary">콘크리트 · 종이</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="compare-box">
+      <h3>Lambertian vs Oren-Nayar 한눈 비교</h3>
+      <div class="compare-row">
+        <div class="compare-col">
+          <div class="compare-label lambertian-label">Lambertian</div>
+          <ul>
+            <li>균일한 빛 확산</li>
+            <li>단순·빠른 계산</li>
+            <li>완전 무광 소재에 적합</li>
+            <li>범프 왜곡시 약간 평평하게 보일 수 있음</li>
+          </ul>
+        </div>
+        <div class="compare-vs">VS</div>
+        <div class="compare-col">
+          <div class="compare-label oren-label">Oren-Nayar</div>
+          <ul>
+            <li>거칠기에 따른 복잡한 빛 확산</li>
+            <li>물리적으로 정교한 계산</li>
+            <li>거친 질감 소재에 최적</li>
+            <li>범프·노말 디테일 표현력 우수</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 요약 -->
+  <section id="summary" class="section">
+    <span class="section-tag">정리</span>
+    <h2 class="section-title">BRDF 모델 전체 요약</h2>
+    <p class="section-desc">모델 선택의 핵심 기준을 정리했습니다.</p>
+
+    <div class="summary-grid">
+      <div class="sum-card">
+        <div class="sum-model ggx-sum">GGX</div>
+        <p>물리적으로 가장 현실적. 금속·코팅·자동차. Tail 빛번짐이 실제와 동일.</p>
+        <div class="sum-keyword">현실적 렌더</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-model beckmann-sum">Beckmann</div>
+        <p>차분하고 정돈된 하이라이트. 플라스틱·스타일라이즈. 빛번짐 최소.</p>
+        <div class="sum-keyword">깔끔한 광택</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-model ward-sum">Ward</div>
+        <p>방향성 거칠기 전용. 브러시드 메탈·헤어라인·다마스커스.</p>
+        <div class="sum-keyword">애니소트로피</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-model oren-sum">Oren-Nayar</div>
+        <p>Diffuse 난반사 현실 모델. 거친 벽·천·피부·콘크리트.</p>
+        <div class="sum-keyword">자연스러운 매트</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>선택 원칙</strong> 현실적인 재질 → GGX / 깔끔한 제품 → Beckmann / 결 있는 금속 → Ward / 거친 표면 Diffuse → Oren-Nayar. 모를 때는 GGX가 가장 안전한 선택입니다.
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0413 저녁반 · BRDF 모델 심화</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
