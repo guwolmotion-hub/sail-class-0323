@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>믹스 메터리얼 & 잔디 꽃 — 0414 저녁반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0414 저녁반</span>
+  <h1>믹스 메터리얼 & 잔디·꽃</h1>
+  <p class="subtitle">녹슨 강철 Mix Material · 흑백 Opacity 기법 · Forester 플러그인</p>
+  <div class="header-tags">
+    <span>Mix Material</span><span>녹슨 강철</span><span>Opacity</span><span>Forester</span><span>폴리헤븐</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#mix-intro">믹스 메터리얼</a>
+  <a href="#base-mats">베이스 재질</a>
+  <a href="#mix-order">믹싱 순서</a>
+  <a href="#grass-opacity">잔디·꽃 (Opacity)</a>
+  <a href="#forester">Forester 플러그인</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 믹스 메터리얼 개요 -->
+  <section id="mix-intro" class="section">
+    <span class="section-tag">Mix Material</span>
+    <h2 class="section-title">믹스 메터리얼 — 여러 재질을 레이어처럼 쌓기</h2>
+    <p class="section-desc">Mix Material은 두 개의 재질을 블렌딩해 하나의 새로운 재질을 만드는 기능입니다. 이를 반복적으로 중첩하면 복잡한 재질 표현이 가능합니다.</p>
+
+    <div class="intro-box">
+      <div class="intro-item">
+        <div class="intro-icon">🔩</div>
+        <div>
+          <strong>이번 작업 목표</strong>
+          <p>일반 강철 → 녹슨 강철 → 페인트칠 → 다시 녹슨 강철이 드러나는 <strong>레이어드 녹슨 금속 재질</strong> 완성</p>
+        </div>
+      </div>
+      <div class="intro-item">
+        <div class="intro-icon">🎨</div>
+        <div>
+          <strong>Mix Material 사용 원리</strong>
+          <p>A + B = Mix → 이 Mix가 다시 C와 섞여 새로운 Mix. 마스크(흑백 이미지 또는 노이즈)로 두 재질의 경계를 제어.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 베이스 재질 -->
+  <section id="base-mats" class="section">
+    <span class="section-tag">재질 준비</span>
+    <h2 class="section-title">베이스 재질 3종 준비</h2>
+    <p class="section-desc">믹스에 사용할 원본 재질을 먼저 준비합니다. 폴리헤븐(Poly Haven)과 쉐어텍스처(Share Textures)에서 무료로 다운로드 가능합니다.</p>
+
+    <div class="mat-cards">
+      <div class="mat-card mat-rusty">
+        <div class="mat-preview rusty-preview"></div>
+        <div class="mat-info">
+          <div class="mat-num">01</div>
+          <h3>녹슨 강철</h3>
+          <div class="mat-type mat-metallic">Metallic</div>
+          <p>표면이 부식된 러스트 텍스처. 최종 결과물에서 틈새와 가장자리에 드러나는 핵심 레이어.</p>
+          <div class="mat-source">📦 polyhaven — rusty_metal_03_2k</div>
+        </div>
+      </div>
+      <div class="mat-card mat-steel">
+        <div class="mat-preview steel-preview"></div>
+        <div class="mat-info">
+          <div class="mat-num">02</div>
+          <h3>일반 강철</h3>
+          <div class="mat-type mat-metallic">Metallic</div>
+          <p>베이스가 되는 깔끔한 금속 표면. 믹스의 시작점으로 사용.</p>
+          <div class="mat-source">📦 sharetextures — metal_9-dOu-2K</div>
+        </div>
+      </div>
+      <div class="mat-card mat-paint">
+        <div class="mat-preview paint-preview"></div>
+        <div class="mat-info">
+          <div class="mat-num">03</div>
+          <h3>페인트 강철</h3>
+          <div class="mat-type mat-glossy">Glossy</div>
+          <p>파란 페인트가 칠해진 금속판. 중간 레이어로 사용되며 벗겨진 느낌 표현에 핵심.</p>
+          <div class="mat-source">📦 polyhaven — blue_metal_plate_2k</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>텍스처 다운로드 팁</strong> 폴리헤븐은 Diffuse·Roughness·Normal·Displacement 맵을 한 번에 제공합니다. 2K 해상도로 다운로드하면 용량과 품질의 균형이 좋습니다.
+    </div>
+  </section>
+
+  <!-- 3. 믹싱 순서 -->
+  <section id="mix-order" class="section">
+    <span class="section-tag">믹싱 순서</span>
+    <h2 class="section-title">Mix Material 3단계 레이어링</h2>
+    <p class="section-desc">단계별로 믹스를 중첩합니다. 마지막에 녹슨 강철을 다시 섞어 최종적으로 녹이 가장 위로 드러나는 느낌을 만듭니다.</p>
+
+    <div class="mix-flow">
+      <div class="mix-step">
+        <div class="mix-step-label">STEP 1</div>
+        <div class="mix-materials">
+          <div class="mm-tag mm-steel">일반 강철</div>
+          <span class="mm-plus">+</span>
+          <div class="mm-tag mm-rusty">녹슨 강철</div>
+        </div>
+        <div class="mix-arrow">↓</div>
+        <div class="mix-result mr-1">Mix 1</div>
+        <p>강철 베이스 위에 녹이 섞인 기초 레이어 완성</p>
+      </div>
+
+      <div class="mix-connector">→</div>
+
+      <div class="mix-step">
+        <div class="mix-step-label">STEP 2</div>
+        <div class="mix-materials">
+          <div class="mm-tag mm-mix1">Mix 1</div>
+          <span class="mm-plus">+</span>
+          <div class="mm-tag mm-paint">페인트 강철</div>
+        </div>
+        <div class="mix-arrow">↓</div>
+        <div class="mix-result mr-2">Mix 2</div>
+        <p>위에 파란 페인트 레이어 추가. 페인트가 벗겨진 영역이 Mix1로 드러남</p>
+      </div>
+
+      <div class="mix-connector">→</div>
+
+      <div class="mix-step">
+        <div class="mix-step-label">STEP 3</div>
+        <div class="mix-materials">
+          <div class="mm-tag mm-mix2">Mix 2</div>
+          <span class="mm-plus">+</span>
+          <div class="mm-tag mm-rusty">녹슨 강철</div>
+        </div>
+        <div class="mix-arrow">↓</div>
+        <div class="mix-result mr-3">Mix 3 (최종)</div>
+        <p>가장 바깥에 다시 녹 레이어 추가. 녹이 최상단에서 드러나며 완성</p>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>노드 구성</strong> 각 Mix Material 노드 사이의 마스크는 Noise 노드나 흑백 텍스처를 사용해 자연스러운 경계를 표현합니다. 자세한 노드 연결은 수업 자료를 참고하세요.
+    </div>
+  </section>
+
+  <!-- 4. 잔디·꽃 Opacity 기법 -->
+  <section id="grass-opacity" class="section">
+    <span class="section-tag">잔디·꽃 기법 ①</span>
+    <h2 class="section-title">흑백 이미지 + Opacity — 플레인 기법</h2>
+    <p class="section-desc">실제 3D 모델링 없이 플레인(면) 하나에 흑백 이미지와 Opacity를 조합해 풀이나 꽃처럼 보이게 만드는 가벼운 기법입니다.</p>
+
+    <div class="method-box">
+      <div class="method-steps">
+        <div class="mstep">
+          <span class="ms-num">1</span>
+          <div>
+            <strong>풀·꽃 흑백 이미지 준비</strong>
+            <p>배경이 없는(투명 PNG 또는 흑백) 식물 이미지를 구한다. 흰 부분 = 보임, 검은 부분 = 투명.</p>
+          </div>
+        </div>
+        <div class="mstep">
+          <span class="ms-num">2</span>
+          <div>
+            <strong>플레인 오브젝트에 Octane 재질 적용</strong>
+            <p>단순한 사각 면(Plane)을 만들고, 이미지를 Opacity 채널에 연결해 불필요한 영역을 투명하게 처리.</p>
+          </div>
+        </div>
+        <div class="mstep">
+          <span class="ms-num">3</span>
+          <div>
+            <strong>복제(복붙)해서 배치</strong>
+            <p>만들어진 플레인을 클로너 또는 수동으로 여러 개 복제해 바닥에 배치하면 풀밭·꽃밭처럼 보임.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-limits">
+        <div class="limit-title">⚠️ 사용 제한</div>
+        <div class="limit-grid">
+          <div class="limit-item limit-bad">
+            <strong>❌ 이 방법을 쓰면 안 되는 경우</strong>
+            <p>카메라가 가까이 확대(줌인)하는 씬. 플레인이 납작하게 보여 티가 남.</p>
+          </div>
+          <div class="limit-item limit-good">
+            <strong>✓ 이 방법이 통하는 경우</strong>
+            <p>멀리서 바라보는 씬. 멀리서 봤을 때는 충분히 자연스럽고 렌더 속도도 빠름.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>Best Tip</strong> 이미지 활용을 잘하면 모델링 없이도 충분히 현실적인 장면을 만들 수 있습니다. 폴리곤 수가 적어 렌더가 빠르다는 것도 큰 장점입니다.
+    </div>
+  </section>
+
+  <!-- 5. Forester 플러그인 -->
+  <section id="forester" class="section">
+    <span class="section-tag">잔디·꽃 기법 ②</span>
+    <h2 class="section-title">Forester 플러그인 — 고품질 자연 오브젝트</h2>
+    <p class="section-desc">Forester는 C4D용 식물·자연 요소 생성 플러그인입니다. 고품질 풀, 꽃, 나무 등을 쉽게 배치할 수 있지만 Octane과 함께 쓸 때 몇 가지 처리가 필요합니다.</p>
+
+    <div class="forester-steps">
+      <div class="fstep fstep-warn">
+        <div class="fstep-num">⚠️ 01</div>
+        <div class="fstep-content">
+          <strong>Octane 재질로 변환 필수</strong>
+          <p>Forester로 생성된 오브젝트는 기본적으로 C4D 기본 재질로 나옵니다. Octane으로 렌더하려면 <strong>재질을 Octane용으로 교체</strong>해야 합니다.</p>
+        </div>
+      </div>
+      <div class="fstep fstep-info">
+        <div class="fstep-num">🔧 02</div>
+        <div class="fstep-content">
+          <strong>면 정리 (폴리곤 수 감소)</strong>
+          <p>기본 상태에서는 면의 개수가 너무 많아 렌더 속도가 느립니다. 면 수를 줄여 최적화 필요.</p>
+        </div>
+      </div>
+      <div class="fstep fstep-tip">
+        <div class="fstep-num">💡 03</div>
+        <div class="fstep-content">
+          <strong>이미지 경로 복붙으로 텍스처 연결</strong>
+          <p>C4D 기본 재질에 들어있는 이미지 파일 경로를 확인한 뒤, 해당 경로를 Octane 재질의 Image Texture 노드에 붙여넣어 수동으로 연결합니다.</p>
+          <div class="fstep-note">다소 반복 작업(노가다)이 필요하지만, 모델링을 직접 하지 않아도 되므로 이 정도는 감수할 가치가 있다!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare-table">
+      <div class="ct-title">두 가지 방법 비교</div>
+      <div class="ct-header">
+        <div></div>
+        <div>흑백 Opacity 기법</div>
+        <div>Forester 플러그인</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-label">품질</div>
+        <div>보통 (원거리 OK)</div>
+        <div class="ct-good">높음 (근접도 OK)</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-label">렌더 속도</div>
+        <div class="ct-good">빠름</div>
+        <div>면 정리 후 보통</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-label">작업 난이도</div>
+        <div class="ct-good">쉬움</div>
+        <div>재질 변환 작업 필요</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-label">카메라 확대</div>
+        <div class="ct-bad">사용 불가</div>
+        <div class="ct-good">사용 가능</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-label">추천 상황</div>
+        <div>원경 씬, 빠른 작업</div>
+        <div>중·근경 자연 표현</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0414 저녁반 · 믹스 메터리얼 & 잔디·꽃 제작</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
