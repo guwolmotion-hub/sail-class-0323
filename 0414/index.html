@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AE 편집 실습 — 단축키 & 컴포지션 관리 — 0414</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0414 수업</span>
+  <h1>After Effects 편집 실습</h1>
+  <p class="subtitle">컴포지션 관리 · FPS 규칙 · 편집 단축키 · 편집점 정밀 작업</p>
+  <div class="header-tags">
+    <span>Subcomp</span><span>FPS 관리</span><span>레이어 자르기</span><span>인디케이터</span><span>편집점 스냅</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#project">프로젝트 구조</a>
+  <a href="#fps">FPS 규칙</a>
+  <a href="#shortcuts">편집 단축키</a>
+  <a href="#editpoint">편집점 정밀 작업</a>
+  <a href="#summary">요약</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. 프로젝트 구조 -->
+  <section id="project" class="section">
+    <span class="section-tag">프로젝트 관리</span>
+    <h2 class="section-title">프로젝트 패널 폴더 구조</h2>
+    <p class="section-desc">프로젝트 패널을 체계적으로 정리해두면 소재를 찾는 시간을 줄이고 협업도 쉬워집니다. 처음부터 폴더를 만들어두는 습관이 중요합니다.</p>
+
+    <div class="folder-grid">
+      <div class="folder-card">
+        <div class="folder-icon">📁</div>
+        <div class="folder-info">
+          <h3>Subcomp</h3>
+          <p>메인 컴포지션을 제외한 <strong>나머지 컴포지션</strong>을 정리하는 폴더. 중간 과정의 서브 컴포지션들이 여기에 들어간다.</p>
+          <div class="folder-example">예) 캐릭터 움직임 컴프, 배경 컴프, 이펙트 컴프 등</div>
+        </div>
+      </div>
+      <div class="folder-card">
+        <div class="folder-icon">📂</div>
+        <div class="folder-info">
+          <h3>Source</h3>
+          <p><strong>외부에서 가져온 편집 재료</strong>를 정리하는 폴더. 영상, 이미지, 음악, 효과음 등 외부 소스 파일이 여기에 들어간다.</p>
+          <div class="folder-example">예) 촬영본 mp4, 배경음악 mp3, 로고 png 등</div>
+        </div>
+      </div>
+      <div class="folder-card">
+        <div class="folder-icon">🟫</div>
+        <div class="folder-info">
+          <h3>Solid</h3>
+          <p>AE에서 생성한 <strong>단색 레이어(Solid)</strong>를 따로 모아두는 폴더. 배경이나 마스크용 솔리드가 여기에 정리된다.</p>
+          <div class="folder-example">AE가 자동으로 Solids 폴더를 만들기도 함</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>정리 원칙</strong> 메인 컴포지션(최종 출력용)은 패널 최상단에 단독으로 두고, 나머지는 모두 폴더 안으로 정리한다. 작업 초반에 폴더를 먼저 만들어두는 것이 핵심.
+    </div>
+  </section>
+
+  <!-- 2. FPS 규칙 -->
+  <section id="fps" class="section">
+    <span class="section-tag">FPS 관리</span>
+    <h2 class="section-title">영상 소스 FPS — 반드시 확인해야 하는 규칙</h2>
+    <p class="section-desc">FPS가 맞지 않으면 재생 속도가 틀어지거나 편집점이 어긋납니다. 소스를 가져올 때 FPS 확인은 선택이 아닌 필수입니다.</p>
+
+    <div class="fps-rule-box">
+      <div class="fps-rule-item">
+        <div class="fps-rule-num">RULE 1</div>
+        <div class="fps-rule-text">
+          <strong>영상 소스를 가져올 때 꼭 FPS를 확인한다</strong>
+          <p>소스 파일을 임포트하면 해당 영상의 FPS를 프로젝트 패널에서 확인할 수 있다. 메인 컴포지션과 맞는지 즉시 체크.</p>
+        </div>
+      </div>
+      <div class="fps-rule-item highlight-rule">
+        <div class="fps-rule-num">RULE 2</div>
+        <div class="fps-rule-text">
+          <strong>메인 컴포지션 FPS = 소스 FPS — 반드시 일치!</strong>
+          <p>최종 렌더링하는 메인 컴포지션의 FPS와 영상 소스의 FPS가 다르면 절대 안 된다. 다를 경우 속도가 왜곡되어 재생된다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fps-example">
+      <div class="fps-ex-title">FPS 불일치 예시</div>
+      <div class="fps-ex-grid">
+        <div class="fps-ex-item fps-bad">
+          <div class="fps-ex-label">❌ 잘못된 경우</div>
+          <div class="fps-ex-content">
+            <span>메인 컴프: <strong>30fps</strong></span>
+            <span>소스 영상: <strong>24fps</strong></span>
+          </div>
+          <p>재생 속도 왜곡, 편집점 어긋남</p>
+        </div>
+        <div class="fps-ex-item fps-good">
+          <div class="fps-ex-label">✓ 올바른 경우</div>
+          <div class="fps-ex-content">
+            <span>메인 컴프: <strong>30fps</strong></span>
+            <span>소스 영상: <strong>30fps</strong></span>
+          </div>
+          <p>정확한 속도와 편집점 유지</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 편집 단축키 -->
+  <section id="shortcuts" class="section">
+    <span class="section-tag">편집 단축키</span>
+    <h2 class="section-title">편집 실습 핵심 단축키</h2>
+    <p class="section-desc">편집 속도를 결정하는 단축키입니다. 마우스 없이 키보드만으로 타임라인을 제어할 수 있어야 합니다.</p>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">재생 제어</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>영상 재생 / 정지</strong>
+            <p>타임라인에서 현재 위치부터 재생. RAM 프리뷰와 다름.</p>
+          </div>
+          <div class="keys">
+            <kbd>Space</kbd><span class="key-or">or</span><kbd>0</kbd><span class="key-hint">(숫자패드)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">레이어 편집</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item highlight-item">
+          <div class="shortcut-desc">
+            <strong>레이어 자르기 (Split Layer)</strong>
+            <p>인디케이터(재생헤드) 위치에서 레이어를 두 개로 분리. 영상 편집의 가장 기본 동작.</p>
+          </div>
+          <div class="keys"><kbd>Ctrl</kbd><span>+</span><kbd>Shift</kbd><span>+</span><kbd>D</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>레이어 앞부분을 인디케이터로 이동</strong>
+            <p>레이어를 자른 뒤 위치를 재배치할 때. 레이어의 In 포인트(시작)가 인디케이터 위치로 스냅.</p>
+          </div>
+          <div class="keys"><kbd>[</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>레이어 뒷부분을 인디케이터로 이동</strong>
+            <p>레이어의 Out 포인트(끝)가 인디케이터 위치로 스냅. 레이어 끝을 맞출 때 사용.</p>
+          </div>
+          <div class="keys"><kbd>]</kbd></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shortcut-group">
+      <h3 class="group-title">인디케이터 이동</h3>
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>1프레임씩 이동</strong>
+            <p>정밀한 편집점 확인 시 사용. 컷 포인트를 한 장씩 확인할 때 필수.</p>
+          </div>
+          <div class="keys"><kbd>PgUp</kbd><span class="key-or">/</span><kbd>PgDn</kbd></div>
+        </div>
+        <div class="shortcut-item">
+          <div class="shortcut-desc">
+            <strong>10프레임씩 이동</strong>
+            <p>타임라인에서 빠르게 앞뒤로 이동할 때. 긴 타임라인 탐색에 유용.</p>
+          </div>
+          <div class="keys"><kbd>Shift</kbd><span>+</span><kbd>PgUp</kbd><span class="key-or">/</span><kbd>PgDn</kbd></div>
+        </div>
+        <div class="shortcut-item highlight-item">
+          <div class="shortcut-desc">
+            <strong>인디케이터를 편집점에 스냅</strong>
+            <p>Shift를 누른 채 인디케이터를 드래그하면 레이어의 편집점(In/Out)에 자동으로 달라붙는다.</p>
+          </div>
+          <div class="keys"><kbd>Shift</kbd><span>+</span>드래그</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 편집점 정밀 작업 -->
+  <section id="editpoint" class="section">
+    <span class="section-tag">편집점 팁</span>
+    <h2 class="section-title">편집점 정밀 작업 — 뒷부분 1프레임 규칙</h2>
+    <p class="section-desc">편집이 정확하게 딱 붙지 않는 원인 중 하나입니다. 편집점 앞부분과 뒷부분의 스냅 동작이 다릅니다.</p>
+
+    <div class="tip-cards">
+      <div class="tip-card tip-ok">
+        <div class="tip-label">앞부분 편집점</div>
+        <div class="tip-icon">✓</div>
+        <p>Shift + 드래그로 인디케이터를 레이어 시작점에 스냅하면 정확하게 맞는다.</p>
+        <div class="tip-result tip-result-ok">그대로 자르면 OK</div>
+      </div>
+      <div class="tip-card tip-warn">
+        <div class="tip-label">뒷부분 편집점</div>
+        <div class="tip-icon">⚠️</div>
+        <p>스냅 시 인디케이터가 끝점보다 <strong>1장(1프레임) 앞</strong>에 위치한 상태로 멈추는 특성이 있다.</p>
+        <div class="tip-result tip-result-warn">그냥 자르면 1프레임 남음!</div>
+      </div>
+    </div>
+
+    <div class="solution-box">
+      <div class="sol-title">해결 방법 — 뒷부분 편집 시 필수 동작</div>
+      <div class="sol-steps">
+        <div class="sol-step">
+          <span class="sol-num">1</span>
+          <p>Shift + 드래그로 인디케이터를 레이어 뒷부분 편집점에 스냅</p>
+        </div>
+        <div class="sol-arrow">→</div>
+        <div class="sol-step">
+          <span class="sol-num">2</span>
+          <p><kbd>PgDn</kbd> 한 번 눌러 1프레임 앞으로 이동</p>
+        </div>
+        <div class="sol-arrow">→</div>
+        <div class="sol-step">
+          <span class="sol-num">3</span>
+          <p><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> 로 레이어 자르기</p>
+        </div>
+      </div>
+      <div class="sol-note">이렇게 해야 편집 컷이 정확하게 딱! 붙는다.</div>
+    </div>
+  </section>
+
+  <!-- 5. 요약 -->
+  <section id="summary" class="section">
+    <span class="section-tag">정리</span>
+    <h2 class="section-title">오늘 배운 것 한눈에 보기</h2>
+    <p class="section-desc">손에 익을 때까지 반복 연습이 필요한 단축키들입니다.</p>
+
+    <div class="summary-grid">
+      <div class="sum-item"><kbd>Space</kbd> / <kbd>0</kbd><span>영상 재생</span></div>
+      <div class="sum-item"><kbd>Ctrl+Shift+D</kbd><span>레이어 자르기</span></div>
+      <div class="sum-item"><kbd>PgUp</kbd> / <kbd>PgDn</kbd><span>1프레임 이동</span></div>
+      <div class="sum-item"><kbd>Shift+PgUp/Dn</kbd><span>10프레임 이동</span></div>
+      <div class="sum-item"><kbd>Shift+드래그</kbd><span>편집점 스냅</span></div>
+      <div class="sum-item"><kbd>[</kbd><span>앞부분 → 인디케이터</span></div>
+      <div class="sum-item"><kbd>]</kbd><span>뒷부분 → 인디케이터</span></div>
+      <div class="sum-item warn-item"><kbd>PgDn</kbd><span>뒷편집점 후 1프레임↓</span></div>
+    </div>
+
+    <div class="callout tip">
+      <strong>핵심 습관</strong> 소스 임포트 → FPS 확인 → 메인 컴프 FPS와 대조. 이 루틴을 반사적으로 할 수 있어야 빠른 편집이 가능합니다.
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>AE 수업자료 — 0414 · After Effects 편집 실습 & 단축키</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
