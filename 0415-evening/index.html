@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forester · SSS · Medium · Universal Material | 0415 저녁반</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">0415 저녁반</span>
+      <h1>Forester · SSS · Medium<br>Universal Material</h1>
+      <p class="subtitle">빛이 재질 안으로 들어가는 순간 — 자연물 표현과 옥테인 심화 재질</p>
+      <div class="header-tags">
+        <span>Forester</span>
+        <span>Subsurface Scattering</span>
+        <span>Medium</span>
+        <span>Universal Material</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <a href="#forester-review">Forester 재질 단계</a>
+      <a href="#sss">SSS 빛 산란</a>
+      <a href="#medium">Medium 내부 속성</a>
+      <a href="#universal">Universal Material</a>
+      <a href="#segment">면정리 SEGMENT</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- 1. Forester 복습 -->
+    <section id="forester-review" class="section">
+      <span class="section-tag">지난 시간 이어서</span>
+      <h2 class="section-title">Forester 플러그인 — 재질 2단계</h2>
+      <p class="section-desc">지난 수업에서 Forester로 배치한 자연물에 재질을 입히는 2단계 작업. 1단계(교체)는 완료, 오늘은 2단계(면정리)까지 마무리한다.</p>
+
+      <div class="step-list">
+        <div class="step-item done">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>재질 교체 <span class="tag-done">완료</span></strong>
+            <p>각 파츠(잎·줄기·꽃잎·나무껍질 등)에 Octane 재질을 연결하고, 색상·Roughness·투명도를 기본 설정.</p>
+          </div>
+        </div>
+        <div class="step-item current">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>재질 디테일 + 면정리 <span class="tag-now">오늘</span></strong>
+            <p>SSS·Medium으로 빛 투과 표현을 추가하고, 파츠별 Segment 수를 정리해 퀄리티와 최적화를 동시에 잡는다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>왜 디테일이 중요한가?</strong>
+        잔디 한 포기가 수천 개 복제될 때, 재질이 단순하면 전체가 인공적으로 보인다.
+        SSS 설정 하나만 추가해도 빛이 통과하는 자연스러운 투명감이 생겨 사실성이 크게 올라간다.
+      </div>
+    </section>
+
+    <!-- 2. SSS -->
+    <section id="sss" class="section">
+      <span class="section-tag">핵심 개념</span>
+      <h2 class="section-title">SSS — Subsurface Scattering</h2>
+      <p class="section-desc">꽃잎·잔디·나무·피부처럼 빛이 표면을 <em>통과</em>하는 재질의 물리 원리. 자연물 렌더링에서 가장 중요한 개념.</p>
+
+      <div class="concept-grid">
+        <div class="concept-card side-light">
+          <div class="concept-icon">☀️</div>
+          <h3>빛을 받는 면</h3>
+          <p>원래 색상 그대로 선명하게 보인다. 반사·색상이 정상 동작.</p>
+        </div>
+        <div class="concept-card side-shadow">
+          <div class="concept-icon">🌿</div>
+          <h3>빛이 통과한 반대면</h3>
+          <p>반투명·연한 상태로 변한다. 빛이 내부를 뚫고 나오며 색이 바뀐다.</p>
+        </div>
+      </div>
+
+      <div class="explain-box">
+        <h3>산란(Scattering)이란?</h3>
+        <p>빛이 물체 표면에서 <strong>바로 튕겨나오는 것이 아니라, 안으로 조금 들어갔다가 다시 퍼져나오는 현상</strong>이다.</p>
+        <div class="compare-row">
+          <div class="compare-col">
+            <strong>일반 반사</strong>
+            <p>표면 → 즉시 반사<br>내부 진입 없음</p>
+          </div>
+          <div class="compare-arrow">→</div>
+          <div class="compare-col highlight-col">
+            <strong>SSS (산란)</strong>
+            <p>표면 → 내부 투과<br>산란 후 방출</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="sub-title">SSS가 필요한 재질 예시</h3>
+      <div class="tag-grid">
+        <span class="mat-tag nature">꽃잎</span>
+        <span class="mat-tag nature">잔디 · 나뭇잎</span>
+        <span class="mat-tag nature">사람 피부</span>
+        <span class="mat-tag fluid">안개 · 연기</span>
+        <span class="mat-tag fluid">우유</span>
+        <span class="mat-tag fluid">주스</span>
+        <span class="mat-tag solid">왁스</span>
+        <span class="mat-tag solid">젤리</span>
+      </div>
+
+      <div class="tip-box">
+        <strong>공통 원리</strong>
+        위 재질들은 모두 빛이 표면에서만 끝나지 않고, <strong>안으로 들어가서 퍼지거나 흡수</strong>된다.
+        이 현상을 3D에서 구현하는 것이 SSS(Subsurface Scattering) 또는 Medium 기능이다.
+      </div>
+    </section>
+
+    <!-- 3. Medium -->
+    <section id="medium" class="section">
+      <span class="section-tag">옥테인 심화</span>
+      <h2 class="section-title">Medium — 재질 내부 속성</h2>
+      <p class="section-desc">일반 Material이 "표면"을 담당한다면, Medium은 물체 <em>내부</em>에 어떤 속성이 채워져 있는지를 정의한다.</p>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>일반 Material</th>
+              <th>Medium 추가 시</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>다루는 영역</td>
+              <td>재질 <strong>표면</strong></td>
+              <td>재질 <strong>내부(부피)</strong></td>
+            </tr>
+            <tr>
+              <td>주요 채널</td>
+              <td>반사, 거칠기, 색상, 범프</td>
+              <td>산란, 흡수, 밀도, 방출</td>
+            </tr>
+            <tr>
+              <td>빛 반응</td>
+              <td>표면에서 반사 / 흡수</td>
+              <td>내부를 통과하며 색·밝기 변화</td>
+            </tr>
+            <tr>
+              <td>대표 재질</td>
+              <td>금속, 플라스틱, 세라믹</td>
+              <td>피부, 꽃잎, 우유, 안개, 젤리</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-title">Medium 설정 흐름</h3>
+      <div class="flow-list">
+        <div class="flow-item">
+          <span class="flow-num">01</span>
+          <div>
+            <strong>속 내용물 오브젝트 만들기</strong>
+            <p>투명한 겉면 오브젝트(유리·투명 플라스틱) 안에 내부를 채울 별도 오브젝트 생성, 또는 동일 오브젝트의 Transmission 채널 활용.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <span class="flow-num">02</span>
+          <div>
+            <strong>Medium 채널에 노드 연결</strong>
+            <p>Octane Material의 Medium 슬롯에 <code>Scattering Medium</code> 또는 <code>Absorption Medium</code> 노드를 연결.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <span class="flow-num">03</span>
+          <div>
+            <strong>밀도(Density) 조절</strong>
+            <p>값이 높을수록 빛이 많이 산란·흡수되어 불투명해진다. 낮을수록 맑고 투명한 느낌.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <h3>한 줄 요약</h3>
+        <p>Medium = 물체 내부에 <strong>안개·액체·살 같은 속성</strong>을 채워, 빛이 투과할 때의 색 변화·산란을 표현하는 기능</p>
+      </div>
+    </section>
+
+    <!-- 4. Universal Material -->
+    <section id="universal" class="section">
+      <span class="section-tag">옥테인 재질</span>
+      <h2 class="section-title">Universal Material — 만능 재질</h2>
+      <p class="section-desc">Octane 기본 재질 4종(Diffuse · Glossy · Specular · Metallic)의 특성을 모두 통합한 재질. 하나로 어떤 표면이든 표현 가능.</p>
+
+      <div class="card-grid four-col">
+        <div class="mat-card">
+          <div class="mat-icon diffuse">D</div>
+          <h3>Diffuse</h3>
+          <p>빛을 모든 방향으로 균등 반사. 거칠고 무광인 표면.</p>
+          <span class="mat-ex">흙, 목재, 종이</span>
+        </div>
+        <div class="mat-card">
+          <div class="mat-icon glossy">G</div>
+          <h3>Glossy</h3>
+          <p>반사가 있지만 반사상이 흐릿하게 퍼짐. Roughness로 조절.</p>
+          <span class="mat-ex">도자기, 플라스틱, 페인트</span>
+        </div>
+        <div class="mat-card">
+          <div class="mat-icon specular">S</div>
+          <h3>Specular</h3>
+          <p>IOR(굴절률) 기반 물리 정확 반사. 유리·물 계열.</p>
+          <span class="mat-ex">유리, 물, 다이아몬드</span>
+        </div>
+        <div class="mat-card">
+          <div class="mat-icon metallic">M</div>
+          <h3>Metallic</h3>
+          <p>금속 특유의 컬러 반사와 Fresnel 특성. F0 값으로 조절.</p>
+          <span class="mat-ex">금, 은, 크롬, 구리</span>
+        </div>
+      </div>
+
+      <div class="explain-box">
+        <h3>Universal이 필요한 이유</h3>
+        <p>
+          실제 물체는 하나의 재질 타입으로 분류되지 않는다.
+          예를 들어 <strong>립스틱</strong>은 무광 바디(Diffuse) + 메탈릭 캡(Metallic) + 광택 표면(Glossy)이 동시에 존재한다.
+          Universal Material은 이 모든 채널을 <strong>Weight(가중치) 슬라이더</strong>로 혼합할 수 있다.
+        </p>
+      </div>
+
+      <div class="tip-box">
+        <strong>실습 팁</strong>
+        Diffuse Weight ↔ Metallic Weight 슬라이더를 조절해보면
+        무광 → 반광 → 금속 질감 변화를 실시간으로 확인할 수 있다.
+        Roughness까지 함께 조정하면 거의 모든 재질을 만들 수 있다.
+      </div>
+    </section>
+
+    <!-- 5. Forester 면정리 -->
+    <section id="segment" class="section">
+      <span class="section-tag">Forester 실습</span>
+      <h2 class="section-title">Forester 면정리 — SEGMENT</h2>
+      <p class="section-desc">파츠별 Segment 수를 조정해 렌더 퀄리티와 씬 최적화를 동시에 잡는 마무리 작업.</p>
+
+      <div class="flow-list">
+        <div class="flow-item">
+          <span class="flow-num">01</span>
+          <div>
+            <strong>파츠별 항목 선택</strong>
+            <p>Forester 오브젝트 내부 트리에서 Grass · Flower · Tree 등 <strong>각각의 파츠 항목으로 들어간다.</strong></p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <span class="flow-num">02</span>
+          <div>
+            <strong>SEGMENT 항목 조정</strong>
+            <p>Segment 값 = 폴리곤 분할 수. 높을수록 곡선이 부드럽지만 폴리곤 수가 늘어난다.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <span class="flow-num">03</span>
+          <div>
+            <strong>거리별 균형점 찾기</strong>
+            <p>카메라에 가까운 파츠는 높게, 배경·원거리 파츠는 낮게 설정해 성능을 확보한다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Segment 값</th>
+              <th>퀄리티</th>
+              <th>폴리곤 수</th>
+              <th>권장 상황</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>낮음 (2–4)</td>
+              <td>거칠게 보임</td>
+              <td>적음 ✅</td>
+              <td>원거리 · 배경 오브젝트</td>
+            </tr>
+            <tr>
+              <td>중간 (6–8)</td>
+              <td>일반적으로 충분</td>
+              <td>적당</td>
+              <td>대부분의 파츠</td>
+            </tr>
+            <tr>
+              <td>높음 (12+)</td>
+              <td>매우 부드러움</td>
+              <td>많음 ⚠️</td>
+              <td>클로즈업 · 포커스 오브젝트</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="summary-box">
+        <h3>오늘 수업 핵심 3가지</h3>
+        <ul>
+          <li>자연물 재질의 핵심은 <strong>SSS(빛 투과·산란)</strong> — 빛이 표면을 뚫고 들어가는 원리</li>
+          <li><strong>Medium</strong>으로 물체 내부 속성을 정의해 사실적인 투과 표현 가능</li>
+          <li><strong>Universal Material</strong> = Diffuse · Glossy · Specular · Metallic을 Weight로 혼합</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <button id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>0415 저녁반 · Forester / SSS / Medium / Universal Material</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
