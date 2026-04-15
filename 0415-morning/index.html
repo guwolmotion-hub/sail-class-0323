@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xpresso 곡선 공굴리기 & 스플라인 모델링 — 0415 오전반</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="badge">0415 오전반</span>
+  <h1>Xpresso 곡선 공굴리기 & 스플라인 모델링</h1>
+  <p class="subtitle">Intermediate Points · Align to Spline · 스플라인 메쉬화 · 아이폰 모델링</p>
+  <div class="header-tags">
+    <span>Intermediate Points</span><span>Align to Spline</span><span>Extrude</span><span>Lathe</span><span>Sweep</span><span>아이폰 모델링</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#intermediate">Intermediate Points</a>
+  <a href="#ball-xpresso">곡선 공굴리기</a>
+  <a href="#spline-modeling">스플라인 모델링</a>
+  <a href="#iphone">아이폰 모델링</a>
+</nav>
+
+<main class="container">
+
+  <!-- 1. Intermediate Points -->
+  <section id="intermediate" class="section">
+    <span class="section-tag">핵심 설정</span>
+    <h2 class="section-title">Intermediate Points — 스플라인 문제의 99% 해결책</h2>
+    <p class="section-desc">스플라인 관련 애니메이션 작업 시 생기는 대부분의 문제는 Intermediate Points 설정을 바꾸면 해결됩니다. 기본값 Adaptive에서 Uniform 또는 Natural로 변경해보세요.</p>
+
+    <div class="callout warn">
+      <strong>자주 발생하는 증상</strong> 공이 곡선 경로를 따라가다 속도가 들쑥날쑥하거나, 특정 구간에서 튀거나 멈추는 현상 → Intermediate Points 확인!
+    </div>
+
+    <div class="ip-grid">
+      <div class="ip-card ip-adaptive">
+        <div class="ip-header">
+          <span class="ip-name">Adaptive</span>
+          <span class="ip-badge badge-default">기본값</span>
+        </div>
+        <div class="ip-body">
+          <div class="ip-visual adaptive-vis">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p>직선 구간은 포인트를 적게, 곡선 구간은 포인트를 많게 자동 배치. 포인트 수가 불균일해 애니메이션 속도가 튀는 원인이 됨.</p>
+          <div class="ip-usecase usecase-warn">⚠️ 애니메이션 작업 시 속도 튐 발생 가능</div>
+        </div>
+      </div>
+      <div class="ip-card ip-uniform">
+        <div class="ip-header">
+          <span class="ip-name">Uniform</span>
+          <span class="ip-badge badge-recommend">애니메이션 추천</span>
+        </div>
+        <div class="ip-body">
+          <div class="ip-visual uniform-vis">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p>직선·곡선 구분 없이 일정한 간격으로 포인트 배치. 등간격이라 애니메이션 속도가 일정하게 유지됨.</p>
+          <div class="ip-usecase usecase-good">✓ 스플라인 애니메이션 문제 해결의 핵심</div>
+        </div>
+      </div>
+      <div class="ip-card ip-natural">
+        <div class="ip-header">
+          <span class="ip-name">Natural</span>
+          <span class="ip-badge badge-modeling">모델링 추천</span>
+        </div>
+        <div class="ip-body">
+          <div class="ip-visual natural-vis">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p>직선에도 곡선에도 적당한 수의 포인트를 배치. 정상적인 면 정리 시 가장 깔끔한 결과물을 만드는 모드.</p>
+          <div class="ip-usecase usecase-good">✓ 스플라인 모델링 면 정리에 최적</div>
+        </div>
+      </div>
+      <div class="ip-card ip-subdivide">
+        <div class="ip-header">
+          <span class="ip-name">Subdivide</span>
+          <span class="ip-badge badge-warning">과도한 분할</span>
+        </div>
+        <div class="ip-body">
+          <div class="ip-visual subdivide-vis">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p>구분 없이 무조건 많은 포인트를 생성. 파일이 무거워질 수 있어 특수한 경우 외에는 잘 사용하지 않음.</p>
+          <div class="ip-usecase usecase-warn">⚠️ 불필요하게 무거워질 수 있음</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 곡선 공굴리기 Xpresso -->
+  <section id="ball-xpresso" class="section">
+    <span class="section-tag">Xpresso 심화</span>
+    <h2 class="section-title">곡선 경로 공굴리기 — Align to Spline 연동</h2>
+    <p class="section-desc">직선이 아닌 곡선 경로를 따라 공이 자연스럽게 굴러가게 하는 것이 목표입니다. Align to Spline의 Position과 공의 Rotation을 Xpresso로 연동합니다.</p>
+
+    <div class="goal-box">
+      <div class="goal-title">🎯 작업 목표</div>
+      <p>Align to Spline의 <strong>Position 0~100%</strong>가 움직일 때, 공의 <strong>Rotation B</strong>가 경로 길이에 비례해 자연스럽게 회전하게 만들기</p>
+    </div>
+
+    <div class="logic-cards">
+      <div class="logic-card">
+        <div class="logic-num">①</div>
+        <div>
+          <strong>공의 둘레 길이 계산</strong>
+          <p>공이 자신의 둘레(2πr)만큼 이동하면 정확히 한 바퀴가 회전. 반지름으로 총 회전수 계산 가능.</p>
+        </div>
+      </div>
+      <div class="logic-card">
+        <div class="logic-num">②</div>
+        <div>
+          <strong>경로 스플라인의 전체 길이 확인</strong>
+          <p>공이 이동하는 총 거리 = 스플라인의 전체 길이. 이 값을 Xpresso로 가져와야 한다.</p>
+        </div>
+      </div>
+      <div class="logic-card">
+        <div class="logic-num">③</div>
+        <div>
+          <strong>총 이동 거리 ÷ 둘레 = 총 회전수</strong>
+          <p>스플라인 길이를 공의 둘레로 나누면 0~100% 이동 시 총 몇 바퀴 돌지 계산됨. 이 값을 Range Mapper로 Rotation B에 매핑.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="spline-tip">
+      <div class="st-icon">💡</div>
+      <div>
+        <strong>스플라인 애니메이션 문제가 생기면 먼저 확인</strong>
+        <p>공이 경로를 따라 이동할 때 속도가 튀거나 불규칙하다면 → 스플라인의 Intermediate Points를 <strong>Uniform</strong>으로 변경!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 스플라인 모델링 -->
+  <section id="spline-modeling" class="section">
+    <span class="section-tag">스플라인 모델링</span>
+    <h2 class="section-title">스플라인 → 메쉬 변환 6가지</h2>
+    <p class="section-desc">스플라인(선)은 자체로는 보이지 않습니다. 아래 제너레이터를 사용해 3D 메쉬(면)로 변환합니다. 로고 모델링, 원통형 모델링에 핵심적으로 사용됩니다.</p>
+
+    <div class="spline-cards">
+      <div class="spline-card sc-highlight">
+        <div class="sc-icon">⬆️</div>
+        <h3>Extrude</h3>
+        <p>선 모양대로 오브젝트를 <strong>돌출</strong>시켜 메쉬화. 2D 로고·텍스트를 3D로 만들 때 가장 많이 사용.</p>
+        <div class="sc-use">로고 3D화, 텍스트 3D</div>
+      </div>
+      <div class="spline-card">
+        <div class="sc-icon">🔄</div>
+        <h3>Lathe</h3>
+        <p>스플라인을 <strong>한 바퀴 회전</strong>시켜 메쉬화. 병, 컵, 항아리 같은 회전 대칭 형태에 최적.</p>
+        <div class="sc-use">병, 컵, 항아리, 원통형</div>
+      </div>
+      <div class="spline-card">
+        <div class="sc-icon">🚇</div>
+        <h3>Sweep</h3>
+        <p><strong>경로(Path) 스플라인</strong>을 따라 단면 스플라인이 이동하며 터널 형태의 메쉬를 생성.</p>
+        <div class="sc-use">파이프, 튜브, 전선, 로프</div>
+      </div>
+      <div class="spline-card">
+        <div class="sc-icon">🔀</div>
+        <h3>Loft</h3>
+        <p>여러 스플라인 단면을 <strong>순서대로 연결</strong>해 메쉬화. 일러스트의 블렌드 기능과 유사.</p>
+        <div class="sc-use">날개, 배, 유기적 형태</div>
+      </div>
+      <div class="spline-card">
+        <div class="sc-icon">✏️</div>
+        <h3>Vector Lizer</h3>
+        <p><strong>흑백 이미지</strong>를 가져와서 자동으로 스플라인 선으로 변환. 벡터화 기능.</p>
+        <div class="sc-use">이미지 → 스플라인 변환</div>
+      </div>
+      <div class="spline-card">
+        <div class="sc-icon">✂️</div>
+        <h3>Spline Mask</h3>
+        <p>여러 스플라인을 <strong>합치거나 뺄 때</strong> 사용. 일러스트의 패스파인더와 동일한 개념.</p>
+        <div class="sc-use">스플라인 합치기·빼기·교차</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 아이폰 모델링 -->
+  <section id="iphone" class="section">
+    <span class="section-tag">모델링 실습</span>
+    <h2 class="section-title">아이폰 모델링 — 8단계 작업 순서</h2>
+    <p class="section-desc">Extrude를 활용한 스플라인 기반 아이폰 모델링입니다. 도면(레퍼런스 이미지)을 각 뷰에 배치하고 순서에 따라 진행합니다.</p>
+
+    <div class="iphone-steps">
+      <div class="istep">
+        <div class="istep-num">1</div>
+        <div class="istep-content">
+          <strong>도면 이미지를 각 뷰에 배치</strong>
+          <p>Top, Front, Right 뷰에 아이폰 도면(정면·측면·상면) 이미지를 각각 배치해 모델링 기준으로 활용.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="istep-num">2</div>
+        <div class="istep-content">
+          <strong>Rectangle 스플라인으로 크기와 라운딩 맞추기</strong>
+          <p>Rectangle Spline을 꺼내 아이폰 외형 크기에 맞게 조정. 모서리 라운딩(Radius)을 도면에 맞게 설정.</p>
+        </div>
+      </div>
+      <div class="istep istep-key">
+        <div class="istep-num">3</div>
+        <div class="istep-content">
+          <strong>Intermediate Points → Natural, Number: 3</strong>
+          <p>스플라인의 Intermediate Points를 <strong>Natural</strong>로 설정하고 Number를 3 정도로 낮춰 선을 정리. 불필요한 폴리곤 방지.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="istep-num">4</div>
+        <div class="istep-content">
+          <strong>Extrude로 돌출 + Z축 두께 조정</strong>
+          <p>Extrude 안에 스플라인을 넣고 돌출. Right 뷰에서 Z축 방향으로만 커지므로, Rectangle 스플라인의 Z Position을 조정해 두께를 도면에 맞춤.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="istep-num">5</div>
+        <div class="istep-content">
+          <strong>Extrude의 Cap 끄기 + Make Editable</strong>
+          <p>Extrude의 Cap(앞·뒷면) 옵션을 모두 꺼 테두리 형태만 남김. 준비가 되면 Make Editable(C키)로 편집 가능한 메쉬로 변환.</p>
+        </div>
+      </div>
+      <div class="istep istep-key">
+        <div class="istep-num">6</div>
+        <div class="istep-content">
+          <strong>1/4만 남기고 나머지 삭제</strong>
+          <p>아이폰은 좌우·상하 대칭이므로 1/4만 남기고 나머지 면을 전부 삭제. 작업량을 4분의 1로 줄이고 대칭을 활용.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="istep-num">7</div>
+        <div class="istep-content">
+          <strong>Symmetry로 좌우·상하 복사</strong>
+          <p>1/4 테두리를 Symmetry에 넣어 좌우 복사 → 그 Symmetry를 다시 Symmetry에 넣어 상하도 복사. 최종적으로 완전한 테두리 완성.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="istep-num">8</div>
+        <div class="istep-content">
+          <strong>도면 보며 엣지 Extrude로 디테일 추가</strong>
+          <p>도면을 참고해 버튼, 포트 등의 디테일을 Edge Extrude로 추가해 완성.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>대칭 모델링의 핵심</strong> 대칭이 있는 오브젝트는 항상 최소 단위(1/2 또는 1/4)만 작업하고 Symmetry로 복사합니다. 수정 시에도 원본 1/4만 수정하면 전체에 반영되어 작업 효율이 4배 향상됩니다.
+    </div>
+  </section>
+
+</main>
+
+<button id="topBtn" aria-label="맨 위로">↑</button>
+
+<footer class="site-footer">
+  <p>C4D 수업자료 — 0415 오전반 · Xpresso 곡선 공굴리기 & 스플라인 모델링</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
