@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>폰트 저작권 · OTF/TTF · 모션 순서 | 0416 AE 수업자료</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="badge">0416 After Effects</span>
+      <h1>폰트 저작권 · OTF/TTF<br>모션 작업 순서</h1>
+      <p class="subtitle">영상 창작물의 저작권 기초, 안전한 폰트 선택법, 모션그래픽 작업 흐름</p>
+      <div class="header-tags">
+        <span>영상 저작권</span>
+        <span>한글 폰트</span>
+        <span>OTF vs TTF</span>
+        <span>주모션 / 부모션</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" id="toc">
+    <div class="toc-inner">
+      <span class="toc-label">목차</span>
+      <a href="#copyright">저작권 & 폰트</a>
+      <a href="#font-sites">폰트 사이트</a>
+      <a href="#free-fonts">무료 상업용 폰트</a>
+      <a href="#otf-ttf">OTF vs TTF</a>
+      <a href="#dafont">Dafont & Helvetica</a>
+      <a href="#motion-order">모션 작업 순서</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- 1. 저작권 & 폰트 -->
+    <section id="copyright" class="section">
+      <span class="section-tag">반드시 알아야 할</span>
+      <h2 class="section-title">영상 창작물 저작권 — 폰트가 핵심</h2>
+      <p class="section-desc">영상을 공개·배포할 때 저작권 위반이 가장 많이 발생하는 요소 중 하나가 <em>폰트</em>다. 음악·이미지보다 간과하기 쉽지만 실제로는 매우 엄격하게 적용된다.</p>
+
+      <div class="warn-box">
+        <strong>폰트 저작권은 왜 빡빡한가?</strong>
+        <p>폰트는 폰트 제작사가 별도로 라이선스를 판매하는 <strong>소프트웨어</strong>다. 내 컴퓨터에 설치되어 있다고 해서 상업 영상에 무료로 사용할 수 있는 것이 아니다. 영상에 삽입된 순간 배포·공개 라이선스가 별도로 필요하다.</p>
+      </div>
+
+      <div class="card-grid two-col">
+        <div class="creator-card">
+          <div class="creator-icon">🏰</div>
+          <h3>디즈니</h3>
+          <p>자사 캐릭터·음악·영상에 대해 세계에서 가장 엄격하게 저작권을 관리하는 회사 중 하나. 상업적 사용은 물론 비상업 영상에도 적극적으로 제재.</p>
+        </div>
+        <div class="creator-card">
+          <div class="creator-icon">🎬</div>
+          <h3>미야자키 하야오 · 신카이 마코토</h3>
+          <p>지브리·코믹스웨이브의 작품은 이미지·배경·음악 모두 엄격하게 보호. 팬아트도 상업 영상에 무단 사용 불가.</p>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>실무 원칙</strong>
+        영상에 쓰이는 모든 에셋 — 폰트, 음악, 이미지, 영상 클립 — 은 반드시 <strong>상업적 사용 허가된 라이선스</strong>를 확인한 후 사용한다. "무료" ≠ "상업 무료"임을 항상 기억할 것.
+      </div>
+    </section>
+
+    <!-- 2. 폰트 사이트 -->
+    <section id="font-sites" class="section">
+      <span class="section-tag">리소스</span>
+      <h2 class="section-title">한글 폰트 다운로드 사이트</h2>
+      <p class="section-desc">국내 한글 폰트를 구할 수 있는 대표 사이트 3곳. 라이선스 범위가 각각 다르므로 사용 전 확인 필수.</p>
+
+      <div class="site-list">
+        <div class="site-card free">
+          <div class="site-badge free-badge">무료 위주</div>
+          <h3>눈누 (noonnu.cc)</h3>
+          <p>무료로 사용 가능한 한글 폰트만 모아놓은 전문 사이트. <strong>상업적 사용 여부를 폰트별로 필터링</strong>해서 검색할 수 있어 실무에서 가장 많이 활용된다.</p>
+          <ul>
+            <li>모든 폰트가 무료 (유료 폰트는 등록 안 됨)</li>
+            <li>상업용 가능 여부 명확히 표시</li>
+            <li>미리보기 텍스트 입력 기능 제공</li>
+          </ul>
+        </div>
+        <div class="site-card mixed">
+          <div class="site-badge mixed-badge">부분 무료</div>
+          <h3>윤디자인 (yoondesign.com)</h3>
+          <p>국내 대표 폰트 전문 회사. 일부 폰트는 무료 제공하지만 <strong>대부분 유료 구독</strong>이 필요하다. 고급 브랜딩·인쇄용 폰트가 많다.</p>
+          <ul>
+            <li>전문 타이포그래피 퀄리티</li>
+            <li>기업 라이선스 별도 구매 필요</li>
+          </ul>
+        </div>
+        <div class="site-card mixed">
+          <div class="site-badge mixed-badge">부분 무료</div>
+          <h3>산돌구름 (sandollcloud.com)</h3>
+          <p>국내 최대 폰트 라이브러리 중 하나. 구독형 서비스로 운영되며 일부 폰트는 무료. <strong>월정액으로 프리미엄 폰트 전체 사용 가능.</strong></p>
+          <ul>
+            <li>폰트 수량이 매우 많음</li>
+            <li>구독 시 업무용까지 커버</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 무료 상업용 폰트 -->
+    <section id="free-fonts" class="section">
+      <span class="section-tag">추천 폰트</span>
+      <h2 class="section-title">무료 상업용 한글 폰트 추천</h2>
+      <p class="section-desc">실무에서 바로 쓸 수 있는 <strong>상업적 무료</strong> 한글 폰트들. 각 폰트의 특성을 파악해두면 프로젝트마다 적합한 폰트를 빠르게 선택할 수 있다.</p>
+
+      <div class="font-grid">
+        <div class="font-card">
+          <div class="font-preview" style="font-family: sans-serif; font-weight: 400;">Aa</div>
+          <div class="font-info">
+            <h3>Noto Sans KR</h3>
+            <span class="font-maker">Google</span>
+            <p>구글이 제작한 범용 폰트. 한·영·일·중 모두 지원. 웹·앱·영상 어디서나 잘 어울리는 기본 폰트.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">UI · 자막 · 본문</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-preview" style="font-family: sans-serif; font-weight: 700;">나눔</div>
+          <div class="font-info">
+            <h3>나눔 폰트 시리즈</h3>
+            <span class="font-maker">Naver</span>
+            <p>네이버가 제작·배포하는 폰트 패밀리. 나눔고딕·나눔명조·나눔스퀘어 등 다양한 굵기와 스타일 제공.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">자막 · 본문 · 타이틀</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-preview black-gothic">검은<br>고딕</div>
+          <div class="font-info">
+            <h3>검은고딕</h3>
+            <span class="font-maker">Google Fonts</span>
+            <p>이름처럼 굵고 두꺼운 고딕체. <strong>강렬하고 존재감 있는 타이틀</strong>이 필요할 때 최적. 모션 타이틀에 자주 사용.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">타이틀 · 강조</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-preview escore">에스코어</div>
+          <div class="font-info">
+            <h3>에스코어 드림</h3>
+            <span class="font-maker">S-Core</span>
+            <p>얇고 세련된 형태. <strong>고급스럽고 미니멀한 느낌</strong>을 줄 때 사용. 뷰티·브랜딩 영상에 특히 잘 어울린다.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">뷰티 · 브랜딩</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-preview" style="font-family: sans-serif;">잘난<br>고딕</div>
+          <div class="font-info">
+            <h3>여기어때 잘난고딕</h3>
+            <span class="font-maker">여기어때</span>
+            <p>여기어때 앱이 배포하는 브랜드 폰트. 개성 있고 친근한 인상. 캐주얼한 모션 콘텐츠에 활용.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">캐주얼 · SNS</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-preview" style="font-family: sans-serif;">G마켓<br>산스</div>
+          <div class="font-info">
+            <h3>G마켓 산스</h3>
+            <span class="font-maker">G마켓</span>
+            <p>G마켓이 배포. 깔끔하고 현대적인 고딕 계열. 가독성이 좋고 폭이 좁아 텍스트가 많을 때 유용.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">콘텐츠 · 자막</span>
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-preview" style="font-family: serif;">평창체</div>
+          <div class="font-info">
+            <h3>평창체</h3>
+            <span class="font-maker">평창군</span>
+            <p>2018 평창 동계올림픽을 위해 제작. 획에 특색 있는 디자인 요소가 들어있어 개성 있는 타이틀에 활용.</p>
+            <span class="font-tag">상업 무료</span>
+            <span class="font-tag use">타이틀 · 포인트</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. OTF vs TTF -->
+    <section id="otf-ttf" class="section">
+      <span class="section-tag">폰트 포맷</span>
+      <h2 class="section-title">OTF vs TTF — 어떻게 다른가?</h2>
+      <p class="section-desc">결과적으로 같은 폰트지만 파일 구조와 기능에 차이가 있다. 용도에 맞게 골라 사용하자.</p>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>TTF <span class="th-sub">True Type Font</span></th>
+              <th>OTF <span class="th-sub">Open Type Font</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>개발</td>
+              <td>Apple + Microsoft</td>
+              <td>Adobe + Microsoft (TTF 확장)</td>
+            </tr>
+            <tr>
+              <td>파일 구조</td>
+              <td>단순</td>
+              <td>더 확장된 타입</td>
+            </tr>
+            <tr>
+              <td>지원 문자</td>
+              <td>기본 문자 위주</td>
+              <td>다양한 문자 / 대체 문자 지원</td>
+            </tr>
+            <tr>
+              <td>타이포그래피</td>
+              <td>기능 제한적</td>
+              <td>합자(Ligature), 스와시 등 풍부함</td>
+            </tr>
+            <tr>
+              <td>파일 크기</td>
+              <td>비교적 작음</td>
+              <td>비교적 큼</td>
+            </tr>
+            <tr>
+              <td>호환성</td>
+              <td>매우 높음 ✅</td>
+              <td>TTF보다 낮을 수 있음</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="use-grid">
+        <div class="use-card ttf-card">
+          <h3>TTF 선택할 때</h3>
+          <p>글자가 잘 보이기만 하면 되는 용도 — 웹 본문, 일반 문서, 시스템 폰트. 호환성이 최우선일 때.</p>
+          <span class="use-label">웹 · 일반 문서</span>
+        </div>
+        <div class="use-card otf-card">
+          <h3>OTF 선택할 때</h3>
+          <p>고급 타이포그래피 기능이 필요한 용도 — 브랜딩, 인쇄물, 로고, 디자인 작업. 폰트의 미세한 디테일까지 살려야 할 때.</p>
+          <span class="use-label">디자인 · 브랜딩 · 타이포그래피</span>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>실무에서의 선택</strong>
+        After Effects나 C4D 등 모션그래픽 작업에서는 대부분 <strong>OTF</strong>를 선호한다. 타이포그래피 디테일이 풍부하고 고화질 렌더 시 더 정교하게 표현되기 때문. 단, 특정 플러그인이나 구형 시스템과의 호환이 필요하면 TTF도 유용하다.
+      </div>
+    </section>
+
+    <!-- 5. Dafont & Helvetica -->
+    <section id="dafont" class="section">
+      <span class="section-tag">영문 폰트</span>
+      <h2 class="section-title">Dafont & Helvetica</h2>
+      <p class="section-desc">영문 폰트가 필요할 때 찾는 대표 사이트와, 세계에서 가장 유명한 영문 폰트.</p>
+
+      <div class="card-grid two-col">
+        <div class="info-card">
+          <h3>Dafont (dafont.com)</h3>
+          <p>다양한 스타일의 영문 폰트를 무료로 다운로드할 수 있는 사이트.</p>
+          <ul>
+            <li>개성 강한 디스플레이 폰트 다수</li>
+            <li>폰트별로 <strong>개인용 / 상업용</strong> 라이선스 구분 표시</li>
+            <li>국내 외 타임스퀘어 같은 공식 광고가 아닌 이상 대부분 사용해도 큰 문제 없음</li>
+            <li>단, 상업 프로젝트라면 폰트별 라이선스 반드시 확인</li>
+          </ul>
+        </div>
+        <div class="info-card helvetica-card">
+          <h3>Helvetica</h3>
+          <p>1957년 스위스에서 만들어진 영문 폰트. 세계에서 가장 많이 사용되는 산세리프 폰트.</p>
+          <ul>
+            <li>Apple, NASA, 지하철 안내판 등 수많은 브랜드가 사용</li>
+            <li>깔끔하고 중립적이어서 어디에나 잘 어울림</li>
+            <li>Mac에는 기본 내장 / Windows는 별도 구매 필요</li>
+            <li>무료 대안: <strong>Arial</strong> (TTF, 유사 형태)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 모션 작업 순서 -->
+    <section id="motion-order" class="section">
+      <span class="section-tag">모션그래픽 기초</span>
+      <h2 class="section-title">모션 작업 순서 — 레이아웃 → 주모션 → 부모션</h2>
+      <p class="section-desc">모션그래픽의 기원은 <strong>디즈니 애니메이션</strong>. 디즈니가 정립한 움직임의 원칙이 현대 모션그래픽의 토대가 됐다.</p>
+
+      <div class="flow-list">
+        <div class="flow-item">
+          <div class="flow-num">01</div>
+          <div>
+            <strong>레이아웃 잡기</strong>
+            <p>움직임을 주기 전에 먼저 <strong>화면 구성(레이아웃)</strong>을 완성한다. 텍스트·이미지·그래픽 요소의 크기·위치·색상이 확정된 후 모션 작업을 시작해야 수정이 줄어든다.</p>
+            <div class="flow-tip">레이아웃이 흔들리면 모션을 다 짜고 나서도 전부 다시 해야 하는 상황이 생긴다.</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-num">02</div>
+          <div>
+            <strong>주모션 설정</strong>
+            <p>피사체가 움직일 때 <strong>가장 메인이 되는 움직임</strong>. 오브젝트가 어디서 어디로 이동하는지, 어떻게 등장하고 퇴장하는지를 먼저 잡는다.</p>
+            <div class="flow-tip">주모션 = 이야기의 뼈대. 이것만 있어도 영상이 읽힌다.</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-num">03</div>
+          <div>
+            <strong>부모션 추가</strong>
+            <p>주모션을 <strong>더 멋있게 보이기 위해 추가적으로 부여하는 보조 움직임</strong>. 스케일 바운스, 회전, 흔들림, 위성 요소의 작은 움직임 등이 해당.</p>
+            <div class="flow-tip">부모션 = 살과 디테일. 없어도 읽히지만, 있으면 훨씬 완성도가 올라간다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>주모션</th>
+              <th>부모션</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>역할</td>
+              <td>가장 메인이 되는 움직임</td>
+              <td>주모션을 강조하는 보조 움직임</td>
+            </tr>
+            <tr>
+              <td>중요도</td>
+              <td>필수 — 없으면 영상이 성립 안 됨</td>
+              <td>선택 — 없어도 되지만 있으면 완성도↑</td>
+            </tr>
+            <tr>
+              <td>예시</td>
+              <td>텍스트가 왼쪽에서 날아와 화면 중앙에 안착</td>
+              <td>안착 직후 살짝 튀어오르는 바운스 + 그림자 생성</td>
+            </tr>
+            <tr>
+              <td>작업 순서</td>
+              <td>먼저</td>
+              <td>나중</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="summary-box">
+        <h3>오늘 수업 핵심 정리</h3>
+        <ul>
+          <li><strong>폰트 저작권</strong> — "무료 설치"와 "상업 영상 사용 가능"은 다르다. 반드시 라이선스 확인.</li>
+          <li><strong>눈누</strong> = 무료 한글 폰트 허브 / <strong>윤디자인·산돌구름</strong> = 유료 전문 폰트</li>
+          <li><strong>OTF</strong> = 고급 타이포그래피·디자인 작업 / <strong>TTF</strong> = 호환성 우선·일반 사용</li>
+          <li>모션 작업 순서: <strong>레이아웃 → 주모션 → 부모션</strong> 순으로 진행</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <button id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>0416 After Effects · 폰트 저작권 / OTF vs TTF / 모션 작업 순서</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
