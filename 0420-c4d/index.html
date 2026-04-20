@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>R23 버전·거울 재질 — C4D 오전반 0420</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <span class="badge">C4D 오전반 · 2026.04.20</span>
+    <h1>R23 버전 관리 &amp; 거울 재질</h1>
+    <p class="subtitle">버전 호환성 · 레이아웃 · AI 크레딧 · 씬 최적화 · Octane 완전반사</p>
+    <div class="header-tags">
+      <span>#Cinema4D</span><span>#R23</span><span>#Octane</span><span>#버전관리</span><span>#거울재질</span><span>#씬최적화</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <ul>
+      <li><a href="#version">R23 버전 호환성</a></li>
+      <li><a href="#layout">레이아웃 설정</a></li>
+      <li><a href="#ai-credit">AI 크레딧 관리</a></li>
+      <li><a href="#scene">씬 최적화</a></li>
+      <li><a href="#mirror">거울 재질 만들기</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+
+    <!-- 섹션 1: R23 버전 호환성 -->
+    <section id="version" class="section">
+      <span class="section-tag">버전 관리</span>
+      <h2 class="section-title">R23 버전 호환성</h2>
+      <p class="section-desc">Cinema 4D R23 버전 간 마이너 넘버 차이가 Octane 플러그인 설치 여부를 결정합니다.</p>
+
+      <div class="compare-table">
+        <table>
+          <thead>
+            <tr>
+              <th>버전</th>
+              <th>빌드 넘버</th>
+              <th>Octane 설치</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-good">
+              <td>R23 (권장)</td>
+              <td><strong>R23.110</strong></td>
+              <td>✅ 정상 설치</td>
+              <td>수업 표준 버전</td>
+            </tr>
+            <tr class="row-bad">
+              <td>R23 (구버전)</td>
+              <td><strong>R23.080</strong></td>
+              <td>❌ 설치 불가</td>
+              <td>Octane 호환 깨짐</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🔢</div>
+          <h3>빌드 넘버 확인 방법</h3>
+          <p>Cinema 4D 메뉴 → <strong>Help → About Cinema 4D</strong> 클릭 시 버전 전체 표기 확인 가능 (예: R23.110)</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥️</div>
+          <h3>RTX 50번대 GPU</h3>
+          <p>최신 NVIDIA RTX 50 시리즈 그래픽카드는 드라이버와 Octane 버전 간 호환성 확인 필수. 출시 직후엔 플러그인 지원이 늦는 경우가 있음.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚠️</div>
+          <h3>다운그레이드 주의</h3>
+          <p>버전을 낮추면 Octane이 인식하는 API가 달라져 설치 자체가 막힘. 반드시 <strong>R23.110</strong> 이상 유지.</p>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <strong>핵심 요약</strong> — R23 사용 시 빌드 넘버를 반드시 <code>R23.110</code>으로 유지할 것. R23.080으로 다운그레이드하면 Octane Renderer 플러그인이 설치되지 않음.
+      </div>
+    </section>
+
+    <!-- 섹션 2: 레이아웃 설정 -->
+    <section id="layout" class="section">
+      <span class="section-tag">인터페이스</span>
+      <h2 class="section-title">레이아웃 설정 — 2023 레이아웃 적용</h2>
+      <p class="section-desc">Cinema 4D 2023 이후 UI가 크게 바뀌었지만, R23에서도 2023 레이아웃을 불러와 사용할 수 있습니다.</p>
+
+      <div class="step-list">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div class="step-body">
+            <h4>레이아웃 메뉴 열기</h4>
+            <p>오른쪽 상단 레이아웃 드롭다운 → <strong>Load Layout…</strong> 클릭</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div class="step-body">
+            <h4>2023.l4d 파일 선택</h4>
+            <p>Maxon이 배포한 <strong>2023.l4d</strong> 레이아웃 파일 또는 강사 제공 파일을 불러옴</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <h4>저장 및 기본값 지정</h4>
+            <p><strong>Window → Customize → Save as Startup Layout</strong>으로 저장하면 매번 불러올 필요 없음</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <span class="info-icon">💡</span>
+        <div>
+          <strong>왜 레이아웃을 맞추나요?</strong><br>
+          수업 시 강사와 동일한 패널 배치를 유지해야 설명을 따라가기 쉽습니다. 특히 <em>속성창·타임라인·뷰포트 위치</em>가 다르면 단축키 동작이 달라 혼란이 생깁니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: AI 크레딧 관리 -->
+    <section id="ai-credit" class="section">
+      <span class="section-tag">AI 도구 활용</span>
+      <h2 class="section-title">AI 이미지 도구 크레딧 관리</h2>
+      <p class="section-desc">Midjourney 등 AI 이미지 생성 서비스는 시간대에 따라 크레딧 소모 속도와 요금이 달라집니다.</p>
+
+      <div class="card-grid">
+        <div class="card card-warn">
+          <div class="card-icon">🌙</div>
+          <h3>저녁 7시 이후 — 피크타임</h3>
+          <p>북미·유럽 사용자들이 몰리는 시간대. 서버 부하가 높아져 <strong>크레딧 소모 빠르고 요금도 증가.</strong> 가능하면 오전 시간대 사용 권장.</p>
+        </div>
+        <div class="card card-good">
+          <div class="card-icon">☀️</div>
+          <h3>오전 ~ 오후 6시 — 오프피크</h3>
+          <p>국내 낮 시간은 해외 오프피크 구간. 크레딧 소모 안정적이고 생성 속도도 빠른 편.</p>
+        </div>
+      </div>
+
+      <div class="tip-list">
+        <h4>크레딧 절약 팁</h4>
+        <ul>
+          <li>생성 전 프롬프트를 충분히 다듬어 재생성 횟수 최소화</li>
+          <li>저화질(--q 0.5) 초안 확인 후 고화질 최종 생성</li>
+          <li>Relax Mode 활용 — 느리지만 크레딧 0 소모 (Pro 플랜)</li>
+          <li>배치 작업은 오전 일찍 몰아서 처리</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 섹션 4: 씬 최적화 -->
+    <section id="scene" class="section">
+      <span class="section-tag">씬 최적화</span>
+      <h2 class="section-title">씬 복잡도와 렌더링 시간</h2>
+      <p class="section-desc">씬에 건물·자동차 등 고폴리곤 오브젝트가 많을수록 렌더링 시간은 기하급수적으로 늘어납니다.</p>
+
+      <div class="render-time-visual">
+        <div class="rt-item">
+          <div class="rt-bar" style="--w:15%"></div>
+          <span class="rt-label">단순 씬 (오브젝트 10개 이하)</span>
+          <span class="rt-value">수초 ~ 수분</span>
+        </div>
+        <div class="rt-item">
+          <div class="rt-bar" style="--w:45%"></div>
+          <span class="rt-label">중간 씬 (오브젝트 50~100개)</span>
+          <span class="rt-value">수십분 ~ 수시간</span>
+        </div>
+        <div class="rt-item rt-danger">
+          <div class="rt-bar" style="--w:100%"></div>
+          <span class="rt-label">도시 씬 (건물·자동차 무수히 많음)</span>
+          <span class="rt-value">수일 ~ 수개월</span>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🗑️</div>
+          <h3>불필요한 오브젝트 제거</h3>
+          <p>화면에 안 보이는 오브젝트도 Octane은 계산에 포함. <strong>카메라 프레임 밖 오브젝트는 숨기거나 삭제.</strong></p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔺</div>
+          <h3>폴리곤 수 줄이기</h3>
+          <p>멀리 있는 오브젝트는 LOD(Level of Detail)를 낮추거나 저폴리 대체 메시 사용.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <h3>인스턴스 활용</h3>
+          <p>동일 오브젝트 반복 시 <strong>Instance Object</strong>나 <strong>Cloner</strong> 활용 → 메모리 절약.</p>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <strong>실무 감각</strong> — "이 씬을 우리 컴퓨터로 렌더링할 수 있나?" 를 먼저 판단하는 것이 실력. 아무리 멋진 씬도 렌더링이 불가능하면 결과물이 없습니다.
+      </div>
+    </section>
+
+    <!-- 섹션 5: 거울 재질 -->
+    <section id="mirror" class="section">
+      <span class="section-tag">Octane 재질</span>
+      <h2 class="section-title">거울 재질 만들기</h2>
+      <p class="section-desc">거울은 빛을 100% 반사하는 완전반사(Perfect Reflection) 재질입니다. 사소한 설정 차이가 결과물에 크게 영향을 미칩니다.</p>
+
+      <div class="card-grid">
+        <div class="card card-key">
+          <div class="card-icon">🪞</div>
+          <h3>Octane Specular Material</h3>
+          <p>거울 구현에 가장 적합한 재질. <strong>Roughness = 0</strong> 으로 완전한 거울 표면, IOR 값으로 반사 강도 조절.</p>
+        </div>
+        <div class="card card-key">
+          <div class="card-icon">💎</div>
+          <h3>IOR (굴절율) 설정</h3>
+          <p>거울의 반사 특성을 결정하는 핵심 값. <strong>1</strong>(최소) 또는 <strong>10 이상</strong>(강한 반사)으로 설정.</p>
+        </div>
+      </div>
+
+      <div class="ior-table">
+        <h4>IOR 값 비교</h4>
+        <div class="ior-grid">
+          <div class="ior-item ior-low">
+            <span class="ior-val">IOR = 1</span>
+            <span class="ior-mat">진공/공기</span>
+            <span class="ior-desc">굴절 없음. 유리처럼 투명한 소재의 기준값. 거울로는 부적합.</span>
+          </div>
+          <div class="ior-item ior-mid">
+            <span class="ior-val">IOR = 1.5</span>
+            <span class="ior-mat">일반 유리</span>
+            <span class="ior-desc">창문·컵 유리 표준값. 약한 반사 포함.</span>
+          </div>
+          <div class="ior-item ior-high">
+            <span class="ior-val">IOR = 10+</span>
+            <span class="ior-mat">금속 거울</span>
+            <span class="ior-desc">높은 IOR = 강한 반사. 거울·크롬 메탈 표현에 사용.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-list">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div class="step-body">
+            <h4>Octane Material → Specular 생성</h4>
+            <p>Octane LiveDB 또는 Octane 메뉴 → <strong>Specular Material</strong> 선택</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div class="step-body">
+            <h4>Roughness = 0 설정</h4>
+            <p>Roughness 노드를 <strong>Float 0</strong>으로 연결 → 완전한 거울면. 값이 높을수록 흐릿한 반사(Blurry Reflection)</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <h4>IOR 값 입력</h4>
+            <p>거울 느낌 원할 때 → <strong>IOR 10~100</strong>. 크롬 금속 → IOR 20~50 권장</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div class="step-body">
+            <h4>HDRI 환경광 확인</h4>
+            <p>완전반사 재질은 주변 환경을 그대로 반영. HDRI 없으면 검은 거울이 됨 → 반드시 환경광 세팅 필요</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <span class="info-icon">⚡</span>
+        <div>
+          <strong>미디어아트 / 영상 디자인에서 거울 활용</strong><br>
+          반사 재질은 공간감과 세련미를 극대화합니다. 립스틱 광고처럼 제품이 메인인 씬에서 거울 바닥이나 배경을 활용하면 고급스러운 분위기 연출 가능.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button id="topBtn" title="맨 위로">↑</button>
+
+  <footer class="site-footer">
+    <p>C4D 오전반 · 2026년 4월 20일 수업자료</p>
+    <p>R23 버전 관리 &amp; Octane 거울 재질</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
